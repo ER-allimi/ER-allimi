@@ -12,8 +12,13 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^4.32.6",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.2.2",
@@ -34,6 +39,7 @@
     "eslint-plugin-storybook": "^0.6.13",
     "prop-types": "15.8.1",
     "storybook": "7.2.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-tsconfig-paths": "^4.2.0"
   }
 }
