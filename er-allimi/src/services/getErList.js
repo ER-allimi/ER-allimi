@@ -11,7 +11,8 @@ const getErList = async function() {
             serviceKey,
         }
     })
-    console.log(res)
+
+    return res.data.response.body.items?.item;
 };
 
 export { getErList };
