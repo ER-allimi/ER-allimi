@@ -17,4 +17,4 @@ const getErMsg = async ({ HPID }) => {
   }
 };
 
-export default getErMsg;
+export { getErMsg };
