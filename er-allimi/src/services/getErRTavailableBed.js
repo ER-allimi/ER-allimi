@@ -18,4 +18,4 @@ const getErRTavailableBed = async ({ STAGE1, STAGE2 }) => {
   }
 };
 
-export default getErRTavailableBed;
+export { getErRTavailableBed };
