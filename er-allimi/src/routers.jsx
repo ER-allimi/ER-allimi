@@ -16,31 +16,6 @@ const router = createBrowserRouter([
     {
         path: PATH_ROOT,
         element: <App />,
-        // children: [
-        //     {
-        //         element: <MapView />,    // MapView > 지도
-        //         children: [
-        //             {
-        //                 index: true,
-        //                 element: <ErsBoxes />,    // 현 위치 박스 & 내 주변 응급실 박스
-        //             },
-        //             {
-        //                 path: PATH_HOSPITALDETAIL,
-        //                 element: <HpDetailBoxes />,    // 현 위치 박스 & 응급실 상세 페이지 내 박스들
-        //             }
-        //         ],
-        //     },
-        //     {
-        //         path: PATH_CHARTVIEW,
-        //         element: <ChartView />,  // ChartView > 현 위치 박스 & 내 주변 응급실 박스
-        //         children: [
-        //             {
-        //                 index: true,
-        //                 element: <Chart />,    // 차트 
-        //             },
-        //         ]
-        //     },
-        // ],
         children: [
             {
                 index: true,
