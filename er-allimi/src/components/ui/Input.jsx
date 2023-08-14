@@ -21,13 +21,13 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
     input {
       ${leftIcon &&
       css`
-        margin-left: 0.5rem;
+        margin-left: 0.3rem;
       `}
       ${rightIcon &&
       css`
-        margin-right: 0.5rem;
+        margin-right: 0.3rem;
       `}
-      padding: 0;
+      padding: 0 0.5rem;
       width: 100%;
       border: none;
     }
