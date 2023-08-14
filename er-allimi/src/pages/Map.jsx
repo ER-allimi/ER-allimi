@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
-import CurrentLocationButton from '@components/map/CurrentLocationButton';
+import {
+  CurrentLocationButton,
+  ZoomInButton,
+  ZoomOutButton,
+} from '@components/map';
 import { getErList } from '@services';
 import { getDistanceFromLocation } from '@utils';
 
@@ -11,8 +15,6 @@ const LNG = 126.570667;
 const defaultCenter = new kakao.maps.LatLng(LAT, LNG);
 
 function Map() {
-  // ER리스트
-
   // 지도 표시될 HTML 요소
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
@@ -28,9 +30,10 @@ function Map() {
     };
     const map = new kakao.maps.Map(mapContainer.current, options);
     setMap(map);
-    const control = new kakao.maps.ZoomControl();
-    map.addControl(control);
+    // const control = new kakao.maps.ZoomControl();
+    // map.addControl(control, kakao.maps.ControlPosition.TOPRIGHT);
 
+    // 현재 위치 찾아 지도에 표시 및 반경 오버레이
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
         const lat = position.coords.latitude;
@@ -86,7 +89,7 @@ function Map() {
         locPosition.La,
         locPosition.Ma,
         lon,
-        lat
+        lat,
       );
 
       return distanceFromLocation <= RADIUS / 1000;
@@ -114,14 +117,24 @@ function Map() {
 
   return (
     <MapContainer ref={mapContainer}>
-      <CurrentLocationButton map={map} currentLocation={locPosition} />
+      <ControlWrapper>
+        <CurrentLocationButton map={map} currentLocation={locPosition} />
+        <ZoomInButton map={map} />
+        <ZoomOutButton map={map} />
+      </ControlWrapper>
     </MapContainer>
   );
 }
 
 const MapContainer = styled.div`
-  width: 1024px;
-  height: 1024px;
+  width: 100%;
+  height: 100%;
 `;
 
+const ControlWrapper = styled.div`
+  position: absolute;
+  top: 20vh;
+  right: 5vw;
+
+`;
 export default Map;
