@@ -18,7 +18,11 @@ function Map() {
   // 지도 표시될 HTML 요소
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
+  const [emergencyList, setEmergencyList] = useState([]);
   const [locPosition, setLocPosition] = useState(defaultCenter);
+  const [centerPosition, setCenterPosition] = useState(locPosition);
+  const [circleOverlay, setCircleOverlay] = useState(null);
+  const [erMarkers, setErMarkers] = useState([]);
 
   // 카카오 지도 생성
   const createMap = () => {
@@ -30,8 +34,6 @@ function Map() {
     };
     const map = new kakao.maps.Map(mapContainer.current, options);
     setMap(map);
-    // const control = new kakao.maps.ZoomControl();
-    // map.addControl(control, kakao.maps.ControlPosition.TOPRIGHT);
 
     // 현재 위치 찾아 지도에 표시 및 반경 오버레이
     if (navigator.geolocation) {
@@ -39,6 +41,7 @@ function Map() {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
 
+        // 현재 위치
         const locPosition = new kakao.maps.LatLng(lat, lon);
         setLocPosition(locPosition);
         const current = `<div style="position: relative;
@@ -59,35 +62,34 @@ function Map() {
           content: current,
         });
         customOverlay.setMap(map);
-        map.setCenter(locPosition);
-        new kakao.maps.Circle({
-          map,
-          radius: RADIUS,
-          center: locPosition,
-          strokeWeight: 1,
-          strokeColor: '#a3a3a3',
-          strokeOpacity: 0.27,
-          strokeStyle: 'solid',
-          fillColor: '#a3a3a3',
-          fillOpacity: 0.2,
-        });
+        setCenterPosition(locPosition);
+        map.setCenter(centerPosition);
       });
     } else {
       setLocPosition(defaultCenter);
+      setCenterPosition(defaultCenter);
       map.setCenter(locPosition);
     }
   };
 
-  const erDB = async () => {
+  const fetchErDB = async () => {
     const result = await getErList();
-    const nearByErArray = result.filter((item) => {
+    setEmergencyList(result);
+  };
+
+  // 현재 위치에서 반경 내에 있는 응급실 마커 그려줌
+  const createNearByErMarker = () => {
+    erMarkers.forEach((marker) => marker.setMap(null));
+    setErMarkers([]);
+
+    const nearByErArray = emergencyList.filter((item) => {
       const lat = item.wgs84Lat;
       const lon = item.wgs84Lon;
 
       // km단위
       const distanceFromLocation = getDistanceFromLocation(
-        locPosition.La,
-        locPosition.Ma,
+        centerPosition.La,
+        centerPosition.Ma,
         lon,
         lat,
       );
@@ -95,25 +97,60 @@ function Map() {
       return distanceFromLocation <= RADIUS / 1000;
     });
 
-    nearByErArray.forEach((item) => {
+    const newErMarkers = nearByErArray.map((item) => {
       const name = item.dutyName;
       const lat = item.wgs84Lat;
       const lon = item.wgs84Lon;
-      new kakao.maps.Marker({
+      const newMarker = new kakao.maps.Marker({
         map: map,
         title: name,
         position: new kakao.maps.LatLng(lat, lon),
       });
+      return newMarker;
     });
+    setErMarkers(newErMarkers);
   };
 
+  // 중심 위치 변경 시 위도, 경도 받아옴
+  const handleCenterChange = () => {
+    const latlng = map.getCenter();
+    setCenterPosition(latlng);
+  };
+
+  // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
+    fetchErDB();
+    console.log(centerPosition)
   }, []);
 
   useEffect(() => {
-    erDB();
-  }, [locPosition]);
+    // 중심 위치 변경 시 응급실 마커 생성
+    if (map) {
+      kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+      createNearByErMarker();
+
+      // 기존 circle 오버레이 제거
+      if (circleOverlay) {
+        circleOverlay.setMap(null);
+      }
+
+      // 새로운 circle 오버레이 생성 및 추가
+      const newCircleOverlay = new kakao.maps.Circle({
+        map,
+        radius: RADIUS,
+        center: centerPosition,
+        strokeWeight: 1,
+        strokeColor: '#a3a3a3',
+        strokeOpacity: 0.27,
+        strokeStyle: 'solid',
+        fillColor: '#a3a3a3',
+        fillOpacity: 0.2,
+      });
+
+      setCircleOverlay(newCircleOverlay);
+    }
+  }, [map, centerPosition]);
 
   return (
     <MapContainer ref={mapContainer}>
@@ -135,6 +172,5 @@ const ControlWrapper = styled.div`
   position: absolute;
   top: 20vh;
   right: 5vw;
-
 `;
 export default Map;
