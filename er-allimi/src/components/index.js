@@ -1,4 +1,6 @@
-export { Navbar } from './App';
+export { Navbar } from './app';
+
+export { Box } from './ui';
 
 export { GrMapLocation } from './icons';
 export { FaMapMarkedAlt } from './icons';
