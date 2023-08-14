@@ -1,9 +1,15 @@
 import { BiCurrentLocation } from '@components/icons';
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 
-function CurrentLocationButton({currentLocation, map}) {
+CurrentLocationButton.propTypes = {
+  currentLocation: PropTypes.object.isRequired,
+  map: PropTypes.object,
+};
+
+function CurrentLocationButton({ currentLocation, map }) {
   const handleButtonClick = () => {
-    map.panTo(currentLocation)
+    map.panTo(currentLocation);
   };
   return (
     <Button onClick={handleButtonClick}>
@@ -25,8 +31,9 @@ const Button = styled.button`
   border-radius: 3px;
   border-top: none;
   border-right: none;
+  border-left: none;
   border-bottom: 1px solid rgb(226, 226, 226);
-  box-shadow:  rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 2px 0px;
 `;
 
 export default CurrentLocationButton;
