@@ -68,6 +68,7 @@ function Input({
   color,
   round,
   fullWidth,
+  disabled,
 }) {
   return (
     <StyledInput
@@ -85,6 +86,7 @@ function Input({
         value={value}
         placeholder={placeholder}
         onChange={handleInputChange}
+        disabled={disabled}
       />
       <label htmlFor={name}>{rightIcon}</label>
     </StyledInput>
@@ -128,6 +130,7 @@ Input.propTypes = {
   ]),
   round: PropTypes.oneOf(['sm', 'md', 'lg']),
   fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default Input;
