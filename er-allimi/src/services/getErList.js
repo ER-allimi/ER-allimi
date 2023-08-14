@@ -9,6 +9,7 @@ const getErList = async function() {
         method: 'GET',
         params: {
             serviceKey,
+            numOfRows: 522,
         }
     })
 
