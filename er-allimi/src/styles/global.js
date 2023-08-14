@@ -42,6 +42,10 @@ const globalStyles = ({ colors, breakPoints }) => css`
     color: ${colors.grayDarker};
   }
 
+  button {
+    cursor: pointer;
+  }
+
   @font-face {
     font-family: 'Noto Sans KR';
     src: url('/src/assets/NotoSansKR-Regular.otf');
