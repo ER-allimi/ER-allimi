@@ -1,41 +1,51 @@
 import { css } from '@emotion/react';
 
-const globalStyles = ({ breakPoints }) => css`
-    body {
-        font-family: 'Noto Sans KR';
+const globalStyles = ({ colors, breakPoints }) => css`
+  body {
+    font-family: 'Noto Sans KR';
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+
+    @media (max-width: ${breakPoints.lg}) {
+      font-size: 16px;
     }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-size: 16px;
-
-        @media (max-width: ${breakPoints.lg}) {
-            font-size: 16px;
-        }
-    
-        @media (max-width: ${breakPoints.md}) {
-            font-size: 15px;
-        }
-    
-        @media (max-width: ${breakPoints.sm}) {
-            font-size: 14px;
-        }
+    @media (max-width: ${breakPoints.md}) {
+      font-size: 15px;
     }
 
-    ul {
-        list-style: none;
+    @media (max-width: ${breakPoints.sm}) {
+      font-size: 14px;
     }
+  }
 
-    a {
-        text-decoration: none;
-    }
+  ul {
+    list-style: none;
+  }
 
-    @font-face {
-        font-family: 'Noto Sans KR';
-        src: url('/src/assets/NotoSansKR-Regular.otf');
-    }
+  a {
+    text-decoration: none;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: ${colors.grayDarker};
+  }
+
+  @font-face {
+    font-family: 'Noto Sans KR';
+    src: url('/src/assets/NotoSansKR-Regular.otf');
+  }
 `;
 
 export { globalStyles };
