@@ -2,6 +2,41 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
+function Input({
+  value,
+  handleInputChange,
+  name,
+  placeholder,
+  leftIcon,
+  rightIcon,
+  color,
+  round,
+  fullWidth,
+  disabled,
+}) {
+  return (
+    <StyledInput
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
+      color={color}
+      round={round}
+      fullWidth={fullWidth}
+    >
+      <label htmlFor={name}>{leftIcon}</label>
+      <input
+        type="text"
+        id={name}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onChange={handleInputChange}
+        disabled={disabled}
+      />
+      <label htmlFor={name}>{rightIcon}</label>
+    </StyledInput>
+  );
+}
+
 const roundValue = {
   sm: '0.2rem',
   md: '0.5rem',
@@ -57,41 +92,6 @@ const StyledInput = styled.div`
 
   ${container}
 `;
-
-function Input({
-  value,
-  handleInputChange,
-  name,
-  placeholder,
-  leftIcon,
-  rightIcon,
-  color,
-  round,
-  fullWidth,
-  disabled,
-}) {
-  return (
-    <StyledInput
-      leftIcon={leftIcon}
-      rightIcon={rightIcon}
-      color={color}
-      round={round}
-      fullWidth={fullWidth}
-    >
-      <label htmlFor={name}>{leftIcon}</label>
-      <input
-        type="text"
-        id={name}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        onChange={handleInputChange}
-        disabled={disabled}
-      />
-      <label htmlFor={name}>{rightIcon}</label>
-    </StyledInput>
-  );
-}
 
 Input.defaultProps = {
   color: 'gray',
