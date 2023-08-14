@@ -24,9 +24,10 @@ const Button = styled.button`
   align-items: center;
   position: relative;
   z-index: 100;
+  margin-bottom: 1rem;
 
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2rem;
+  height: 2rem;
   background-color: #ffffff;
   border-radius: 3px;
   border-top: none;
