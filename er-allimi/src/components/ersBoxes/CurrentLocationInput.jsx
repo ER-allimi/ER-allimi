@@ -17,6 +17,7 @@ function CurrentLocationInput() {
       leftIcon={<IoLocationSharp />}
       color="redLighter"
       fullWidth
+      disabled
     />
   );
 }
