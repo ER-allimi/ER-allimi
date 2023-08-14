@@ -6,8 +6,13 @@ ZoomOutButton.propTypes = {
   map: PropTypes.object,
 };
 
+const MAX_LEVEL = 14;
+
 function ZoomOutButton({ map }) {
-  const handleButtonClick = () => map.setLevel(map.getLevel() + 1);
+  const handleButtonClick = () => {
+    const level = map.getLevel() + 1;
+    if (level < MAX_LEVEL) return map.setLevel(map.getLevel() + 1);
+  };
   return (
     <Button onClick={handleButtonClick}>
       <AiOutlineMinus size="16" color="#222222"></AiOutlineMinus>
