@@ -21,13 +21,13 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
     input {
       ${leftIcon &&
       css`
-        margin-left: 0.5rem;
+        margin-left: 0.3rem;
       `}
       ${rightIcon &&
       css`
-        margin-right: 0.5rem;
+        margin-right: 0.3rem;
       `}
-      padding: 0;
+      padding: 0 0.5rem;
       width: 100%;
       border: none;
     }
@@ -68,6 +68,7 @@ function Input({
   color,
   round,
   fullWidth,
+  disabled,
 }) {
   return (
     <StyledInput
@@ -85,6 +86,7 @@ function Input({
         value={value}
         placeholder={placeholder}
         onChange={handleInputChange}
+        disabled={disabled}
       />
       <label htmlFor={name}>{rightIcon}</label>
     </StyledInput>
@@ -128,6 +130,7 @@ Input.propTypes = {
   ]),
   round: PropTypes.oneOf(['sm', 'md', 'lg']),
   fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default Input;
