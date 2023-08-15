@@ -8,10 +8,21 @@ function ErItem() {
     navigator.clipboard
       .writeText('054-532-5001')
       .then(() => {
-        console.log('Text copied to clipboard...');
+        alert('응급실 전화번호가 복사되었습니다.');
       })
       .catch((err) => {
-        console.log('Something went wrong', err);
+        alert('[error] 응급실 전화번호가 복사되지 못했습니다.');
+      });
+  };
+
+  const handleAddressClick = () => {
+    navigator.clipboard
+      .writeText('경상북도 상주시 냉림서성길 7 (냉림동)')
+      .then(() => {
+        alert('응급실 주소가 복사되었습니다.');
+      })
+      .catch((err) => {
+        alert('[error] 응급실 주소가 복사되지 못했습니다.');
       });
   };
 
@@ -30,7 +41,9 @@ function ErItem() {
       <Body>
         <div>
           <IoLocationSharp />
-          <p>경상북도 상주시 냉림서성길 7 (냉림동)</p>
+          <p onClick={handleAddressClick}>
+            경상북도 상주시 냉림서성길 7 (냉림동)
+          </p>
         </div>
         <div>
           <BiSolidPhone />
@@ -96,6 +109,11 @@ const Body = styled.div`
   div:nth-child(1) {
     grid-row: 1/2;
     grid-column: 1/3;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   div:nth-child(2) {

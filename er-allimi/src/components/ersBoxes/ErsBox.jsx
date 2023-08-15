@@ -4,7 +4,7 @@ import { Box, Button, ErsList, RadiusDropdown } from '@components';
 
 function ErsBox({ className }) {
   const StyledErsBox = styled(Box)`
-    max-height: calc(100vh - 200px);
+    height: calc(100vh - 200px);
   `;
 
   const Title = styled.h2`
@@ -29,7 +29,7 @@ function ErsBox({ className }) {
 
   return (
     <StyledErsBox className={className}>
-      <Title>내 위치 주변 응급실</Title>
+      <Title>내 위치 주변 응급실 (15)</Title>
       <Utils>
         <SortingButtons>
           <Button color="gray" round="lg">
