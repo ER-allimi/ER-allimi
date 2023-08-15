@@ -12,7 +12,7 @@ const getErRTavailableBed = async ({ STAGE1, STAGE2 }) => {
         STAGE2,
       },
     });
-    return response.data.response.items?.item;
+    return response.data.response.body.items?.item;
   } catch (error) {
     console.error(error);
   }
