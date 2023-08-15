@@ -7,3 +7,5 @@ export { AiOutlinePlus } from 'react-icons/ai';
 export { AiOutlineMinus } from 'react-icons/ai';
 export { IoLocationSharp } from 'react-icons/io5';
 export { BiSolidPhone } from 'react-icons/bi';
+export { BiSolidDownArrow } from 'react-icons/bi';
+export { BiSolidUpArrow } from 'react-icons/bi';
