@@ -106,7 +106,7 @@ const Body = styled.div`
     align-items: center;
   }
 
-  div:nth-child(1) {
+  div:nth-of-type(1) {
     grid-row: 1/2;
     grid-column: 1/3;
 
@@ -116,7 +116,7 @@ const Body = styled.div`
     }
   }
 
-  div:nth-child(2) {
+  div:nth-of-type(2) {
     grid-row: 2/3;
     grid-column: 1/2;
 
@@ -126,7 +126,7 @@ const Body = styled.div`
     }
   }
 
-  div:nth-child(3) {
+  div:nth-of-type(3) {
     grid-row: 2/3;
     grid-column: 2/3;
     justify-self: right;
