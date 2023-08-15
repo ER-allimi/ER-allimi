@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { CurrentLocationBox, ErsBox } from '@components';
+import { CurrentLocationBox, ErsBox, ViewToggle } from '@components';
 
 function ErsBoxes({ className }) {
   return (
@@ -11,7 +11,9 @@ function ErsBoxes({ className }) {
         <LayoutCurrentLocationBox />
         <LayoutErsBox />
       </LayoutLeft>
-      <LayoutRight></LayoutRight>
+      <LayoutRight>
+        <LayoutToggle />
+      </LayoutRight>
       <LayoutTop></LayoutTop>
       <LayoutBottom></LayoutBottom>
       <Outlet />
@@ -56,6 +58,7 @@ const LayoutRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: end;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
@@ -100,6 +103,10 @@ const LayoutCurrentLocationBox = styled(CurrentLocationBox)`
 `;
 
 const LayoutErsBox = styled(ErsBox)`
+  ${zIndexBox}
+`;
+
+const LayoutToggle = styled(ViewToggle)`
   ${zIndexBox}
 `;
 
