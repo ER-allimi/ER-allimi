@@ -7,12 +7,14 @@ export { ErsList } from './ersBoxes';
 export { ErItem } from './ersBoxes';
 export { RadiusDropdown } from './ersBoxes';
 export { ErsPagination } from './ersBoxes';
+export { ViewToggle } from './ersBoxes';
 
 export { Box } from './ui';
 export { Input } from './ui';
 export { Button } from './ui';
 export { Dropdown } from './ui';
 export { Pagination } from './ui';
+export { Toggle } from './ui';
 
 export { GrMapLocation } from './icons';
 export { FaMapMarkedAlt } from './icons';
