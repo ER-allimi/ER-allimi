@@ -2,6 +2,41 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
+function Input({
+  value,
+  handleInputChange,
+  name,
+  placeholder,
+  leftIcon,
+  rightIcon,
+  color,
+  round,
+  fullWidth,
+  disabled,
+}) {
+  return (
+    <StyledInput
+      leftIcon={leftIcon}
+      rightIcon={rightIcon}
+      color={color}
+      round={round}
+      fullWidth={fullWidth}
+    >
+      <label htmlFor={name}>{leftIcon}</label>
+      <input
+        type="text"
+        id={name}
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        onChange={handleInputChange}
+        disabled={disabled}
+      />
+      <label htmlFor={name}>{rightIcon}</label>
+    </StyledInput>
+  );
+}
+
 const roundValue = {
   sm: '0.2rem',
   md: '0.5rem',
@@ -21,13 +56,13 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
     input {
       ${leftIcon &&
       css`
-        margin-left: 0.5rem;
+        margin-left: 0.3rem;
       `}
       ${rightIcon &&
       css`
-        margin-right: 0.5rem;
+        margin-right: 0.3rem;
       `}
-      padding: 0;
+      padding: 0 0.5rem;
       width: 100%;
       border: none;
     }
@@ -57,39 +92,6 @@ const StyledInput = styled.div`
 
   ${container}
 `;
-
-function Input({
-  value,
-  handleInputChange,
-  name,
-  placeholder,
-  leftIcon,
-  rightIcon,
-  color,
-  round,
-  fullWidth,
-}) {
-  return (
-    <StyledInput
-      leftIcon={leftIcon}
-      rightIcon={rightIcon}
-      color={color}
-      round={round}
-      fullWidth={fullWidth}
-    >
-      <label htmlFor={name}>{leftIcon}</label>
-      <input
-        type="text"
-        id={name}
-        name={name}
-        value={value}
-        placeholder={placeholder}
-        onChange={handleInputChange}
-      />
-      <label htmlFor={name}>{rightIcon}</label>
-    </StyledInput>
-  );
-}
 
 Input.defaultProps = {
   color: 'gray',
@@ -128,6 +130,7 @@ Input.propTypes = {
   ]),
   round: PropTypes.oneOf(['sm', 'md', 'lg']),
   fullWidth: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export default Input;
