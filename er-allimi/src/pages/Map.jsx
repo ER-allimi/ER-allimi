@@ -24,7 +24,7 @@ function Map() {
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
 
-  // 카카오 지도 생성
+  /** 카카오 지도 생성 */ 
   const createMap = () => {
     const options = {
       // 지도 중심 좌표 (위도, 경도)
@@ -77,12 +77,12 @@ function Map() {
     setEmergencyList(result);
   };
 
-  // 현재 위치에서 반경 내에 있는 응급실 마커 그려줌
+  /** 현재 위치에서 반경 내에 있는 응급실 마커 그려줌 */ 
   const createNearByErMarker = () => {
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
-
-    const nearByErArray = emergencyList.filter((item) => {
+    const nearByErArray = emergencyList.map((item) => {
+      const name = item.dutyName;
       const lat = item.wgs84Lat;
       const lon = item.wgs84Lon;
 
@@ -93,25 +93,29 @@ function Map() {
         lon,
         lat,
       );
+      if (distanceFromLocation <= RADIUS / 1000) {
+        return {name: name, lat:lat, lon:lon, distanceFromLocation }
+      } else return null
+    }).filter((item) => item !== null).sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
 
-      return distanceFromLocation <= RADIUS / 1000;
-    });
+    const newErMarkers = nearByErArray.map((item,idx) => {
+      const name = item.name;
+      const lat = item.lat;
+      const lon = item.lon;
 
-    const newErMarkers = nearByErArray.map((item) => {
-      const name = item.dutyName;
-      const lat = item.wgs84Lat;
-      const lon = item.wgs84Lon;
-      const newMarker = new kakao.maps.Marker({
-        map: map,
-        title: name,
+      const styledMarker = `<div id='marker' style="position: relative;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="2.5em" width="1.8em" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z"></path></svg><p style="position:absolute; top:35%; left:50%;transform: translate(-50%, -50%); color: #ffffff;">${idx+1}</p></div>`;
+
+      const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
+        content: styledMarker
       });
+      newMarker.setMap(map)
       return newMarker;
     });
     setErMarkers(newErMarkers);
   };
 
-  // 중심 위치 변경 시 위도, 경도 받아옴
+  /** 중심 위치 변경 시 위도, 경도 받아옴 */ 
   const handleCenterChange = () => {
     const latlng = map.getCenter();
     setCenterPosition(latlng);
@@ -121,7 +125,6 @@ function Map() {
   useEffect(() => {
     createMap();
     fetchErDB();
-    console.log(centerPosition)
   }, []);
 
   useEffect(() => {
@@ -155,6 +158,7 @@ function Map() {
   return (
     <MapContainer ref={mapContainer}>
       <ControlWrapper>
+        {/* <Abs /> */}
         <CurrentLocationButton map={map} currentLocation={locPosition} />
         <ZoomInButton map={map} />
         <ZoomOutButton map={map} />
