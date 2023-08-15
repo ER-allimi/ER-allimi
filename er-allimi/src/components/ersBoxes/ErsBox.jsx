@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Box, Button, ErsList, RadiusDropdown } from '@components';
+import {
+  Box,
+  Button,
+  ErsList,
+  RadiusDropdown,
+  ErsPagination,
+} from '@components';
 
 function ErsBox({ className }) {
   const StyledErsBox = styled(Box)`
@@ -27,6 +33,10 @@ function ErsBox({ className }) {
     }
   `;
 
+  const MarginTopPagination = styled(ErsPagination)`
+    margin-top: 0.5rem;
+  `;
+
   return (
     <StyledErsBox className={className}>
       <Title>내 위치 주변 응급실 (15)</Title>
@@ -42,6 +52,7 @@ function ErsBox({ className }) {
         <RadiusDropdown />
       </Utils>
       <ErsList />
+      <MarginTopPagination />
     </StyledErsBox>
   );
 }
