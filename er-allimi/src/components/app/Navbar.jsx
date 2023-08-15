@@ -128,6 +128,7 @@ const Utils = styled.div`
       opacity: ${show ? 1 : 0};
       background-color: ${show ? theme.colors.grayDarker : 'transparent'};
       ${show && `border-top: 1px solid ${theme.colors.grayLight};`}
+      z-index: 2;
     }
   `}
 `;
