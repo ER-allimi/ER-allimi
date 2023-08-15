@@ -6,7 +6,7 @@ function Box({ className, children }) {
 }
 
 const StyledBox = styled.div`
-  padding: 1rem;
+  padding: 0.7rem 1rem;
   min-width: 300px;
   border: 1px solid ${({ theme }) => theme.colors.grayLighter};
   border-radius: 0.5rem;
