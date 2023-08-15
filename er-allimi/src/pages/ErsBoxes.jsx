@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { CurrentLocationBox } from '@components';
+import { CurrentLocationBox, ErsBox } from '@components';
 
 function ErsBoxes({ className }) {
   return (
     <StyledErsBoxes className={className}>
       <LayoutLeft>
         <LayoutCurrentLocationBox />
+        <LayoutErsBox />
       </LayoutLeft>
       <LayoutRight></LayoutRight>
       <LayoutTop></LayoutTop>
@@ -94,6 +95,11 @@ const zIndexBox = css`
 `;
 
 const LayoutCurrentLocationBox = styled(CurrentLocationBox)`
+  margin-bottom: 1rem;
+  ${zIndexBox}
+`;
+
+const LayoutErsBox = styled(ErsBox)`
   ${zIndexBox}
 `;
 
