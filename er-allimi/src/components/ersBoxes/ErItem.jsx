@@ -51,7 +51,7 @@ function ErItem() {
 }
 
 const StyledErItem = styled.div`
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.3rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayLighter};
 
   &:hover {
@@ -84,7 +84,7 @@ const Body = styled.div`
   }
 
   p {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5rem;
   }
 
