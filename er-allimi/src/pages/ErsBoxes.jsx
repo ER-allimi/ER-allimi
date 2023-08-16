@@ -2,19 +2,28 @@ import PropTypes from 'prop-types';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { CurrentLocationBox, ErsBox, ViewToggle } from '@components';
+import {
+  CurrentLocationBox,
+  ErsBox,
+  ViewToggle,
+  CurrentLocationInput,
+  ViewButton,
+} from '@components';
 
 function ErsBoxes({ className }) {
   return (
     <StyledErsBoxes className={className}>
       <LayoutLeft>
-        <LayoutCurrentLocationBox />
-        <LayoutErsBox />
+        <StyledCurrentLocationBox />
+        <StyledErsBox />
       </LayoutLeft>
       <LayoutRight>
-        <LayoutToggle />
+        <StyledToggle />
       </LayoutRight>
-      <LayoutTop></LayoutTop>
+      <LayoutTop>
+        <StyledCurrentLocationInput />
+        <StyledViewButton />
+      </LayoutTop>
       <LayoutBottom></LayoutBottom>
       <Outlet />
     </StyledErsBoxes>
@@ -76,6 +85,7 @@ const LayoutTop = styled.div`
     @media (max-width: ${theme.breakPoints.md}) {
       display: flex;
       justify-content: space-between;
+      align-items: start;
       padding: 1rem;
     }
   `}
@@ -97,16 +107,24 @@ const zIndexBox = css`
   z-index: 1;
 `;
 
-const LayoutCurrentLocationBox = styled(CurrentLocationBox)`
+const StyledCurrentLocationBox = styled(CurrentLocationBox)`
   margin-bottom: 1rem;
   ${zIndexBox}
 `;
 
-const LayoutErsBox = styled(ErsBox)`
+const StyledErsBox = styled(ErsBox)`
   ${zIndexBox}
 `;
 
-const LayoutToggle = styled(ViewToggle)`
+const StyledToggle = styled(ViewToggle)`
+  ${zIndexBox}
+`;
+
+const StyledCurrentLocationInput = styled(CurrentLocationInput)`
+  ${zIndexBox}
+`;
+
+const StyledViewButton = styled(ViewButton)`
   ${zIndexBox}
 `;
 
