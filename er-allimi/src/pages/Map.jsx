@@ -67,9 +67,14 @@ function Map() {
     }
   };
 
+  /** 응급실 기본정보 데이터 가져와 상태관리하는 함수 */
   const fetchErDB = async () => {
-    const result = await getErList();
-    setEmergencyList(result);
+    try {
+      const result = await getErList();
+      setEmergencyList(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   /** 응급실 가용병상 데이터 가져와 상태관리하는 함수 */
@@ -121,7 +126,7 @@ function Map() {
       const lon = item.lon;
       const newStages = [item.stage1, item.stage2];
       fetchErRTAvailableBedDB(newStages);
-      
+
       const matchEr = erRTavailbleBedList.filter(
         (erInfo) => erInfo.hpid === erId,
       )[0];
