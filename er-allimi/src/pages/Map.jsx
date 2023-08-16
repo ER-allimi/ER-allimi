@@ -5,8 +5,8 @@ import {
   ZoomInButton,
   ZoomOutButton,
 } from '@components/map';
-import { getErList } from '@services';
-import { getDistanceFromLocation } from '@utils';
+import { getErList, getErRTavailableBed } from '@services';
+import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
 
 const { kakao } = window;
 const RADIUS = 2000;
@@ -19,12 +19,13 @@ function Map() {
   const mapContainer = useRef(null);
   const [map, setMap] = useState(null);
   const [emergencyList, setEmergencyList] = useState([]);
+  const [erRTavailbleBedList, setErRTavailbleBedList] = useState([]);
   const [locPosition, setLocPosition] = useState(defaultCenter);
   const [centerPosition, setCenterPosition] = useState(locPosition);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
 
-  /** 카카오 지도 생성 */ 
+  /** 카카오 지도 생성 */
   const createMap = () => {
     const options = {
       // 지도 중심 좌표 (위도, 경도)
@@ -77,45 +78,81 @@ function Map() {
     setEmergencyList(result);
   };
 
-  /** 현재 위치에서 반경 내에 있는 응급실 마커 그려줌 */ 
-  const createNearByErMarker = () => {
+  /** 응급실 가용병상 데이터 가져와 상태관리하는 함수 */
+  const fetchErRTAvailableBedDB = async ([stage1, stage2]) => {
+    try {
+      const result = await getErRTavailableBed({
+        STAGE1: stage1,
+        STAGE2: stage2,
+      });
+      setErRTavailbleBedList(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /** 현재 위치에서 반경 내에 있는 응급실 마커 그려줌 */
+  const createNearByErMarker = async () => {
+    //모든 마커 지우기
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
-    const nearByErArray = emergencyList.map((item) => {
-      const name = item.dutyName;
-      const lat = item.wgs84Lat;
-      const lon = item.wgs84Lon;
 
-      // km단위
-      const distanceFromLocation = getDistanceFromLocation(
-        centerPosition.La,
-        centerPosition.Ma,
-        lon,
-        lat,
-      );
-      if (distanceFromLocation <= RADIUS / 1000) {
-        return {name: name, lat:lat, lon:lon, distanceFromLocation }
-      } else return null
-    }).filter((item) => item !== null).sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
+    const nearByErArray = emergencyList
+      .map((item) => {
+        const name = item.dutyName;
+        const erId = item.hpid;
+        const stage = item.dutyAddr.split(' ');
+        const [stage1, stage2] = [stage[0], stage[1]];
+        const lat = item.wgs84Lat;
+        const lon = item.wgs84Lon;
 
-    const newErMarkers = nearByErArray.map((item,idx) => {
+        // km단위
+        const distanceFromLocation = getDistanceFromLocation(
+          centerPosition.La,
+          centerPosition.Ma,
+          lon,
+          lat,
+        );
+        if (distanceFromLocation <= RADIUS / 1000) {
+          return { name, erId, lat, lon, stage1, stage2 };
+        } else return null;
+      })
+      .filter((item) => item !== null)
+      .sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
+
+    const newErMarkers = nearByErArray.map((item, idx) => {
       const name = item.name;
+      const erId = item.erId;
       const lat = item.lat;
       const lon = item.lon;
+      const newStages = [item.stage1, item.stage2];
+      fetchErRTAvailableBedDB(newStages);
 
-      const styledMarker = `<div id='marker' style="position: relative;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="2.5em" width="1.8em" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z"></path></svg><p style="position:absolute; top:35%; left:50%;transform: translate(-50%, -50%); color: #ffffff;">${idx+1}</p></div>`;
+      const matchEr = erRTavailbleBedList.filter(
+        (erInfo) => erInfo.hpid === erId,
+      )[0];
+      let MARKER_COLOR = '#222222';
+      if (matchEr) {
+        const availableBed = matchEr.hvec;
+        const totalBed = matchEr.hvs01;
+        MARKER_COLOR = getErRTavailableBedByColor(availableBed, totalBed);
+      }
+
+      const styledMarker = `<div id='marker' style="position: relative;"><svg style = "color : ${MARKER_COLOR};" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="2.5em" width="1.8em" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z"></path></svg><p style="position:absolute; top:35%; left:50%;transform: translate(-50%, -50%); color: #ffffff;">${
+        idx + 1
+      }</p></div>`;
 
       const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
-        content: styledMarker
+        content: styledMarker,
       });
-      newMarker.setMap(map)
+      newMarker.setMap(map);
       return newMarker;
     });
     setErMarkers(newErMarkers);
   };
 
-  /** 중심 위치 변경 시 위도, 경도 받아옴 */ 
+  /** 중심 위치 변경 시 위도, 경도 받아옴 */
   const handleCenterChange = () => {
     const latlng = map.getCenter();
     setCenterPosition(latlng);
