@@ -13,6 +13,7 @@ function Input({
   round,
   fullWidth,
   disabled,
+  className,
 }) {
   return (
     <StyledInput
@@ -21,6 +22,7 @@ function Input({
       color={color}
       round={round}
       fullWidth={fullWidth}
+      className={className}
     >
       <label htmlFor={name}>{leftIcon}</label>
       <input
@@ -47,6 +49,7 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
   (leftIcon || rightIcon) &&
   css`
     display: flex;
+    align-items: center;
     padding: 0.2rem 0.5rem;
     width: ${fullWidth ? '100%' : '300px'};
     border: 1px solid ${theme.colors[color]};
@@ -62,7 +65,7 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
       css`
         margin-right: 0.3rem;
       `}
-      padding: 0 0.5rem;
+      padding: 0.2rem 0.3rem;
       width: 100%;
       border: none;
     }
@@ -79,7 +82,9 @@ const StyledInput = styled.div`
     border: 1px solid ${({ theme, color }) => theme.colors[color]};
     border-radius: ${({ round }) => roundValue[round]};
     color: ${({ theme }) => theme.colors.gray};
-    font-size: 14px;
+    word-spacing: -1px;
+    letter-spacing: -1px;
+    font-size: 13px;
 
     &:focus {
       outline: none;
@@ -131,6 +136,7 @@ Input.propTypes = {
   round: PropTypes.oneOf(['sm', 'md', 'lg']),
   fullWidth: PropTypes.bool,
   disabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 export default Input;
