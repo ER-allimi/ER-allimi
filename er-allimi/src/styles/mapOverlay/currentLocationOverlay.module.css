@@ -1,0 +1,14 @@
+.currentLocationCircle {
+  position: relative;
+  z-index: 2;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(
+    circle,
+    rgba(234, 69, 79, 0.9472382703081232) 13%,
+    rgba(234, 69, 79, 0.7246049661399548) 30%,
+    rgba(255, 255, 255, 0.4514672686230248) 78%
+  );
+}

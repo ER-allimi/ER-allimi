@@ -4,15 +4,19 @@ import {
   CurrentLocationButton,
   ZoomInButton,
   ZoomOutButton,
+  CurrentLocationOverlay,
+  ErMarkerOverlay,
 } from '@components/map';
 import { getErList, getErRTavailableBed } from '@services';
 import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
+import { renderToString } from 'react-dom/server';
 
 const { kakao } = window;
 const RADIUS = 2000;
 const LAT = 33.450701;
 const LNG = 126.570667;
 const defaultCenter = new kakao.maps.LatLng(LAT, LNG);
+const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
   // 지도 표시될 HTML 요소
@@ -45,22 +49,12 @@ function Map() {
         // 현재 위치
         const locPosition = new kakao.maps.LatLng(lat, lon);
         setLocPosition(locPosition);
-        const current = `<div style="position: relative;
-            z-index: 100;
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 50%;
-            border: none;
-            background: rgb(234, 69, 79);
-            background: radial-gradient(
-              circle,
-              rgba(234, 69, 79, 0.9472382703081232) 13%,
-              rgba(234, 69, 79, 0.7246049661399548) 30%,
-              rgba(255, 255, 255, 0.4514672686230248) 78%
-            );"></div>`;
+        const currentLocationCircle = renderToString(
+          <CurrentLocationOverlay />
+        );
         const customOverlay = new kakao.maps.CustomOverlay({
           position: locPosition,
-          content: current,
+          content: currentLocationCircle,
         });
         customOverlay.setMap(map);
         setCenterPosition(locPosition);
@@ -73,9 +67,14 @@ function Map() {
     }
   };
 
+  /** 응급실 기본정보 데이터 가져와 상태관리하는 함수 */
   const fetchErDB = async () => {
-    const result = await getErList();
-    setEmergencyList(result);
+    try {
+      const result = await getErList();
+      setEmergencyList(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   /** 응급실 가용병상 데이터 가져와 상태관리하는 함수 */
@@ -131,17 +130,18 @@ function Map() {
       const matchEr = erRTavailbleBedList.filter(
         (erInfo) => erInfo.hpid === erId,
       )[0];
-      let MARKER_COLOR = '#222222';
-      if (matchEr) {
-        const availableBed = matchEr.hvec;
-        const totalBed = matchEr.hvs01;
-        MARKER_COLOR = getErRTavailableBedByColor(availableBed, totalBed);
-      }
 
-      const styledMarker = `<div id='marker' style="position: relative;"><svg style = "color : ${MARKER_COLOR};" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="2.5em" width="1.8em" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0z"></path></svg><p style="position:absolute; top:35%; left:50%;transform: translate(-50%, -50%); color: #ffffff;">${
-        idx + 1
-      }</p></div>`;
+      const availableBed = matchEr ? matchEr.hvec : null;
+      const totalBed = matchEr ? matchEr.hvs01 : null;
+      const markerColor =
+        availableBed && totalBed
+          ? getErRTavailableBedByColor(availableBed, totalBed)
+          : DEFAULT_MARKER_COLOR;
 
+      const styledMarker = renderToString(
+        <ErMarkerOverlay markerColor={markerColor} order={idx + 1} />
+      );
+      
       const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
         content: styledMarker,
