@@ -38,8 +38,8 @@ const StyledPagination = styled.div`
 const activePageNum = ({ theme, active }) =>
   active &&
   css`
-    border: 1px solid ${theme.colors.redLight};
-    background-color: ${theme.colors.redLight};
+    border: 1px solid ${theme.colors.gray};
+    background-color: ${theme.colors.gray};
     font-weight: 700;
     color: white;
   `;
@@ -47,10 +47,11 @@ const activePageNum = ({ theme, active }) =>
 const PageNum = styled.span`
   display: inline-block;
   margin-right: 0.5rem;
-  padding: 0 0.35rem;
+  padding: 0.3rem 0.45rem;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.gray};
+  line-height: 13px;
   font-size: 13px;
   cursor: pointer;
 
