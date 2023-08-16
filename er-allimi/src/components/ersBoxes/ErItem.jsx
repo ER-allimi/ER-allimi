@@ -78,11 +78,27 @@ const HpName = styled.h5`
   &:hover {
     text-decoration: underline;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 13px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    font-size: 12px;
+  }
 `;
 
 const ErClassName = styled.p`
   font-size: 11px;
   color: ${({ theme }) => theme.colors.gray};
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 10px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    font-size: 9px;
+  }
 `;
 
 const Body = styled.div`
@@ -91,19 +107,32 @@ const Body = styled.div`
   grid-template-columns: repeat(2);
   align-content: center;
   margin-top: 0.5rem;
+  line-height: 1.5rem;
+  font-size: 12px;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    line-height: 1.3rem;
+    font-size: 11px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    line-height: 1.2rem;
+    font-size: 10px;
+  }
 
   svg {
     margin-right: 0.2rem;
   }
 
   p {
-    font-size: 12px;
-    line-height: 1.5rem;
+    line-height: inherit;
+    font-size: inherit;
   }
 
   div {
     display: flex;
     align-items: center;
+    font-size: inherit;
   }
 
   div:nth-of-type(1) {
@@ -141,7 +170,6 @@ const Body = styled.div`
     }
 
     p {
-      font-size: 11px;
       font-weight: 500;
       color: ${({ theme }) => theme.colors.grayDark};
     }
@@ -149,6 +177,14 @@ const Body = styled.div`
     .highlight {
       font-size: 13px;
       font-weight: 700;
+
+      @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+        font-size: 12px;
+      }
+
+      @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+        font-size: 11px;
+      }
     }
   }
 `;

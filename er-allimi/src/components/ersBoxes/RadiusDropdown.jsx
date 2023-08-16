@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Dropdown } from '@components';
 
-function RadiusDropdown() {
+function RadiusDropdown({ className }) {
   const [select, setSelect] = useState(-1);
 
   const data = [
@@ -25,8 +26,13 @@ function RadiusDropdown() {
       data={data}
       select={select}
       handleOptionClick={handleOptionClick}
+      className={className}
     />
   );
 }
+
+RadiusDropdown.propTypes = {
+  className: PropTypes.string,
+};
 
 export default RadiusDropdown;

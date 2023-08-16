@@ -33,6 +33,7 @@ function Pagination({
 const StyledPagination = styled.div`
   display: flex;
   justify-content: center;
+  font-size: 13px;
 `;
 
 const activePageNum = ({ theme, active }) =>
@@ -47,12 +48,11 @@ const activePageNum = ({ theme, active }) =>
 const PageNum = styled.span`
   display: inline-block;
   margin-right: 0.5rem;
-  padding: 0.3rem 0.45rem;
+  padding: 0rem 0.35rem;
   border: 1px solid ${({ theme }) => theme.colors.gray};
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.gray};
-  line-height: 13px;
-  font-size: 13px;
+  font-size: inherit;
   cursor: pointer;
 
   &:nth-last-of-type(1) {

@@ -9,6 +9,8 @@ export { RadiusDropdown } from './ersBoxes';
 export { ErsPagination } from './ersBoxes';
 export { ViewToggle } from './ersBoxes';
 export { ViewButton } from './ersBoxes';
+export { ErsContent } from './ersBoxes';
+export { ErsMovingBox } from './ersBoxes';
 
 export { Box } from './ui';
 export { Input } from './ui';

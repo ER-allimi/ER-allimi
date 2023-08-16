@@ -1,19 +1,18 @@
-import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { ErItem } from '@components';
 
-function ErsList() {
+function ErsList({ className }) {
   const renderErItems = Array(15)
     .fill(0)
     .map((item, i) => {
       return <ErItem key={i} />;
     });
 
-  return <StyledErsList>{renderErItems}</StyledErsList>;
+  return <div className={className}>{renderErItems}</div>;
 }
 
-const StyledErsList = styled.div`
-  height: calc(100% - 100px);
-  overflow-y: scroll;
-`;
+ErsList.propTypes = {
+  className: PropTypes.string,
+};
 
 export default ErsList;

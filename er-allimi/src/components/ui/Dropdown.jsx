@@ -47,6 +47,7 @@ function Dropdown({ label, data, select, handleOptionClick, className }) {
 
 const StyledDropdown = styled.div`
   position: relative;
+  font-size: 13px;
   cursor: pointer;
 `;
 
@@ -58,7 +59,7 @@ const Head = styled.div`
   background-color: white;
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
   border-radius: 0.3rem;
-  font-size: 13px;
+  font-size: inherit;
 
   svg {
     margin-left: 0.2rem;
@@ -77,12 +78,13 @@ const Body = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.grayLight};
   border-top: none;
   border-radius: 0 0 0.3rem 0.3rem;
+  font-size: inherit;
 `;
 
 const Option = styled.div`
   padding: 0.2rem 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayLight};
-  font-size: 13px;
+  font-size: inherit;
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.grayLighter};
