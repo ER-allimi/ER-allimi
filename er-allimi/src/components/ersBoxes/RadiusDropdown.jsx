@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from '@emotion/styled';
 import { Dropdown } from '@components';
 
 function RadiusDropdown() {
@@ -14,8 +15,12 @@ function RadiusDropdown() {
     setSelect(idx);
   };
 
+  const StyledDropdown = styled(Dropdown)`
+    width: 4rem;
+  `;
+
   return (
-    <Dropdown
+    <StyledDropdown
       label="반경"
       data={data}
       select={select}
