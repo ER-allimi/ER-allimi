@@ -16,6 +16,7 @@ export { Button } from './ui';
 export { Dropdown } from './ui';
 export { Pagination } from './ui';
 export { Toggle } from './ui';
+export { MovingBox } from './ui';
 
 export { GrMapLocation } from './icons';
 export { FaMapMarkedAlt } from './icons';
@@ -26,3 +27,5 @@ export { BiSolidPhone } from './icons';
 export { BiSolidDownArrow } from './icons';
 export { BiSolidUpArrow } from './icons';
 export { MdOutlineInsertChartOutlined } from './icons';
+export { VscTriangleDown } from './icons';
+export { VscTriangleUp } from './icons';
