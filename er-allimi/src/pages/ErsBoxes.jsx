@@ -8,6 +8,7 @@ import {
   ViewToggle,
   CurrentLocationInput,
   ViewButton,
+  ErsMovingBox,
 } from '@components';
 
 function ErsBoxes({ className }) {
@@ -24,7 +25,9 @@ function ErsBoxes({ className }) {
         <StyledCurrentLocationInput />
         <StyledViewButton />
       </LayoutTop>
-      <LayoutBottom></LayoutBottom>
+      <LayoutBottom>
+        <StyledErsMovingBox />
+      </LayoutBottom>
       <Outlet />
     </StyledErsBoxes>
   );
@@ -125,6 +128,10 @@ const StyledCurrentLocationInput = styled(CurrentLocationInput)`
 `;
 
 const StyledViewButton = styled(ViewButton)`
+  ${zIndexBox}
+`;
+
+const StyledErsMovingBox = styled(ErsMovingBox)`
   ${zIndexBox}
 `;
 
