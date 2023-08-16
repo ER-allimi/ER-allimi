@@ -8,6 +8,7 @@ export { ErItem } from './ersBoxes';
 export { RadiusDropdown } from './ersBoxes';
 export { ErsPagination } from './ersBoxes';
 export { ViewToggle } from './ersBoxes';
+export { ViewButton } from './ersBoxes';
 
 export { Box } from './ui';
 export { Input } from './ui';
@@ -24,3 +25,4 @@ export { IoLocationSharp } from './icons';
 export { BiSolidPhone } from './icons';
 export { BiSolidDownArrow } from './icons';
 export { BiSolidUpArrow } from './icons';
+export { MdOutlineInsertChartOutlined } from './icons';

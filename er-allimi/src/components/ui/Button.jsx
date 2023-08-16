@@ -2,9 +2,15 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-function Button({ color, round, outline, children }) {
+function Button({ color, round, outline, children, className, ...rest }) {
   return (
-    <StyledButton color={color} round={round} outline={outline}>
+    <StyledButton
+      color={color}
+      round={round}
+      outline={outline}
+      className={className}
+      {...rest}
+    >
       {children}
     </StyledButton>
   );
@@ -44,7 +50,11 @@ Button.defaultProps = {
 };
 
 Button.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.element,
+  ]),
   color: PropTypes.oneOf([
     'gray',
     'grayDark',
@@ -69,6 +79,7 @@ Button.propTypes = {
   ]),
   round: PropTypes.oneOf(['sm', 'md', 'lg']),
   outline: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 export default Button;
