@@ -7,3 +7,5 @@ export { default as RadiusDropdown } from './RadiusDropdown';
 export { default as ErsPagination } from './ErsPagination';
 export { default as ViewToggle } from './ViewToggle';
 export { default as ViewButton } from './ViewButton';
+export { default as ErsContent } from './ErsContent';
+export { default as ErsMovingBox } from './ErsMovingBox';
