@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { BiSolidDownArrow, BiSolidUpArrow } from '@components';
 
-function Dropdown({ label, data, select, handleOptionClick }) {
+function Dropdown({ label, data, select, handleOptionClick, className }) {
   const [expanded, setExpanded] = useState(false);
   const dropdown = useRef();
 
@@ -31,7 +31,11 @@ function Dropdown({ label, data, select, handleOptionClick }) {
   });
 
   return (
-    <StyledDropdown ref={dropdown} onClick={handleDropdownClick}>
+    <StyledDropdown
+      className={className}
+      ref={dropdown}
+      onClick={handleDropdownClick}
+    >
       <Head>
         {select >= 0 ? data[select].label : label}
         {expanded ? <BiSolidUpArrow /> : <BiSolidDownArrow />}
@@ -48,6 +52,7 @@ const StyledDropdown = styled.div`
 
 const Head = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 0.2rem 0.5rem;
   background-color: white;
@@ -93,6 +98,7 @@ Dropdown.propTypes = {
   data: PropTypes.array.isRequired,
   select: PropTypes.number.isRequired,
   handleOptionClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
