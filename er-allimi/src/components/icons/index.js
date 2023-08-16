@@ -10,3 +10,4 @@ export { FaMapMarker } from 'react-icons/fa';
 export { BiSolidPhone } from 'react-icons/bi';
 export { BiSolidDownArrow } from 'react-icons/bi';
 export { BiSolidUpArrow } from 'react-icons/bi';
+export { MdOutlineInsertChartOutlined } from 'react-icons/md';
