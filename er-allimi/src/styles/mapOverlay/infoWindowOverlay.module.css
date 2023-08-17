@@ -1,0 +1,65 @@
+.infoWindowContainer {
+  position: absolute;
+  transform: translateY(calc(-100% - 1.2rem));
+  left: 1rem;
+  border: 1px solid rgba(245, 245, 245, 81%);
+  border-radius: 0.5rem;
+  box-shadow: 3px 3px 5px 3px rgba(163, 163, 163, 26.67%);
+  background-color: white;
+}
+
+.infoWindowContent {
+  padding: 0.7rem 1rem;
+}
+
+.hpName {
+  font-size: 14px;
+
+  @media (max-width: 760px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 12px;
+  }
+}
+
+.bedData {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-top: 0.5rem;
+  gap: 0.3rem;
+}
+
+.color {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: black;
+}
+
+.bedDataText {
+  font-size: 11px;
+  color: rgba(52, 52, 52, 81%);
+
+  @media (max-width: 760px) {
+    font-size: 10px;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 9px;
+  }
+}
+
+.bedDataTextNum {
+  font-size: 13px;
+  font-weight: 700;
+  @media (max-width: 760px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 320px) {
+    font-size: 11px;
+  }
+}
