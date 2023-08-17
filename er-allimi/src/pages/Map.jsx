@@ -50,7 +50,7 @@ function Map() {
         const locPosition = new kakao.maps.LatLng(lat, lon);
         setLocPosition(locPosition);
         const currentLocationCircle = renderToString(
-          <CurrentLocationOverlay />
+          <CurrentLocationOverlay />,
         );
         const customOverlay = new kakao.maps.CustomOverlay({
           position: locPosition,
@@ -118,7 +118,8 @@ function Map() {
       })
       .filter((item) => item !== null)
       .sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
-
+    
+    console.log(nearByErArray,'없으면 안됌')
     const newErMarkers = nearByErArray.map((item, idx) => {
       const name = item.name;
       const erId = item.erId;
@@ -139,13 +140,22 @@ function Map() {
           : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
-        <ErMarkerOverlay markerColor={markerColor} order={idx + 1} />
+        <ErMarkerOverlay
+          name={name}
+          availableBed={availableBed}
+          totalBed={availableBed}
+          markerColor={markerColor}
+          order={idx + 1}
+        />,
       );
-      
+
       const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
         content: styledMarker,
+        clickable: true,
+        zIndex: 1500,
       });
+
       newMarker.setMap(map);
       return newMarker;
     });
