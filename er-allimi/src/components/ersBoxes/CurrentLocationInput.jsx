@@ -1,12 +1,21 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { Input, IoLocationSharp, Button } from '@components';
+import { userLocationState } from '@stores';
 
 function CurrentLocationInput({ className }) {
+  const { address } = useRecoilValue(userLocationState);
   const [value, setValue] = useState(
-    '서울특별시 강남구 가로수길 69 (신사동, 엘큐브/elcube)',
+    address.road_address?.address_name || address.address?.address_name || '',
   );
+
+  useEffect(() => {
+    setValue(
+      address.road_address?.address_name || address.address?.address_name || '',
+    );
+  }, [address]);
 
   const handleInputChange = (e) => {
     setValue(e.target.value);

@@ -1,15 +1,18 @@
 import { useSetRecoilState } from 'recoil';
 import { userLocationState } from '@stores';
+import { getAddressByCoor } from '@utils';
 
-// 사용자 위치 정보 가져오기
+// 사용자의 위치 정보를 가져와 recoil에 저장
 function useGetUserLocation() {
   const setUserLocationState = useSetRecoilState(userLocationState);
 
-  const handleGetCurPosSuccess = (position) => {
+  const handleGetCurPosSuccess = async (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    console.log(longitude, latitude);
-    setUserLocationState({ latitude, longitude });
+
+    const address = await getAddressByCoor({ latitude, longitude });
+
+    setUserLocationState({ latitude, longitude, address });
   };
 
   const handleGetCurPosFail = (err) => {

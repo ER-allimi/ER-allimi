@@ -5,6 +5,7 @@ const userLocationState = atom({
   default: {
     latitude: null,
     longitude: null,
+    address: {},
   },
 });
 
