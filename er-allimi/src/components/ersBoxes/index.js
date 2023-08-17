@@ -9,3 +9,4 @@ export { default as ViewToggle } from './ViewToggle';
 export { default as ViewButton } from './ViewButton';
 export { default as ErsContent } from './ErsContent';
 export { default as ErsMovingBox } from './ErsMovingBox';
+export { default as PostCodeButton } from './PostCodeButton';
