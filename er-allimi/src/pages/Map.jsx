@@ -165,7 +165,7 @@ function Map() {
         content: styledInfoWindow,
         position: newMarker.getPosition(),
         yAnchor: 1,
-        zIndex: nearByErCount
+        zIndex: nearByErCount + 1
       });
 
       const markerDiv = document.querySelectorAll('.markerHover');
