@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Box, CurrentLocationInput, Button } from '@components';
+import { Box, CurrentLocationInput, PostCodeButton } from '@components';
 
 function CurrentLocationBox({ className }) {
   return (
@@ -12,9 +12,7 @@ function CurrentLocationBox({ className }) {
           현재 자신의 위치 정보가 일치하지 않을경우 <br />
           위치 찾기에서 주소를 검색하시면 재설정합니다.
         </Text>
-        <Button color="gray" round="lg">
-          위치 찾기
-        </Button>
+        <PostCodeButton />
       </Body>
     </Box>
   );

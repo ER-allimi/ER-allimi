@@ -2,19 +2,18 @@ import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
-import { Input, IoLocationSharp, Button } from '@components';
+import { Input, IoLocationSharp, PostCodeButton } from '@components';
 import { userLocationState } from '@stores';
 
 function CurrentLocationInput({ className }) {
   const { address } = useRecoilValue(userLocationState);
+
   const [value, setValue] = useState(
-    address.road_address?.address_name || address.address?.address_name || '',
+    address.road_address || address.address || '',
   );
 
   useEffect(() => {
-    setValue(
-      address.road_address?.address_name || address.address?.address_name || '',
-    );
+    setValue(address.road_address || address.address || '');
   }, [address]);
 
   const handleInputChange = (e) => {
@@ -44,7 +43,7 @@ function CurrentLocationInput({ className }) {
     }
   `;
 
-  const StyledButton = styled(Button)`
+  const StyledButton = styled(PostCodeButton)`
     padding: 0.1rem 0;
     width: 5rem;
   `;
