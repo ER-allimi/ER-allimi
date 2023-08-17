@@ -10,9 +10,17 @@ function useGetUserLocation() {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    const address = await getAddressByCoor({ latitude, longitude });
+    const addressData = await getAddressByCoor({ latitude, longitude });
+    const { address, road_address } = addressData;
 
-    setUserLocationState({ latitude, longitude, address });
+    setUserLocationState({
+      latitude,
+      longitude,
+      address: {
+        address: address?.address_name,
+        road_address: road_address?.address_name,
+      },
+    });
   };
 
   const handleGetCurPosFail = (err) => {
