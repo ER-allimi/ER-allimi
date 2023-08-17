@@ -11,7 +11,10 @@ function ViewButton({ className }) {
   const [isOutlined, setIsOutlined] = useState(true);
 
   const StyledButton = styled(Button)`
-    padding: 0.3rem 0.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
     border-radius: 50%;
     box-shadow: 3px 3px 5px 3px ${({ theme }) => theme.colors.grayLight};
 
