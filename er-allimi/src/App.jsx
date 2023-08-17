@@ -3,8 +3,11 @@ import styled from '@emotion/styled';
 import { ThemeProvider, Global, css } from '@emotion/react';
 import { theme, globalStyles } from '@styles';
 import { Navbar } from '@components';
+import { useGetUserLocation } from '@hooks';
 
 function App() {
+  useGetUserLocation(); // 사용자 위치 정보 가져오기
+
   const StyledApp = styled.div`
     display: flex;
     justify-content: space-between;
