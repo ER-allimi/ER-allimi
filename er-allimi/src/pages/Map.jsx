@@ -6,6 +6,7 @@ import {
   ZoomOutButton,
   CurrentLocationOverlay,
   ErMarkerOverlay,
+  InfoWindowOverlay,
 } from '@components/map';
 import { getErList, getErRTavailableBed } from '@services';
 import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
@@ -118,8 +119,9 @@ function Map() {
       })
       .filter((item) => item !== null)
       .sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
-    
-    console.log(nearByErArray,'없으면 안됌')
+
+    console.log(nearByErArray, '없으면 안됌');
+    const nearByErCount = nearByErArray.length
     const newErMarkers = nearByErArray.map((item, idx) => {
       const name = item.name;
       const erId = item.erId;
@@ -140,23 +142,45 @@ function Map() {
           : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
-        <ErMarkerOverlay
-          name={name}
-          availableBed={availableBed}
-          totalBed={availableBed}
-          markerColor={markerColor}
-          order={idx + 1}
-        />,
+        <ErMarkerOverlay markerColor={markerColor} order={idx + 1} />,
       );
 
       const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
+        map: map,
         content: styledMarker,
         clickable: true,
-        zIndex: 1500,
+        zIndex: nearByErCount - idx + 1,
+      });
+      
+      const styledInfoWindow = renderToString(
+        <InfoWindowOverlay
+          name={name}
+          availableBed={availableBed}
+          totalBed={totalBed}
+          markerColor={markerColor}
+        />,
+      );
+      const newInfoWindow = new kakao.maps.CustomOverlay({
+        content: styledInfoWindow,
+        position: newMarker.getPosition(),
+        yAnchor: 1,
+        zIndex: nearByErCount
       });
 
-      newMarker.setMap(map);
+      const markerDiv = document.querySelectorAll('.markerHover');
+      const lastElement = markerDiv[markerDiv.length - 1];
+
+      if (lastElement) {
+        lastElement.addEventListener('mouseover', () => {
+          newInfoWindow.setMap(map);
+        });
+        lastElement.addEventListener('mouseout', () => {
+          newInfoWindow.setMap(null);
+        });
+      }
+
+      // setInfoWindows(newInfoWindow);
       return newMarker;
     });
     setErMarkers(newErMarkers);
@@ -205,7 +229,6 @@ function Map() {
   return (
     <MapContainer ref={mapContainer}>
       <ControlWrapper>
-        {/* <Abs /> */}
         <CurrentLocationButton map={map} currentLocation={locPosition} />
         <ZoomInButton map={map} />
         <ZoomOutButton map={map} />
