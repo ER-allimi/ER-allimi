@@ -18,12 +18,9 @@ function ErsBoxes({ className }) {
         <StyledCurrentLocationBox />
         <StyledErsBox />
       </LayoutLeft>
-      <LayoutRight>
-        <StyledToggle />
-      </LayoutRight>
+      <LayoutRight></LayoutRight>
       <LayoutTop>
         <StyledCurrentLocationInput />
-        <StyledViewButton />
       </LayoutTop>
       <LayoutBottom>
         <StyledErsMovingBox />
