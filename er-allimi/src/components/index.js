@@ -37,3 +37,10 @@ export { MdOutlineInsertChartOutlined } from './icons';
 export { VscTriangleDown } from './icons';
 export { VscTriangleUp } from './icons';
 export { BsFillCircleFill } from './icons';
+
+export { CurrentLocationButton } from './map';
+export { ZoomInButton } from './map';
+export { ZoomOutButton } from './map';
+export { CurrentLocationOverlay } from './map';
+export { ErMarkerOverlay } from './map';
+export { InfoWindowOverlay } from './map';

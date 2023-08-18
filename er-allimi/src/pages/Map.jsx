@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   CurrentLocationButton,
   ZoomInButton,
@@ -7,65 +7,51 @@ import {
   CurrentLocationOverlay,
   ErMarkerOverlay,
   InfoWindowOverlay,
-} from '@components/map';
+} from '@components';
 import { getErList, getErRTavailableBed } from '@services';
 import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
+import { useRecoilValue } from 'recoil';
+import { userLocationState } from '@stores';
 
 const { kakao } = window;
 const RADIUS = 2000;
-const LAT = 33.450701;
-const LNG = 126.570667;
-const defaultCenter = new kakao.maps.LatLng(LAT, LNG);
 const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
   // 지도 표시될 HTML 요소
   const mapContainer = useRef(null);
+  const { latitude, longitude } = useRecoilValue(userLocationState);
+  const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [map, setMap] = useState(null);
   const [emergencyList, setEmergencyList] = useState([]);
   const [erRTavailbleBedList, setErRTavailbleBedList] = useState([]);
   const [locPosition, setLocPosition] = useState(defaultCenter);
-  const [centerPosition, setCenterPosition] = useState(locPosition);
+  const [centerPosition, setCenterPosition] = useState(null);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
+  // console.log(latitude, longitude);
 
   /** 카카오 지도 생성 */
   const createMap = () => {
     const options = {
       // 지도 중심 좌표 (위도, 경도)
-      center: defaultCenter,
+      center: new kakao.maps.LatLng(latitude, longitude),
       //지도의 레벨(확대, 축소 정도)
       level: 8,
     };
     const map = new kakao.maps.Map(mapContainer.current, options);
     setMap(map);
 
-    // 현재 위치 찾아 지도에 표시 및 반경 오버레이
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-
-        // 현재 위치
-        const locPosition = new kakao.maps.LatLng(lat, lon);
-        setLocPosition(locPosition);
-        const currentLocationCircle = renderToString(
-          <CurrentLocationOverlay />,
-        );
-        const customOverlay = new kakao.maps.CustomOverlay({
-          position: locPosition,
-          content: currentLocationCircle,
-        });
-        customOverlay.setMap(map);
-        setCenterPosition(locPosition);
-        map.setCenter(centerPosition);
-      });
-    } else {
-      setLocPosition(defaultCenter);
-      setCenterPosition(defaultCenter);
-      map.setCenter(locPosition);
-    }
+    const newLocPosition = new kakao.maps.LatLng(latitude, longitude);
+    const currentLocationCircle = renderToString(<CurrentLocationOverlay />);
+    new kakao.maps.CustomOverlay({
+      position: newLocPosition,
+      map: map,
+      content: currentLocationCircle,
+    });
+    setLocPosition(newLocPosition);
+    setCenterPosition(newLocPosition);
   };
 
   /** 응급실 기본정보 데이터 가져와 상태관리하는 함수 */
@@ -85,7 +71,9 @@ function Map() {
         STAGE1: stage1,
         STAGE2: stage2,
       });
-      setErRTavailbleBedList(result);
+      if (result === undefined) return
+      const resultArray = Array.isArray(result) ? result : [result]
+      setErRTavailbleBedList(resultArray)
     } catch (error) {
       console.error(error);
     }
@@ -96,7 +84,6 @@ function Map() {
     //모든 마커 지우기
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
-
     const nearByErArray = emergencyList
       .map((item) => {
         const name = item.dutyName;
@@ -120,8 +107,7 @@ function Map() {
       .filter((item) => item !== null)
       .sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
 
-    console.log(nearByErArray, '없으면 안됌');
-    const nearByErCount = nearByErArray.length
+    const nearByErCount = nearByErArray.length;
     const newErMarkers = nearByErArray.map((item, idx) => {
       const name = item.name;
       const erId = item.erId;
@@ -152,7 +138,7 @@ function Map() {
         clickable: true,
         zIndex: nearByErCount - idx + 1,
       });
-      
+
       const styledInfoWindow = renderToString(
         <InfoWindowOverlay
           name={name}
@@ -165,7 +151,7 @@ function Map() {
         content: styledInfoWindow,
         position: newMarker.getPosition(),
         yAnchor: 1,
-        zIndex: nearByErCount + 1
+        zIndex: nearByErCount + 1,
       });
 
       const markerDiv = document.querySelectorAll('.markerHover');
@@ -179,8 +165,6 @@ function Map() {
           newInfoWindow.setMap(null);
         });
       }
-
-      // setInfoWindows(newInfoWindow);
       return newMarker;
     });
     setErMarkers(newErMarkers);
@@ -196,35 +180,38 @@ function Map() {
   useEffect(() => {
     createMap();
     fetchErDB();
-  }, []);
+  }, [latitude, longitude]);
 
   useEffect(() => {
-    // 중심 위치 변경 시 응급실 마커 생성
-    if (map) {
-      kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-      createNearByErMarker();
+    // 응급실 데이터 로딩이 완료된 후에 처리
+    if (emergencyList.length > 0) {
+      // 중심 위치 변경 시 응급실 마커 생성
+      if (map) {
+        kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+        createNearByErMarker();
 
-      // 기존 circle 오버레이 제거
-      if (circleOverlay) {
-        circleOverlay.setMap(null);
+        // 기존 circle 오버레이 제거
+        if (circleOverlay) {
+          circleOverlay.setMap(null);
+        }
+
+        // 새로운 circle 오버레이 생성 및 추가
+        const newCircleOverlay = new kakao.maps.Circle({
+          map,
+          radius: RADIUS,
+          center: centerPosition,
+          strokeWeight: 1,
+          strokeColor: '#a3a3a3',
+          strokeOpacity: 0.27,
+          strokeStyle: 'solid',
+          fillColor: '#a3a3a3',
+          fillOpacity: 0.2,
+        });
+
+        setCircleOverlay(newCircleOverlay);
       }
-
-      // 새로운 circle 오버레이 생성 및 추가
-      const newCircleOverlay = new kakao.maps.Circle({
-        map,
-        radius: RADIUS,
-        center: centerPosition,
-        strokeWeight: 1,
-        strokeColor: '#a3a3a3',
-        strokeOpacity: 0.27,
-        strokeStyle: 'solid',
-        fillColor: '#a3a3a3',
-        fillOpacity: 0.2,
-      });
-
-      setCircleOverlay(newCircleOverlay);
     }
-  }, [map, centerPosition]);
+  }, [map, centerPosition, emergencyList]);
 
   return (
     <MapContainer ref={mapContainer}>
