@@ -7,10 +7,12 @@ import {
   CurrentLocationOverlay,
   ErMarkerOverlay,
   InfoWindowOverlay,
-} from '@components/map';
+} from '@components';
 import { getErList, getErRTavailableBed } from '@services';
 import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
+import { useRecoilState } from 'recoil';
+import { userLocationState } from '@stores'
 
 const { kakao } = window;
 const RADIUS = 2000;
@@ -29,6 +31,7 @@ function Map() {
   const [centerPosition, setCenterPosition] = useState(locPosition);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
+  const userLocation = useRecoilState(userLocationState)
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -96,7 +99,7 @@ function Map() {
     //모든 마커 지우기
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
-
+    console.log(emergencyList, 'filter 오류인지 확인');
     const nearByErArray = emergencyList
       .map((item) => {
         const name = item.dutyName;
@@ -120,7 +123,6 @@ function Map() {
       .filter((item) => item !== null)
       .sort((a, b) => a.distanceFromLocation - b.distanceFromLocation);
 
-    console.log(nearByErArray, '없으면 안됌');
     const nearByErCount = nearByErArray.length
     const newErMarkers = nearByErArray.map((item, idx) => {
       const name = item.name;
