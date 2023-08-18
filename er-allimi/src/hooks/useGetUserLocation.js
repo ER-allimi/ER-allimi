@@ -27,10 +27,7 @@ function useGetUserLocation() {
     console.log(`사용자의 위치 정보를 가져오지 못했습니다.(${err.message})`);
   };
 
-  navigator.geolocation.getCurrentPosition(
-    handleGetCurPosSuccess,
-    handleGetCurPosFail,
-  );
+  return { handleGetCurPosSuccess, handleGetCurPosFail };
 }
 
 export default useGetUserLocation;
