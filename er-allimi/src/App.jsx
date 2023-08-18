@@ -1,12 +1,22 @@
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { ThemeProvider, Global, css } from '@emotion/react';
 import { theme, globalStyles } from '@styles';
 import { Navbar } from '@components';
-import { useGetUserLocation } from '@hooks';
+import { useGetUserLocation, useFetchErList } from '@hooks';
 
 function App() {
-  useGetUserLocation(); // 사용자 위치 정보 가져오기
+  const { handleGetCurPosSuccess, handleGetCurPosFail } = useGetUserLocation(); // 사용자 위치 정보 가져오기
+  const { data, isLoading, isFetching, isError, error } = useFetchErList(); // 응급실 전체 목록 정보 가져오기
+
+  useEffect(() => {
+    // 사용자 위치 정보 가져오기
+    navigator.geolocation.getCurrentPosition(
+      handleGetCurPosSuccess,
+      handleGetCurPosFail,
+    );
+  }, []);
 
   const StyledApp = styled.div`
     display: flex;
