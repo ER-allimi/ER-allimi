@@ -71,7 +71,9 @@ function Map() {
         STAGE1: stage1,
         STAGE2: stage2,
       });
-      setErRTavailbleBedList(result);
+      if (result === undefined) return
+      const resultArray = Array.isArray(result) ? result : [result]
+      setErRTavailbleBedList(resultArray)
     } catch (error) {
       console.error(error);
     }
@@ -114,7 +116,6 @@ function Map() {
       const newStages = [item.stage1, item.stage2];
       fetchErRTAvailableBedDB(newStages);
 
-      console.log(erRTavailbleBedList, 'filter 오류인지 확인');
       const matchEr = erRTavailbleBedList.filter(
         (erInfo) => erInfo.hpid === erId,
       )[0];
@@ -211,7 +212,7 @@ function Map() {
       }
     }
   }, [map, centerPosition, emergencyList]);
-  
+
   return (
     <MapContainer ref={mapContainer}>
       <ControlWrapper>
