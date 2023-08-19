@@ -1,0 +1,4 @@
+const SORTING_DISTANCE = 'distance';
+const SORTING_AVAILABLE_BED = 'erRTavailableBed';
+
+export { SORTING_DISTANCE, SORTING_AVAILABLE_BED };
