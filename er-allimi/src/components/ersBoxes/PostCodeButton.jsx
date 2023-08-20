@@ -1,6 +1,10 @@
 import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
-import { userLocationState } from '@stores';
+import {
+  userLocationState,
+  mapCenterPointState,
+  ersPaginationState,
+} from '@stores';
 import { Button } from '@components';
 import { getCoorByAddress } from '@utils';
 import { theme } from '@styles';
@@ -27,7 +31,9 @@ const themeObj = {
 };
 
 function PostCodeButton({ className }) {
-  const setUserLocationState = useSetRecoilState(userLocationState);
+  const setUserLocation = useSetRecoilState(userLocationState);
+  const setMapCenterPoint = useSetRecoilState(mapCenterPointState);
+  const setErsPagination = useSetRecoilState(ersPaginationState);
 
   const handleButtonClick = () => {
     new window.daum.Postcode({
@@ -38,7 +44,7 @@ function PostCodeButton({ className }) {
           address: jibunAddress || roadAddress,
         });
 
-        setUserLocationState({
+        setUserLocation({
           latitude,
           longitude,
           address: {
@@ -46,6 +52,13 @@ function PostCodeButton({ className }) {
             road_address: roadAddress,
           },
         });
+
+        setMapCenterPoint({
+          latitude,
+          longitude,
+        });
+
+        setErsPagination(1);
       },
       width, //생성자에 크기 값을 명시적으로 지정해야 합니다.
       height,
