@@ -35,17 +35,11 @@ const ersWithRadiusState = selector({
         return item.distanceFromLocation <= radius;
       })
       .map(({ info, distanceFromLocation }) => {
-        const {
-          hpid: hpId,
-          dutyName,
-          dutyEmclsName,
-          dutyAddr,
-          dutyTel3,
-        } = info;
+        const { hpid, dutyName, dutyEmclsName, dutyAddr, dutyTel3 } = info;
 
         return {
-          hpInfo: { hpId, dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
-          availableBedInfo: ersRTavailableBed.find((er) => er.hpid === hpId),
+          hpInfo: { hpid, dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
+          availableBedInfo: ersRTavailableBed.find((er) => er.hpid === hpid),
           distanceFromLocation,
         };
       });
