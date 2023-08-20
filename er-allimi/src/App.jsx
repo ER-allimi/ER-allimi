@@ -4,11 +4,16 @@ import styled from '@emotion/styled';
 import { ThemeProvider, Global, css } from '@emotion/react';
 import { theme, globalStyles } from '@styles';
 import { Navbar } from '@components';
-import { useGetUserLocation, useFetchErList } from '@hooks';
+import {
+  useGetUserLocation,
+  useFetchErList,
+  useFetchErsRTavailableBed,
+} from '@hooks';
 
 function App() {
   const { handleGetCurPosSuccess, handleGetCurPosFail } = useGetUserLocation(); // 사용자 위치 정보 가져오기
-  const { data, isLoading, isFetching, isError, error } = useFetchErList(); // 응급실 전체 목록 정보 가져오기
+  useFetchErList(); // 응급실 전체 목록 정보 가져오기
+  useFetchErsRTavailableBed(); // 응급실 전체 목록 정보 가져오기
 
   useEffect(() => {
     // 사용자 위치 정보 가져오기
