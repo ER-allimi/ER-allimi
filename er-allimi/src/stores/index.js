@@ -6,3 +6,4 @@ export { ersListState } from './atoms';
 export { ersRTavailableBedState } from './atoms';
 
 export { ersWithRadiusState } from './selectors';
+export { sortedErsWithRadiusState } from './selectors';
