@@ -20,7 +20,7 @@ function InfoWindowOverlay({ name, availableBed, totalBed, markerColor }) {
             <BsFillCircleFill size={15} color={markerColor} />
             <div className={styles.bedDataText}>
               가용 병상 수&nbsp;&nbsp;
-              <span className={styles.bedDataTextNum}>{availableBed}</span>
+              {availableBed > 0 ? <span className={styles.bedDataTextNum}>{availableBed}</span> : <span className={styles.bedDataTextNum}>0(초과 {availableBed * -1})</span>}
               &nbsp;/&nbsp;전체&nbsp;
               <span className={styles.bedDataTextNum}>{totalBed}</span>
             </div>
