@@ -38,6 +38,7 @@ export { MdOutlineInsertChartOutlined } from './icons';
 export { VscTriangleDown } from './icons';
 export { VscTriangleUp } from './icons';
 export { BsFillCircleFill } from './icons';
+export { PiArrowBendUpLeftBold } from './icons';
 
 export { CurrentLocationButton } from './map';
 export { ZoomInButton } from './map';
