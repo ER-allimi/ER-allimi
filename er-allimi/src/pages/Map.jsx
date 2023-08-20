@@ -163,7 +163,7 @@ function Map() {
 
       setCircleOverlay(newCircleOverlay);
     }
-  }, [map, centerPosition]);
+  }, [map, centerPosition, radius]);
 
   return (
     <MapContainer ref={mapContainer}>
