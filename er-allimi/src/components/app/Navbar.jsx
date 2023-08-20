@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useMatch, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import logo from '@assets/logo.png';
@@ -7,12 +7,17 @@ import {
   FaMapMarkedAlt,
   AiOutlineInfoCircle,
   RxHamburgerMenu,
+  PiArrowBendUpLeftBold,
 } from '@components';
-import { PATH_ROOT } from '@constants';
+import { PATH_ROOT, PATH_HOSPITALDETAIL } from '@constants';
 
 function Navbar() {
+  const match = useMatch(PATH_HOSPITALDETAIL);
+  const navigate = useNavigate();
   const location = useLocation();
   const [showSubNavbar, setShowSubNavbar] = useState(false);
+
+  const backButton = Boolean(match);
 
   useEffect(() => {
     setShowSubNavbar(false);
@@ -32,7 +37,8 @@ function Navbar() {
         </Link>
         <BurgerIcon onClick={handleBurgerClick} />
       </Header>
-      <Utils show={showSubNavbar}>
+      <Utils show={showSubNavbar} backButton={backButton}>
+        {backButton && <BackIcon onClick={() => navigate(-1)} />}
         <Link to={PATH_ROOT}>
           <MapIcon />
           <Text>메인 화면</Text>
@@ -107,9 +113,11 @@ const Utils = styled.div`
     display: flex;
   }
 
-  ${({ theme }) => css`
+  ${({ theme, backButton }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: ${backButton
+        ? 'repeat(3, 1fr)'
+        : 'repeat(2, 1fr)'};
       column-gap: 2rem;
       margin-top: 0;
     }
@@ -140,6 +148,19 @@ const MapIcon = styled(FaMapMarkedAlt)`
 `;
 
 const InfoIcon = MapIcon.withComponent(AiOutlineInfoCircle);
+
+const BackIcon = styled(PiArrowBendUpLeftBold)`
+  display: inline-block;
+  font-size: 1.7rem;
+  color: white;
+  cursor: pointer;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      display: none;
+    }
+  `}
+`;
 
 const BurgerIcon = styled(RxHamburgerMenu)`
   display: none;

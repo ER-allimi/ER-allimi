@@ -14,3 +14,4 @@ export { MdOutlineInsertChartOutlined } from 'react-icons/md';
 export { VscTriangleDown } from 'react-icons/vsc';
 export { VscTriangleUp } from 'react-icons/vsc';
 export { BsFillCircleFill } from 'react-icons/bs';
+export { PiArrowBendUpLeftBold } from 'react-icons/pi';
