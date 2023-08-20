@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   CurrentLocationButton,
   ZoomInButton,
@@ -11,8 +11,8 @@ import {
 import { getErList, getErRTavailableBed } from '@services';
 import { getDistanceFromLocation, getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
-import { useRecoilValue } from 'recoil';
-import { userLocationState } from '@stores';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userLocationState, mapCenterPointState } from '@stores';
 
 const { kakao } = window;
 const RADIUS = 2000;
@@ -24,19 +24,19 @@ function Map() {
   const { latitude, longitude } = useRecoilValue(userLocationState);
   const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [map, setMap] = useState(null);
+  const setCenterPoint = useSetRecoilState(mapCenterPointState);
   const [emergencyList, setEmergencyList] = useState([]);
   const [erRTavailbleBedList, setErRTavailbleBedList] = useState([]);
   const [locPosition, setLocPosition] = useState(defaultCenter);
   const [centerPosition, setCenterPosition] = useState(null);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
-  // console.log(latitude, longitude);
 
   /** 카카오 지도 생성 */
   const createMap = () => {
     const options = {
       // 지도 중심 좌표 (위도, 경도)
-      center: new kakao.maps.LatLng(latitude, longitude),
+      center: defaultCenter,
       //지도의 레벨(확대, 축소 정도)
       level: 8,
     };
@@ -52,6 +52,7 @@ function Map() {
     });
     setLocPosition(newLocPosition);
     setCenterPosition(newLocPosition);
+    
   };
 
   /** 응급실 기본정보 데이터 가져와 상태관리하는 함수 */
@@ -71,9 +72,9 @@ function Map() {
         STAGE1: stage1,
         STAGE2: stage2,
       });
-      if (result === undefined) return
-      const resultArray = Array.isArray(result) ? result : [result]
-      setErRTavailbleBedList(resultArray)
+      if (result === undefined) return;
+      const resultArray = Array.isArray(result) ? result : [result];
+      setErRTavailbleBedList(resultArray);
     } catch (error) {
       console.error(error);
     }
@@ -172,8 +173,9 @@ function Map() {
 
   /** 중심 위치 변경 시 위도, 경도 받아옴 */
   const handleCenterChange = () => {
-    const latlng = map.getCenter();
-    setCenterPosition(latlng);
+    const latLngPoint = map.getCenter();
+    setCenterPosition(latLngPoint)
+    setCenterPoint({latitude:latLngPoint.Ma, longitude:latLngPoint.La})
   };
 
   // 첫 렌더링 시 지도 생성
