@@ -11,13 +11,13 @@ import {
 
 import { getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   userLocationState,
   mapCenterPointState,
   sortedErsWithRadiusState,
   radiusState,
-  ersPaginationState
+  ersPaginationState,
 } from '@stores';
 import { KM_TO_M_UNIT, ERS_CNT_PER_PAGE } from '@constants';
 
@@ -38,6 +38,7 @@ function Map() {
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
   const ersPagination = useRecoilValue(ersPaginationState);
+  const resetPagination = useResetRecoilState(ersPaginationState);
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -131,11 +132,12 @@ function Map() {
     setErMarkers(newErMarkers);
   };
 
-  /** 중심 위치 변경 시 위도, 경도 받아옴 */
+  /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
   const handleCenterChange = () => {
     const latLngPoint = map.getCenter();
     setCenterPosition(latLngPoint);
     setCenterPoint({ latitude: latLngPoint.Ma, longitude: latLngPoint.La });
+    resetPagination();
   };
 
   // 첫 렌더링 시 지도 생성
