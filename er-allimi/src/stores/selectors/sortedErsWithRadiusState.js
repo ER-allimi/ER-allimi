@@ -14,12 +14,12 @@ const sortedErsWithRadiusState = selector({
     let sortedErsWithRadius;
     switch (sorting) {
       case SORTING_DISTANCE: // 거리에 따라 오름차순 정렬
-        sortedErsWithRadius = ersWithRadius.sort(
+        sortedErsWithRadius = [...ersWithRadius].sort(
           (a, b) => a.distanceFromLocation - b.distanceFromLocation,
         );
         break;
       case SORTING_AVAILABLE_BED: // (입원실 일반) 가용 병상 개수에 따라 내림차순 정렬
-        sortedErsWithRadius = ersWithRadius.sort((a, b) => {
+        sortedErsWithRadius = [...ersWithRadius].sort((a, b) => {
           b.availableBedInfo.hvgc - a.availableBedInfo.hvgc;
         });
         break;
