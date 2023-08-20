@@ -4,3 +4,4 @@ export { sortingState } from './sortingState';
 export { mapCenterPointState } from './mapCenterPointState';
 export { ersListState } from './ersListState';
 export { ersRTavailableBedState } from './ersRTavailableBedState';
+export { ersPaginationState } from './ersPaginationState';

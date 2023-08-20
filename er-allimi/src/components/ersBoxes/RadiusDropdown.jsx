@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import { Dropdown } from '@components';
+import { radiusState, ersPaginationState } from '@stores';
 
 function RadiusDropdown({ className }) {
-  const [select, setSelect] = useState(-1);
+  const [radius, setRadius] = useRecoilState(radiusState);
+  const setErsPagination = useSetRecoilState(ersPaginationState);
 
   const data = [
     { label: '2km', value: 2 },
@@ -13,7 +15,8 @@ function RadiusDropdown({ className }) {
   ];
 
   const handleOptionClick = (idx) => {
-    setSelect(idx);
+    setRadius(data[idx].value);
+    setErsPagination(1);
   };
 
   const StyledDropdown = styled(Dropdown)`
@@ -24,7 +27,7 @@ function RadiusDropdown({ className }) {
     <StyledDropdown
       label="반경"
       data={data}
-      select={select}
+      select={data.findIndex((item) => item.value === radius)}
       handleOptionClick={handleOptionClick}
       className={className}
     />

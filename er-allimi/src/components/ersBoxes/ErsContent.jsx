@@ -1,7 +1,16 @@
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
-import { Button, ErsList, RadiusDropdown, ErsPagination } from '@components';
+import {
+  SortingButtons,
+  ErsList,
+  RadiusDropdown,
+  ErsPagination,
+} from '@components';
+import { sortedErsWithRadiusState } from '@stores';
 
 function ErsContent() {
+  const data = useRecoilValue(sortedErsWithRadiusState);
+
   const StyledErsContent = styled.div`
     width: 100%;
     height: 100%;
@@ -20,23 +29,6 @@ function ErsContent() {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
-  `;
-
-  const SortingButtons = styled.div`
-    display: flex;
-    align-items: center;
-
-    button {
-      margin-right: 0.5rem;
-
-      @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-        font-size: 12px;
-      }
-
-      @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-        font-size: 11px;
-      }
-    }
   `;
 
   const StyledRadiusDropdown = styled(RadiusDropdown)`
@@ -76,16 +68,9 @@ function ErsContent() {
 
   return (
     <StyledErsContent>
-      <Title>내 위치 주변 응급실 (15)</Title>
+      <Title>내 위치 주변 응급실 ({data.length})</Title>
       <Utils>
-        <SortingButtons>
-          <Button color="gray" round="lg">
-            거리순
-          </Button>
-          <Button color="gray" round="lg" outline>
-            가용 병상 개수 순
-          </Button>
-        </SortingButtons>
+        <SortingButtons />
         <StyledRadiusDropdown />
       </Utils>
       <StyledErsList />

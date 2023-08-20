@@ -14,3 +14,4 @@ export { IoLocationSharp, IoCloseSharp } from 'react-icons/io5';
 export { MdOutlineInsertChartOutlined } from 'react-icons/md';
 export { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 export { BsFillCircleFill } from 'react-icons/bs';
+export { PiArrowBendUpLeftBold } from 'react-icons/pi';

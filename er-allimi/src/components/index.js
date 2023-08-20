@@ -12,7 +12,8 @@ export {
   ViewButton,
   ErsContent,
   ErsMovingBox,
-  PostCodeButton
+  PostCodeButton,
+  SortingButtons,
 } from './ersBoxes';
 
 export {
@@ -46,9 +47,9 @@ export {
   AiTwotoneAlert,
   IoCloseSharp,
   FaBed,
-  BiBody
+  BiBody,
+  PiArrowBendUpLeftBold,
 } from './icons';
-
 
 export {
   CurrentLocationButton,
