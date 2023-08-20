@@ -20,6 +20,7 @@ export { Dropdown } from './ui';
 export { Pagination } from './ui';
 export { Toggle } from './ui';
 export { MovingBox } from './ui';
+export { ClosedBox } from './ui';
 
 export { BiCurrentLocation } from './icons';
 export { GrMapLocation } from './icons';
@@ -37,6 +38,10 @@ export { MdOutlineInsertChartOutlined } from './icons';
 export { VscTriangleDown } from './icons';
 export { VscTriangleUp } from './icons';
 export { BsFillCircleFill } from './icons';
+export { AiTwotoneAlert } from './icons';
+export { IoCloseSharp } from './icons';
+export { FaBed } from './icons';
+export { BiBody } from './icons';
 
 export { CurrentLocationButton } from './map';
 export { ZoomInButton } from './map';
@@ -44,3 +49,14 @@ export { ZoomOutButton } from './map';
 export { CurrentLocationOverlay } from './map';
 export { ErMarkerOverlay } from './map';
 export { InfoWindowOverlay } from './map';
+
+export {
+  HpMessageItem,
+  HpMessageList,
+  HpMovingBox,
+  HpInfoBox,
+  HpMessageBox,
+  HpRtErAvailableBedBox,
+  HpRtHrAvailableBedBox,
+  HpSrIIIBox,
+} from './hpDetailBoxes';

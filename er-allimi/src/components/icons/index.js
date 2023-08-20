@@ -1,16 +1,16 @@
-export { BiCurrentLocation } from 'react-icons/bi';
+export {
+  BiCurrentLocation,
+  BiSolidPhone,
+  BiSolidDownArrow,
+  BiSolidUpArrow,
+  BiBody,
+} from 'react-icons/bi';
 export { GrMapLocation } from 'react-icons/gr';
-export { FaMapMarkedAlt } from 'react-icons/fa';
-export { AiOutlineInfoCircle } from 'react-icons/ai';
+export { FaMapMarkedAlt, FaMapMarker, FaBed } from 'react-icons/fa';
+export { AiOutlineInfoCircle, AiTwotoneAlert,  } from 'react-icons/ai';
 export { RxHamburgerMenu } from 'react-icons/rx';
-export { AiOutlinePlus } from 'react-icons/ai';
-export { AiOutlineMinus } from 'react-icons/ai';
-export { IoLocationSharp } from 'react-icons/io5';
-export { FaMapMarker } from 'react-icons/fa';
-export { BiSolidPhone } from 'react-icons/bi';
-export { BiSolidDownArrow } from 'react-icons/bi';
-export { BiSolidUpArrow } from 'react-icons/bi';
+export { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
+export { IoLocationSharp, IoCloseSharp } from 'react-icons/io5';
 export { MdOutlineInsertChartOutlined } from 'react-icons/md';
-export { VscTriangleDown } from 'react-icons/vsc';
-export { VscTriangleUp } from 'react-icons/vsc';
+export { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
 export { BsFillCircleFill } from 'react-icons/bs';
