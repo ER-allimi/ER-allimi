@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Pagination } from '@components';
+import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
+import { ERS_CNT_PER_PAGE } from '@constants';
 
 function ErsPagination({ className }) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const sortedErsWithRadius = useRecoilValue(sortedErsWithRadiusState);
+  const [currentPage, setCurrentPage] = useRecoilState(ersPaginationState);
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
@@ -11,8 +14,9 @@ function ErsPagination({ className }) {
 
   return (
     <Pagination
-      totCnt={15}
+      totCnt={sortedErsWithRadius.length}
       currentPage={currentPage}
+      cntPerPage={ERS_CNT_PER_PAGE}
       handlePageClick={handlePageClick}
       className={className}
     />
