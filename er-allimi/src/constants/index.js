@@ -6,3 +6,4 @@ export {
   DEFAULT_ADDRESS,
   DEFAULT_ROAD_ADDRESS,
 } from './defaultLocation';
+export { ERS_CNT_PER_PAGE } from './pagination';

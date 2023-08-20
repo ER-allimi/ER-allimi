@@ -18,9 +18,15 @@ const sortedErsWithRadiusState = selector({
           (a, b) => a.distanceFromLocation - b.distanceFromLocation,
         );
         break;
-      case SORTING_AVAILABLE_BED: // (입원실 일반) 가용 병상 개수에 따라 내림차순 정렬
+      case SORTING_AVAILABLE_BED: // (응급실 일반) 가용 병상 개수에 따라 내림차순 정렬
         sortedErsWithRadius = [...ersWithRadius].sort((a, b) => {
-          b.availableBedInfo.hvgc - a.availableBedInfo.hvgc;
+          const aInfo = a.availableBedInfo?.hvec;
+          const bInfo = b.availableBedInfo?.hvec;
+
+          if (!aInfo) return 1; // 젤 끝에 위치
+          if (!bInfo) return -1; // 젤 끝에 위치
+
+          return bInfo - aInfo;
         });
         break;
       default:

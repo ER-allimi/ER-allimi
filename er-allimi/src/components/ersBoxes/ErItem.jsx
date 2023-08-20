@@ -1,12 +1,14 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { IoLocationSharp, BiSolidPhone } from '@components';
-import { getPathHospitalDetail } from '@utils';
+import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
 
-function ErItem() {
+function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
   const handlePhoneNumberClick = () => {
     navigator.clipboard
-      .writeText('054-532-5001')
+      .writeText(hpInfo.dutyTel3)
       .then(() => {
         alert('응급실 전화번호가 복사되었습니다.');
       })
@@ -17,7 +19,7 @@ function ErItem() {
 
   const handleAddressClick = () => {
     navigator.clipboard
-      .writeText('경상북도 상주시 냉림서성길 7 (냉림동)')
+      .writeText(hpInfo.dutyAddr)
       .then(() => {
         alert('응급실 주소가 복사되었습니다.');
       })
@@ -30,33 +32,44 @@ function ErItem() {
     <StyledErItem>
       <Link
         to={getPathHospitalDetail({
-          hospitalId: 1,
-          stage1: '서울특별시',
-          stage2: '강남구',
+          hospitalId: hpInfo.hpid,
         })}
       >
-        <HpName>의료법인삼백의료재단상주성모병원</HpName>
+        <HpName>
+          {order}. {hpInfo.dutyName}
+        </HpName>
       </Link>
-      <ErClassName>지역응급의료기관 {`>`} 종합병원</ErClassName>
-      <Body>
+      <ErClassName>{hpInfo.dutyEmclsName}</ErClassName>
+      <Body
+        availableBed={availableBedInfo?.hvec}
+        totalBed={availableBedInfo?.hvs01}
+      >
         <div>
           <IoLocationSharp />
-          <p onClick={handleAddressClick}>
-            경상북도 상주시 냉림서성길 7 (냉림동)
-          </p>
+          <p onClick={handleAddressClick}>{hpInfo.dutyAddr}</p>
         </div>
         <div>
           <BiSolidPhone />
-          <p onClick={handlePhoneNumberClick}>054-532-5001</p>
+          <p onClick={handlePhoneNumberClick}>{hpInfo.dutyTel3}</p>
         </div>
         <div>
-          <span className="color"></span>
-          <p>
-            가용 병상 수&nbsp;
-            <span className="highlight">7</span>
-            &nbsp;/&nbsp;전체&nbsp;
-            <span className="highlight">15</span>
-          </p>
+          {availableBedInfo ? (
+            <>
+              <span className="color"></span>
+              가용 병상 수&nbsp;
+              <span className="highlight">
+                {availableBedInfo.hvec > 0
+                  ? availableBedInfo.hvec
+                  : `0 (초과 ${-availableBedInfo.hvec})`}
+              </span>
+              &nbsp;/&nbsp;전체&nbsp;
+              <span className="highlight">{availableBedInfo.hvs01}</span>
+            </>
+          ) : (
+            <span className="no-info-text">
+              * 응급실 가용 병상 정보를 제공하지 않음
+            </span>
+          )}
         </div>
       </Body>
     </StyledErItem>
@@ -72,8 +85,17 @@ const StyledErItem = styled.div`
   }
 `;
 
+const shortening = css`
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
+`;
+
 const HpName = styled.h5`
   font-size: 14px;
+
+  ${shortening}
 
   &:hover {
     text-decoration: underline;
@@ -92,6 +114,8 @@ const ErClassName = styled.p`
   font-size: 11px;
   color: ${({ theme }) => theme.colors.gray};
 
+  ${shortening}
+
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     font-size: 10px;
   }
@@ -102,11 +126,8 @@ const ErClassName = styled.p`
 `;
 
 const Body = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2);
-  grid-template-columns: repeat(2);
-  align-content: center;
   margin-top: 0.5rem;
+  width: 100%;
   line-height: 1.5rem;
   font-size: 12px;
 
@@ -125,20 +146,21 @@ const Body = styled.div`
   }
 
   p {
+    width: 100%;
     line-height: inherit;
     font-size: inherit;
+
+    ${shortening}
   }
 
   div {
     display: flex;
     align-items: center;
+    width: 100%;
     font-size: inherit;
   }
 
   div:nth-of-type(1) {
-    grid-row: 1/2;
-    grid-column: 1/3;
-
     &:hover {
       text-decoration: underline;
       cursor: pointer;
@@ -146,9 +168,6 @@ const Body = styled.div`
   }
 
   div:nth-of-type(2) {
-    grid-row: 2/3;
-    grid-column: 1/2;
-
     &:hover {
       text-decoration: underline;
       cursor: pointer;
@@ -156,27 +175,24 @@ const Body = styled.div`
   }
 
   div:nth-of-type(3) {
-    grid-row: 2/3;
-    grid-column: 2/3;
-    justify-self: right;
+    justify-content: right;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.grayDark};
 
     .color {
       display: inline-block;
-      margin-right: 0.2rem;
+      margin-right: 0.4rem;
       width: 1rem;
       height: 1rem;
-      background-color: ${({ theme }) => theme.colors.yellow};
+      background-color: ${({ availableBed, totalBed }) =>
+        getErRTavailableBedByColor(availableBed, totalBed)};
       border-radius: 50%;
-    }
-
-    p {
-      font-weight: 500;
-      color: ${({ theme }) => theme.colors.grayDark};
     }
 
     .highlight {
       font-size: 13px;
       font-weight: 700;
+      color: ${({ theme }) => theme.colors.grayDarker};
 
       @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
         font-size: 12px;
@@ -186,7 +202,18 @@ const Body = styled.div`
         font-size: 11px;
       }
     }
+
+    .no-info-text {
+      line-height: inherit;
+      font-size: 10px;
+      color: ${({ theme }) => theme.colors.gray};
+    }
   }
 `;
+
+ErItem.propTypes = {
+  item: PropTypes.object,
+  order: PropTypes.number,
+};
 
 export default ErItem;
