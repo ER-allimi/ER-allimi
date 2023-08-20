@@ -17,10 +17,11 @@ import {
   mapCenterPointState,
   sortedErsWithRadiusState,
   radiusState,
+  ersPaginationState
 } from '@stores';
+import { KM_TO_M_UNIT, ERS_CNT_PER_PAGE } from '@constants';
 
 const { kakao } = window;
-const KM_TO_M_UNIT = 1000;
 const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
@@ -36,6 +37,7 @@ function Map() {
   const [centerPosition, setCenterPosition] = useState(defaultCenter);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
+  const ersPagination = useRecoilValue(ersPaginationState);
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -61,13 +63,17 @@ function Map() {
   };
 
   /** 현재 위치에서 반경 내에 있는 응급실 마커 그려줌 */
-  const createNearByErMarker = async () => {
+  const createNearByErMarker = () => {
     //모든 마커 지우기
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
 
-    const nearByErCount = sortedErsWithRadius.length;
-    const newErMarkers = sortedErsWithRadius.map((item, idx) => {
+    const start = (ersPagination - 1) * ERS_CNT_PER_PAGE;
+    const end = ersPagination * ERS_CNT_PER_PAGE;
+    const sortedErsPerPage = sortedErsWithRadius.slice(start, end);
+
+    const nearByErCount = sortedErsPerPage.length;
+    const newErMarkers = sortedErsPerPage.map((item, idx) => {
       const hpInfo = item.hpInfo;
       const availableBedInfo = item.availableBedInfo;
       const name = hpInfo.dutyName;
@@ -83,7 +89,7 @@ function Map() {
           : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
-        <ErMarkerOverlay markerColor={markerColor} order={idx + 1} />,
+        <ErMarkerOverlay markerColor={markerColor} order={start + idx + 1} />,
       );
 
       const newMarker = new kakao.maps.CustomOverlay({
@@ -163,7 +169,7 @@ function Map() {
 
       setCircleOverlay(newCircleOverlay);
     }
-  }, [map, centerPosition, radius]);
+  }, [map, centerPosition, radius, ersPagination]);
 
   return (
     <MapContainer ref={mapContainer}>
