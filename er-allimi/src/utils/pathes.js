@@ -1,5 +1,3 @@
-const getPathHospitalDetail = ({ hospitalId, stage1, stage2 }) => `/hospital/${stage1}/${stage2}/${hospitalId}`;
+const getPathHospitalDetail = ({ hospitalId }) => `/hospital/${hospitalId}`;
 
-export { 
-    getPathHospitalDetail,
- }
+export { getPathHospitalDetail };
