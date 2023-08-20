@@ -8,8 +8,8 @@ import {
   ErMarkerOverlay,
   InfoWindowOverlay,
 } from '@components';
-
-import { getErRTavailableBedByColor } from '@utils';
+import { useNavigate } from 'react-router-dom';
+import { getErRTavailableBedByColor, getPathHospitalDetail } from '@utils';
 import { renderToString } from 'react-dom/server';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
@@ -39,6 +39,7 @@ function Map() {
   const [erMarkers, setErMarkers] = useState([]);
   const ersPagination = useRecoilValue(ersPaginationState);
   const resetPagination = useResetRecoilState(ersPaginationState);
+  const navigate = useNavigate();
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -120,6 +121,13 @@ function Map() {
       const lastElement = markerDiv[markerDiv.length - 1];
 
       if (lastElement) {
+        lastElement.addEventListener('click', () => {
+          navigate(
+            getPathHospitalDetail({
+              hospitalId: hpInfo.hpid,
+            }),
+          );
+        });
         lastElement.addEventListener('mouseover', () => {
           newInfoWindow.setMap(map);
         });
@@ -157,19 +165,19 @@ function Map() {
     createMap();
   }, [latitude, longitude]);
 
-// 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
-useEffect(() => {
-  if (!map) return;
-  kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-  createNearByErMarker();
+  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
+  useEffect(() => {
+    if (!map) return;
+    kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+    createNearByErMarker();
 
-  // 기존 circle 오버레이 제거
-  circleOverlay && circleOverlay.setMap(null);
+    // 기존 circle 오버레이 제거
+    circleOverlay && circleOverlay.setMap(null);
 
-  newCircleOverlay.setMap(map);
+    newCircleOverlay.setMap(map);
 
-  setCircleOverlay(newCircleOverlay);
-}, [map, centerPosition, radius, ersPagination]);
+    setCircleOverlay(newCircleOverlay);
+  }, [map, centerPosition, radius, ersPagination]);
 
   return (
     <MapContainer ref={mapContainer}>
