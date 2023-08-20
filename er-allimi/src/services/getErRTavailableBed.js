@@ -10,6 +10,7 @@ const getErRTavailableBed = async ({ STAGE1, STAGE2 }) => {
         serviceKey,
         STAGE1,
         STAGE2,
+        numOfRows: 522,
       },
     });
     return response.data.response.body.items?.item;
