@@ -7,3 +7,4 @@ export {
   DEFAULT_ROAD_ADDRESS,
 } from './defaultLocation';
 export { ERS_CNT_PER_PAGE } from './pagination';
+export { KM_TO_M_UNIT } from './kmToMUnit';

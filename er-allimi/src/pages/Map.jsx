@@ -11,16 +11,17 @@ import {
 
 import { getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   userLocationState,
   mapCenterPointState,
   sortedErsWithRadiusState,
   radiusState,
+  ersPaginationState,
 } from '@stores';
+import { KM_TO_M_UNIT, ERS_CNT_PER_PAGE } from '@constants';
 
 const { kakao } = window;
-const KM_TO_M_UNIT = 1000;
 const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
@@ -36,6 +37,8 @@ function Map() {
   const [centerPosition, setCenterPosition] = useState(defaultCenter);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
+  const ersPagination = useRecoilValue(ersPaginationState);
+  const resetPagination = useResetRecoilState(ersPaginationState);
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -61,13 +64,17 @@ function Map() {
   };
 
   /** 현재 위치에서 반경 내에 있는 응급실 마커 그려줌 */
-  const createNearByErMarker = async () => {
+  const createNearByErMarker = () => {
     //모든 마커 지우기
     erMarkers.forEach((marker) => marker.setMap(null));
     setErMarkers([]);
 
-    const nearByErCount = sortedErsWithRadius.length;
-    const newErMarkers = sortedErsWithRadius.map((item, idx) => {
+    const start = (ersPagination - 1) * ERS_CNT_PER_PAGE;
+    const end = ersPagination * ERS_CNT_PER_PAGE;
+    const sortedErsPerPage = sortedErsWithRadius.slice(start, end);
+
+    const nearByErCount = sortedErsPerPage.length;
+    const newErMarkers = sortedErsPerPage.map((item, idx) => {
       const hpInfo = item.hpInfo;
       const availableBedInfo = item.availableBedInfo;
       const name = hpInfo.dutyName;
@@ -83,7 +90,7 @@ function Map() {
           : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
-        <ErMarkerOverlay markerColor={markerColor} order={idx + 1} />,
+        <ErMarkerOverlay markerColor={markerColor} order={start + idx + 1} />,
       );
 
       const newMarker = new kakao.maps.CustomOverlay({
@@ -125,45 +132,44 @@ function Map() {
     setErMarkers(newErMarkers);
   };
 
-  /** 중심 위치 변경 시 위도, 경도 받아옴 */
+  /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
   const handleCenterChange = () => {
     const latLngPoint = map.getCenter();
     setCenterPosition(latLngPoint);
     setCenterPoint({ latitude: latLngPoint.Ma, longitude: latLngPoint.La });
+    resetPagination();
   };
+
+  // 반경 오버레이
+  const newCircleOverlay = new kakao.maps.Circle({
+    radius: radius * KM_TO_M_UNIT,
+    center: centerPosition,
+    strokeWeight: 1,
+    strokeColor: '#a3a3a3',
+    strokeOpacity: 0.27,
+    strokeStyle: 'solid',
+    fillColor: '#a3a3a3',
+    fillOpacity: 0.2,
+  });
 
   // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
   }, [latitude, longitude]);
 
-  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
-  useEffect(() => {
-    if (map) {
-      kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-      createNearByErMarker();
+// 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
+useEffect(() => {
+  if (!map) return;
+  kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+  createNearByErMarker();
 
-      // 기존 circle 오버레이 제거
-      if (circleOverlay) {
-        circleOverlay.setMap(null);
-      }
+  // 기존 circle 오버레이 제거
+  circleOverlay && circleOverlay.setMap(null);
 
-      // 새로운 circle 오버레이 생성 및 추가
-      const newCircleOverlay = new kakao.maps.Circle({
-        map,
-        radius: radius * KM_TO_M_UNIT,
-        center: centerPosition,
-        strokeWeight: 1,
-        strokeColor: '#a3a3a3',
-        strokeOpacity: 0.27,
-        strokeStyle: 'solid',
-        fillColor: '#a3a3a3',
-        fillOpacity: 0.2,
-      });
+  newCircleOverlay.setMap(map);
 
-      setCircleOverlay(newCircleOverlay);
-    }
-  }, [map, centerPosition, radius]);
+  setCircleOverlay(newCircleOverlay);
+}, [map, centerPosition, radius, ersPagination]);
 
   return (
     <MapContainer ref={mapContainer}>
