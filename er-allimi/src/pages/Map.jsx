@@ -140,38 +140,36 @@ function Map() {
     resetPagination();
   };
 
+  // 반경 오버레이
+  const newCircleOverlay = new kakao.maps.Circle({
+    radius: radius * KM_TO_M_UNIT,
+    center: centerPosition,
+    strokeWeight: 1,
+    strokeColor: '#a3a3a3',
+    strokeOpacity: 0.27,
+    strokeStyle: 'solid',
+    fillColor: '#a3a3a3',
+    fillOpacity: 0.2,
+  });
+
   // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
   }, [latitude, longitude]);
 
-  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
-  useEffect(() => {
-    if (map) {
-      kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-      createNearByErMarker();
+// 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
+useEffect(() => {
+  if (!map) return;
+  kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+  createNearByErMarker();
 
-      // 기존 circle 오버레이 제거
-      if (circleOverlay) {
-        circleOverlay.setMap(null);
-      }
+  // 기존 circle 오버레이 제거
+  circleOverlay && circleOverlay.setMap(null);
 
-      // 새로운 circle 오버레이 생성 및 추가
-      const newCircleOverlay = new kakao.maps.Circle({
-        map,
-        radius: radius * KM_TO_M_UNIT,
-        center: centerPosition,
-        strokeWeight: 1,
-        strokeColor: '#a3a3a3',
-        strokeOpacity: 0.27,
-        strokeStyle: 'solid',
-        fillColor: '#a3a3a3',
-        fillOpacity: 0.2,
-      });
+  newCircleOverlay.setMap(map);
 
-      setCircleOverlay(newCircleOverlay);
-    }
-  }, [map, centerPosition, radius, ersPagination]);
+  setCircleOverlay(newCircleOverlay);
+}, [map, centerPosition, radius, ersPagination]);
 
   return (
     <MapContainer ref={mapContainer}>
