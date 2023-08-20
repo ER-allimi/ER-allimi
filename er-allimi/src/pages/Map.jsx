@@ -20,6 +20,7 @@ import {
 } from '@stores';
 
 const { kakao } = window;
+const KM_TO_M_UNIT = 1000;
 const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
@@ -150,7 +151,7 @@ function Map() {
       // 새로운 circle 오버레이 생성 및 추가
       const newCircleOverlay = new kakao.maps.Circle({
         map,
-        radius: radius,
+        radius: radius * KM_TO_M_UNIT,
         center: centerPosition,
         strokeWeight: 1,
         strokeColor: '#a3a3a3',
