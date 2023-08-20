@@ -1,3 +1,4 @@
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import {
   SortingButtons,
@@ -5,8 +6,11 @@ import {
   RadiusDropdown,
   ErsPagination,
 } from '@components';
+import { sortedErsWithRadiusState } from '@stores';
 
 function ErsContent() {
+  const data = useRecoilValue(sortedErsWithRadiusState);
+
   const StyledErsContent = styled.div`
     width: 100%;
     height: 100%;
@@ -64,7 +68,7 @@ function ErsContent() {
 
   return (
     <StyledErsContent>
-      <Title>내 위치 주변 응급실 (15)</Title>
+      <Title>내 위치 주변 응급실 ({data.length})</Title>
       <Utils>
         <SortingButtons />
         <StyledRadiusDropdown />
