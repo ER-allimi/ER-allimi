@@ -4,28 +4,23 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { IoLocationSharp, BiSolidPhone } from '@components';
 import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
+import { copyText } from '@utils';
 
 function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
   const handlePhoneNumberClick = () => {
-    navigator.clipboard
-      .writeText(hpInfo.dutyTel3)
-      .then(() => {
-        alert('응급실 전화번호가 복사되었습니다.');
-      })
-      .catch((err) => {
-        alert('[error] 응급실 전화번호가 복사되지 못했습니다.');
-      });
+    copyText({
+      text: hpInfo.dutyTel3,
+      successMessage: '응급실 전화번호가 복사되었습니다.',
+      errorMessage: '[실패] 응급실 전화번호가 복사되지 못했습니다.',
+    });
   };
 
   const handleAddressClick = () => {
-    navigator.clipboard
-      .writeText(hpInfo.dutyAddr)
-      .then(() => {
-        alert('응급실 주소가 복사되었습니다.');
-      })
-      .catch((err) => {
-        alert('[error] 응급실 주소가 복사되지 못했습니다.');
-      });
+    copyText({
+      text: hpInfo.dutyAddr,
+      successMessage: '응급실 주소가 복사되었습니다.',
+      errorMessage: '[실패] 응급실 주소가 복사되지 못했습니다.',
+    });
   };
 
   return (
