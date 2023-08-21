@@ -89,10 +89,9 @@ function Map() {
       const availableBed = availableBedInfo ? availableBedInfo.hvec : null;
       const totalBed = availableBedInfo ? availableBedInfo.hvs01 : null;
 
-      const markerColor =
-        availableBed && totalBed
-          ? getErRTavailableBedByColor(availableBed, totalBed)
-          : DEFAULT_MARKER_COLOR;
+      const markerColor = totalBed
+        ? getErRTavailableBedByColor(availableBed, totalBed)
+        : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
         <ErMarkerOverlay markerColor={markerColor} order={start + idx + 1} />,
@@ -167,7 +166,6 @@ function Map() {
   // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
-
   }, [latitude, longitude]);
 
   // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성

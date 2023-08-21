@@ -14,6 +14,9 @@ export {
   ErsMovingBox,
   PostCodeButton,
   SortingButtons,
+  EmptyBox,
+  RefreshButton,
+  ErrorMessage,
 } from './ersBoxes';
 
 export {
@@ -24,7 +27,7 @@ export {
   Pagination,
   Toggle,
   MovingBox,
-  ClosedBox
+  ClosedBox,
 } from './ui';
 
 export {
@@ -49,6 +52,10 @@ export {
   FaBed,
   BiBody,
   PiArrowBendUpLeftBold,
+  TbNoteOff,
+  TbHomeOff,
+  BiSolidError,
+  MdLocationOff,
 } from './icons';
 
 export {
@@ -57,9 +64,8 @@ export {
   ZoomOutButton,
   CurrentLocationOverlay,
   ErMarkerOverlay,
-  InfoWindowOverlay
+  InfoWindowOverlay,
 } from './map';
-
 
 export {
   HpMessageItem,

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import styled from '@emotion/styled';
 import { ThemeProvider, Global, css } from '@emotion/react';
 import { theme, globalStyles } from '@styles';
@@ -57,6 +58,7 @@ function App() {
           <Outlet />
         </StyledOutlet>
       </StyledApp>
+      <Toaster position="top-center" reverseOrder={false} />
     </ThemeProvider>
   );
 }
