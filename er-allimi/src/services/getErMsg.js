@@ -11,7 +11,7 @@ const getErMsg = async ({ HPID }) => {
         HPID,
       },
     });
-    return response.data.response.body.items?.item;
+    return response.data.response.body.items?.item || '1';
   } catch (error) {
     console.error(error);
   }
