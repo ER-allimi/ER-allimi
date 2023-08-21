@@ -15,7 +15,7 @@ function InfoWindowOverlay({ name, availableBed, totalBed, markerColor }) {
     <div className={styles.infoWindowContainer}>
       <div className={styles.infoWindowContent}>
         <h5 className={styles.hpName}>{name}</h5>
-        {availableBed && totalBed && (
+        {totalBed && (
           <div className={styles.bedData}>
             <BsFillCircleFill size={15} color={markerColor} />
             <div className={styles.bedDataText}>

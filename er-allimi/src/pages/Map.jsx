@@ -90,10 +90,9 @@ function Map() {
       const availableBed = availableBedInfo ? availableBedInfo.hvec : null;
       const totalBed = availableBedInfo ? availableBedInfo.hvs01 : null;
 
-      const markerColor =
-        availableBed && totalBed
-          ? getErRTavailableBedByColor(availableBed, totalBed)
-          : DEFAULT_MARKER_COLOR;
+      const markerColor = totalBed
+        ? getErRTavailableBedByColor(availableBed, totalBed)
+        : DEFAULT_MARKER_COLOR;
 
       const styledMarker = renderToString(
         <ErMarkerOverlay markerColor={markerColor} order={start + idx + 1} />,
@@ -169,8 +168,7 @@ function Map() {
   useEffect(() => {
     createMap();
     // 디테일 페이지인지 확인(해당 병원이 지도 중심으로 가기 위함)
-    const hpIdDetail = getIpFromPathHospitalDetail(location.pathname)
-
+    const hpIdDetail = getIpFromPathHospitalDetail(location.pathname);
   }, [latitude, longitude]);
 
   // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
