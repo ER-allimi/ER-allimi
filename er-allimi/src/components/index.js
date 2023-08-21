@@ -15,6 +15,8 @@ export {
   PostCodeButton,
   SortingButtons,
   EmptyBox,
+  RefreshButton,
+  ErrorMessage,
 } from './ersBoxes';
 
 export {
@@ -52,6 +54,8 @@ export {
   PiArrowBendUpLeftBold,
   TbNoteOff,
   TbHomeOff,
+  BiSolidError,
+  MdLocationOff,
 } from './icons';
 
 export {

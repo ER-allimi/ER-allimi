@@ -1,6 +1,8 @@
 import { useSetRecoilState } from 'recoil';
+import toast from 'react-hot-toast';
 import { userLocationState, mapCenterPointState } from '@stores';
 import { getAddressByCoor } from '@utils';
+import { ErrorMessage, MdLocationOff } from '@components';
 
 // 사용자의 위치 정보를 가져와 recoil에 저장
 function useGetUserLocation() {
@@ -30,9 +32,13 @@ function useGetUserLocation() {
   };
 
   const handleGetCurPosFail = (err) => {
-    alert(
-      `사용자의 위치 정보를 가져오지 못했습니다.\n'응급실알리미'에서 위치 정보를 가져올 수 있게, \n설정에서 위치 접근을 허용해주세요.`,
-    );
+    toast(() => (
+      <ErrorMessage
+        content="[실패] 사용자의 위치 정보 가져오기"
+        icon={<MdLocationOff />}
+        iconColor="yellowDark"
+      />
+    ));
   };
 
   return { handleGetCurPosSuccess, handleGetCurPosFail };
