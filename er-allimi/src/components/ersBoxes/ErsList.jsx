@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
-import { ErItem } from '@components';
+import { ErItem, EmptyBox } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
 
@@ -19,12 +19,15 @@ function ErsList({ className }) {
   const dataPerPage = data.slice(start, end);
 
   const renderErItems =
-    dataPerPage &&
-    dataPerPage.map((item, idx) => {
-      return (
-        <ErItem key={item.hpInfo.hpid} item={item} order={start + idx + 1} />
-      );
-    });
+    dataPerPage.length === 0 ? (
+      <EmptyBox />
+    ) : (
+      dataPerPage.map((item, idx) => {
+        return (
+          <ErItem key={item.hpInfo.hpid} item={item} order={start + idx + 1} />
+        );
+      })
+    );
 
   return (
     <div className={className} ref={ersList}>
