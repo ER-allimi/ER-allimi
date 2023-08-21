@@ -17,6 +17,7 @@ export {
   EmptyBox,
   RefreshButton,
   ErrorMessage,
+  SuccessMessage,
 } from './ersBoxes';
 
 export {
@@ -56,6 +57,7 @@ export {
   TbHomeOff,
   BiSolidError,
   MdLocationOff,
+  BsCheckCircleFill,
 } from './icons';
 
 export {
@@ -76,4 +78,5 @@ export {
   HpRtErAvailableBedBox,
   HpRtHrAvailableBedBox,
   HpSrIIIBox,
+  HpInfoContent,
 } from './hpDetailBoxes';

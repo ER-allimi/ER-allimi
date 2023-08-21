@@ -14,3 +14,4 @@ export { default as SortingButtons } from './SortingButtons';
 export { default as EmptyBox } from './EmptyBox';
 export { default as RefreshButton } from './RefreshButton';
 export { default as ErrorMessage } from './ErrorMessage';
+export { default as SuccessMessage } from './SuccessMessage';
