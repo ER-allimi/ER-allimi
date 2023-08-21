@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
-import { Box } from '@components';
+import { Box, HpInfoContent } from '@components';
 
 function HpInfoBox({ className }) {
-  return <Box className={className}>병원 기본정보</Box>;
+  return (
+    <Box className={className}>
+      <HpInfoContent />
+    </Box>
+  );
 }
 
 HpInfoBox.propTypes = {
