@@ -12,7 +12,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import {
   getErRTavailableBedByColor,
   getPathHospitalDetail,
-  getIpFromPathHospitalDetail,
 } from '@utils';
 import { renderToString } from 'react-dom/server';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
@@ -168,8 +167,6 @@ function Map() {
   // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
-    // 디테일 페이지인지 확인(해당 병원이 지도 중심으로 가기 위함)
-    const hpIdDetail = getIpFromPathHospitalDetail(location.pathname)
 
   }, [latitude, longitude]);
 
