@@ -6,3 +6,4 @@ export { default as HpMessageBox } from './HpMessageBox';
 export { default as HpRtErAvailableBedBox } from './HpRtErAvailableBedBox';
 export { default as HpRtHrAvailableBedBox } from './HpRtHrAvailableBedBox';
 export { default as HpSrIIIBox } from './HpSrIIIBox';
+export { default as HpInfoContent } from './HpInfoContent';
