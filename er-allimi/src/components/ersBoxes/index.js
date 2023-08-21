@@ -11,3 +11,4 @@ export { default as ErsContent } from './ErsContent';
 export { default as ErsMovingBox } from './ErsMovingBox';
 export { default as PostCodeButton } from './PostCodeButton';
 export { default as SortingButtons } from './SortingButtons';
+export { default as EmptyBox } from './EmptyBox';
