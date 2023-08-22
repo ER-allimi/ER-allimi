@@ -9,4 +9,8 @@ export {
   targetHpIdState,
 } from './atoms';
 
-export { ersWithRadiusState, sortedErsWithRadiusState } from './selectors';
+export {
+  ersWithRadiusState,
+  sortedErsWithRadiusState,
+  hpDetailState,
+} from './selectors';
