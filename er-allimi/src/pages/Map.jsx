@@ -8,11 +8,8 @@ import {
   ErMarkerOverlay,
   InfoWindowOverlay,
 } from '@components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  getErRTavailableBedByColor,
-  getPathHospitalDetail,
-} from '@utils';
+import { useNavigate } from 'react-router-dom';
+import { getErRTavailableBedByColor, getPathHospitalDetail } from '@utils';
 import { renderToString } from 'react-dom/server';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
@@ -28,22 +25,22 @@ const { kakao } = window;
 const DEFAULT_MARKER_COLOR = '#222222';
 
 function Map() {
-  // 지도 표시될 HTML 요소
-  const mapContainer = useRef(null);
   const { latitude, longitude } = useRecoilValue(userLocationState);
-  const [map, setMap] = useState(null);
   const setCenterPoint = useSetRecoilState(mapCenterPointState);
   const sortedErsWithRadius = useRecoilValue(sortedErsWithRadiusState);
+  const ersPagination = useRecoilValue(ersPaginationState);
+  const resetPagination = useResetRecoilState(ersPaginationState);
+
+  // 지도 표시될 HTML 요소
+  const mapContainer = useRef(null);
+  const [map, setMap] = useState(null);
   const radius = useRecoilValue(radiusState);
   const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [locPosition, setLocPosition] = useState(defaultCenter);
   const [centerPosition, setCenterPosition] = useState(defaultCenter);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const [erMarkers, setErMarkers] = useState([]);
-  const ersPagination = useRecoilValue(ersPaginationState);
-  const resetPagination = useResetRecoilState(ersPaginationState);
   const navigate = useNavigate();
-  const location = useLocation();
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -96,6 +93,14 @@ function Map() {
       const styledMarker = renderToString(
         <ErMarkerOverlay markerColor={markerColor} order={start + idx + 1} />,
       );
+      const styledInfoWindow = renderToString(
+        <InfoWindowOverlay
+          name={name}
+          availableBed={availableBed}
+          totalBed={totalBed}
+          markerColor={markerColor}
+        />,
+      );
 
       const newMarker = new kakao.maps.CustomOverlay({
         position: new kakao.maps.LatLng(lat, lon),
@@ -105,42 +110,37 @@ function Map() {
         zIndex: nearByErCount - idx + 1,
       });
 
-      const styledInfoWindow = renderToString(
-        <InfoWindowOverlay
-          name={name}
-          availableBed={availableBed}
-          totalBed={totalBed}
-          markerColor={markerColor}
-        />,
-      );
       const newInfoWindow = new kakao.maps.CustomOverlay({
         content: styledInfoWindow,
         position: newMarker.getPosition(),
         yAnchor: 1,
         zIndex: nearByErCount + 1,
       });
-
-      const markerDiv = document.querySelectorAll('.markerHover');
-      const lastElement = markerDiv[markerDiv.length - 1];
-
-      if (lastElement) {
-        lastElement.addEventListener('click', () => {
-          navigate(
-            getPathHospitalDetail({
-              hospitalId: hpInfo.hpid,
-            }),
-          );
-        });
-        lastElement.addEventListener('mouseover', () => {
-          newInfoWindow.setMap(map);
-        });
-        lastElement.addEventListener('mouseout', () => {
-          newInfoWindow.setMap(null);
-        });
-      }
+      setupMarkerEventListeners(hpInfo.hpid, newInfoWindow);
       return newMarker;
     });
     setErMarkers(newErMarkers);
+  };
+
+  /** 마커의 클릭 및 호버 이벤트 리스너 설정 */
+  const setupMarkerEventListeners = (hospitalId, infoWindow) => {
+    const markerDiv = document.querySelectorAll('.markerHover');
+    const lastElement = markerDiv[markerDiv.length - 1];
+
+    if (!lastElement) return;
+    // 클릭 이벤트
+    lastElement.addEventListener('click', () => {
+      navigate(getPathHospitalDetail({ hospitalId }));
+    });
+
+    // 호버 이벤트
+    lastElement.addEventListener('mouseover', () => {
+      infoWindow.setMap(map);
+    });
+
+    lastElement.addEventListener('mouseout', () => {
+      infoWindow.setMap(null);
+    });
   };
 
   /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
@@ -181,6 +181,13 @@ function Map() {
 
     setCircleOverlay(newCircleOverlay);
   }, [map, centerPosition, radius, ersPagination]);
+
+  // useEffect(() => {
+  //   if (!map) return;
+  //   erMarkers.forEach((marker) => marker.setMap(null))
+  //   createNearByErMarker();
+
+  // }, [map, sortedErsWithRadius, ersPagination]);
 
   return (
     <MapContainer ref={mapContainer}>
