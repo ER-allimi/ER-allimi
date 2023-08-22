@@ -122,18 +122,17 @@ function Map() {
     setErMarkers(newErMarkers);
   };
 
-  /** 마커의 클릭 및 호버 이벤트 리스너 설정 */
+  /** 마커의 이벤트 리스너 설정 */
   const setupMarkerEventListeners = (hospitalId, infoWindow) => {
     const markerDiv = document.querySelectorAll('.markerHover');
     const lastElement = markerDiv[markerDiv.length - 1];
 
     if (!lastElement) return;
-    // 클릭 이벤트
+
     lastElement.addEventListener('click', () => {
       navigate(getPathHospitalDetail({ hospitalId }));
     });
 
-    // 호버 이벤트
     lastElement.addEventListener('mouseover', () => {
       infoWindow.setMap(map);
     });
