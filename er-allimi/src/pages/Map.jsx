@@ -15,9 +15,11 @@ import {
   mapCenterPointState,
   radiusState,
   ersPaginationState,
+  ersListState,
 } from '@stores';
 import { KM_TO_M_UNIT } from '@constants';
 import { useMarker } from '@hooks';
+import { css } from '@emotion/react';
 
 const { kakao } = window;
 
@@ -25,6 +27,7 @@ function Map() {
   const { latitude, longitude } = useRecoilValue(userLocationState);
   const setCenterPoint = useSetRecoilState(mapCenterPointState);
   const resetPagination = useResetRecoilState(ersPaginationState);
+  const ersList = useRecoilValue(ersListState);
 
   // 지도 표시될 HTML 요소
   const mapContainer = useRef(null);
@@ -34,10 +37,9 @@ function Map() {
   const [locPosition, setLocPosition] = useState(defaultCenter);
   const [centerPosition, setCenterPosition] = useState(defaultCenter);
   const [circleOverlay, setCircleOverlay] = useState(null);
-  const erMarkers = useMarker(map, setupMarkerEventListeners)
+  const erMarkers = useMarker(map, setupMarkerEventListeners);
   const navigate = useNavigate();
-  const hpIdParameter = useParams().hospitalId
-
+  const hpIdParameter = useParams().hospitalId;
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -61,9 +63,9 @@ function Map() {
     setCenterPosition(newLocPosition);
     setCenterPoint({ latitude, longitude });
   };
-  
+
   /** 마커의 이벤트 리스너 설정 */
-  function setupMarkerEventListeners(hospitalId, infoWindow)  {
+  function setupMarkerEventListeners(hospitalId, infoWindow) {
     const markerDiv = document.querySelectorAll('.markerHover');
     const lastElement = markerDiv[markerDiv.length - 1];
 
@@ -80,7 +82,7 @@ function Map() {
     lastElement.addEventListener('mouseout', () => {
       infoWindow.setMap(null);
     });
-  };
+  }
 
   /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
   const handleCenterChange = () => {
@@ -105,21 +107,33 @@ function Map() {
   // 첫 렌더링 시 지도 생성
   useEffect(() => {
     createMap();
-    
   }, [latitude, longitude]);
-  ``;
+
+  useEffect(() => {
+    if (!map) return;
+    if (!hpIdParameter) return;
+    if (ersList.length === 0) return;
+    const targetHp = ersList.find((item) => item.hpid === hpIdParameter);
+
+    const targetHpPosition = new kakao.maps.LatLng(
+      targetHp.wgs84Lat,
+      targetHp.wgs84Lon,
+    );
+    setCenterPosition(targetHpPosition);
+    setCenterPoint({ latitude: targetHp.wgs84Lat, longitude: targetHp.wgs84Lon });
+    map.setCenter(targetHpPosition)
+  }, [map, hpIdParameter]);
   // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
   useEffect(() => {
     if (!map) return;
 
     kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-    erMarkers.map(marker => marker.setMap(map))
+    erMarkers.map((marker) => marker.setMap(map));
 
     // 기존 circle 오버레이 제거
     circleOverlay && circleOverlay.setMap(null);
     newCircleOverlay.setMap(map);
     setCircleOverlay(newCircleOverlay);
-
   }, [map, centerPosition, radius, erMarkers]);
 
   return (
