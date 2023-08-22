@@ -8,9 +8,8 @@ import { useParams } from 'react-router-dom';
 function HpDetailPage() {
   const targetHpId = useParams();
   const setTargetHpId = useSetRecoilState(targetHpIdState);
-
   useEffect(() => {
-    setTargetHpId(targetHpId);
+    setTargetHpId(targetHpId.hospitalId);
   }, [targetHpId]);
 
   const StyledMapView = styled.div`
