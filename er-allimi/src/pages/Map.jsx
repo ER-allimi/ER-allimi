@@ -25,7 +25,6 @@ const { kakao } = window;
 function Map() {
   const { latitude, longitude } = useRecoilValue(userLocationState);
   const [centerPoint,setCenterPoint] = useRecoilState(mapCenterPointState);
-  // const setCenterPoint = useSetRecoilState(mapCenterPointState);
   const resetPagination = useResetRecoilState(ersPaginationState);
   const ersList = useRecoilValue(ersListState);
 
@@ -35,8 +34,6 @@ function Map() {
   const radius = useRecoilValue(radiusState);
   const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [locPosition, setLocPosition] = useState(defaultCenter);
-  // const [centerPosition, setCenterPosition] = useState(defaultCenter);
-  const [circleOverlay, setCircleOverlay] = useState(null);
   const erMarkers = useMarker(map, setupMarkerEventListeners);
   const navigate = useNavigate();
   const hpIdParameter = useParams().hospitalId;
@@ -60,7 +57,6 @@ function Map() {
       content: currentLocationCircle,
     });
     setLocPosition(newLocPosition);
-    // setCenterPosition(newLocPosition);
     setCenterPoint({ latitude, longitude });
   };
 
@@ -87,7 +83,6 @@ function Map() {
   /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
   const handleCenterChange = () => {
     const latLngPoint = map.getCenter();
-    // setCenterPosition(latLngPoint);
     setCenterPoint({ latitude: latLngPoint.Ma, longitude: latLngPoint.La });
     resetPagination();
   };
@@ -114,12 +109,7 @@ function Map() {
     if (!map) return;
 
     kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-
-    // 기존 circle 오버레이 제거
-    // circleOverlay && circleOverlay.setMap(null);
-
     newCircleOverlay.setMap(map);
-    // setCircleOverlay(newCircleOverlay);
 
     return () => {
       erMarkers.forEach((marker) => marker.setMap(null));
@@ -139,7 +129,6 @@ function Map() {
       targetHp.wgs84Lat,
       targetHp.wgs84Lon,
     );
-    // setCenterPosition(targetHpPosition);
     setCenterPoint({
       latitude: targetHp.wgs84Lat,
       longitude: targetHp.wgs84Lon,
