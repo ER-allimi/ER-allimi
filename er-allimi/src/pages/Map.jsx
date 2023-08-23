@@ -9,7 +9,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPathHospitalDetail } from '@utils';
 import { renderToString } from 'react-dom/server';
-import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
   userLocationState,
   mapCenterPointState,
@@ -19,13 +19,13 @@ import {
 } from '@stores';
 import { KM_TO_M_UNIT } from '@constants';
 import { useMarker } from '@hooks';
-import { css } from '@emotion/react';
 
 const { kakao } = window;
 
 function Map() {
   const { latitude, longitude } = useRecoilValue(userLocationState);
-  const setCenterPoint = useSetRecoilState(mapCenterPointState);
+  const [centerPoint,setCenterPoint] = useRecoilState(mapCenterPointState);
+  // const setCenterPoint = useSetRecoilState(mapCenterPointState);
   const resetPagination = useResetRecoilState(ersPaginationState);
   const ersList = useRecoilValue(ersListState);
 
@@ -35,7 +35,7 @@ function Map() {
   const radius = useRecoilValue(radiusState);
   const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [locPosition, setLocPosition] = useState(defaultCenter);
-  const [centerPosition, setCenterPosition] = useState(defaultCenter);
+  // const [centerPosition, setCenterPosition] = useState(defaultCenter);
   const [circleOverlay, setCircleOverlay] = useState(null);
   const erMarkers = useMarker(map, setupMarkerEventListeners);
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function Map() {
       content: currentLocationCircle,
     });
     setLocPosition(newLocPosition);
-    setCenterPosition(newLocPosition);
+    // setCenterPosition(newLocPosition);
     setCenterPoint({ latitude, longitude });
   };
 
@@ -87,7 +87,7 @@ function Map() {
   /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
   const handleCenterChange = () => {
     const latLngPoint = map.getCenter();
-    setCenterPosition(latLngPoint);
+    // setCenterPosition(latLngPoint);
     setCenterPoint({ latitude: latLngPoint.Ma, longitude: latLngPoint.La });
     resetPagination();
   };
@@ -95,7 +95,7 @@ function Map() {
   // 반경 오버레이
   const newCircleOverlay = new kakao.maps.Circle({
     radius: radius * KM_TO_M_UNIT,
-    center: centerPosition,
+    center: new kakao.maps.LatLng(centerPoint.latitude, centerPoint.longitude),
     strokeWeight: 1,
     strokeColor: '#a3a3a3',
     strokeOpacity: 0.27,
@@ -109,6 +109,26 @@ function Map() {
     createMap();
   }, [latitude, longitude]);
 
+  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
+  useEffect(() => {
+    if (!map) return;
+
+    kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+
+    // 기존 circle 오버레이 제거
+    // circleOverlay && circleOverlay.setMap(null);
+
+    newCircleOverlay.setMap(map);
+    // setCircleOverlay(newCircleOverlay);
+
+    return () => {
+      erMarkers.forEach((marker) => marker.setMap(null));
+      newCircleOverlay.setMap(null);
+    };
+
+  }, [map, centerPoint, radius]);
+
+  // 디테일 페이지로 이동 시
   useEffect(() => {
     if (!map) return;
     if (!hpIdParameter) return;
@@ -119,22 +139,13 @@ function Map() {
       targetHp.wgs84Lat,
       targetHp.wgs84Lon,
     );
-    setCenterPosition(targetHpPosition);
-    setCenterPoint({ latitude: targetHp.wgs84Lat, longitude: targetHp.wgs84Lon });
-    map.setCenter(targetHpPosition)
+    // setCenterPosition(targetHpPosition);
+    setCenterPoint({
+      latitude: targetHp.wgs84Lat,
+      longitude: targetHp.wgs84Lon,
+    });
+    map.setCenter(targetHpPosition);
   }, [map, hpIdParameter]);
-  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
-  useEffect(() => {
-    if (!map) return;
-
-    kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-    erMarkers.map((marker) => marker.setMap(map));
-
-    // 기존 circle 오버레이 제거
-    circleOverlay && circleOverlay.setMap(null);
-    newCircleOverlay.setMap(map);
-    setCircleOverlay(newCircleOverlay);
-  }, [map, centerPosition, radius, erMarkers]);
 
   return (
     <MapContainer ref={mapContainer}>
