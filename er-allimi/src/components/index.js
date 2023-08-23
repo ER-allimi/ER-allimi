@@ -83,4 +83,5 @@ export {
   HpSrIllContent,
   AdultModel,
   KidModel,
+  EtcSrIll,
 } from './hpDetailBoxes';
