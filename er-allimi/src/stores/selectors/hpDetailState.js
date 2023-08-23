@@ -24,12 +24,10 @@ const hpDetailState = selector({
     const [stage1, stage2] = [stages[0], stages[1]];
 
     const hpInfo = {
-      hpInfo: {
-        hpId: targetHpInfoData.hpId,
-        dutyName: targetHpInfoData.dutyName,
-        dutyAddr: targetHpInfoData.dutyAddr,
-        dutyTel3: targetHpInfoData.dutyTel3,
-      },
+      dutyName: targetHpInfoData.dutyName,
+      dutyEmclsName: targetHpInfoData.dutyEmclsName,
+      dutyAddr: targetHpInfoData.dutyAddr,
+      dutyTel3: targetHpInfoData.dutyTel3,
     };
 
     return {
