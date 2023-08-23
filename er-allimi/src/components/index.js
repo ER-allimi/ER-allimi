@@ -29,6 +29,7 @@ export {
   Toggle,
   MovingBox,
   ClosedBox,
+  Tooltip,
 } from './ui';
 
 export {
@@ -79,4 +80,7 @@ export {
   HpRtHrAvailableBedBox,
   HpSrIIIBox,
   HpInfoContent,
+  HpSrIllContent,
+  AdultModel,
+  KidModel,
 } from './hpDetailBoxes';
