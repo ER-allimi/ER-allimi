@@ -48,7 +48,7 @@ function HpInfoContent() {
       {Boolean(HpRTavailableBed) || (
         <Foot>
           <p>* 응급실/입원실 가용 병상 정보를 제공하지 않음</p>
-          <p>* 중증응급질환 수술 여부 정보를 제공하지 않음</p>
+          {/* <p>* 중증응급질환 수술 여부 정보를 제공하지 않음</p> */}
         </Foot>
       )}
     </StyledHpInfoContent>

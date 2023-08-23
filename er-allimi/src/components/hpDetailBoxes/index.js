@@ -10,3 +10,4 @@ export { default as HpInfoContent } from './HpInfoContent';
 export { default as HpSrIllContent } from './HpSrIllContent';
 export { default as AdultModel } from './AdultModel';
 export { default as KidModel } from './KidModel';
+export { default as EtcSrIll } from './EtcSrIll';

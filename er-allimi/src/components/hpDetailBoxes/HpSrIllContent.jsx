@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { useFetchHpSrIII } from '@hooks';
-import { AdultModel, KidModel } from '@components';
+import { AdultModel, KidModel, EtcSrIll } from '@components';
 import { classifySurgery } from '@utils';
 import { hpDetailState } from '@stores';
 
@@ -29,7 +29,16 @@ function HpSriIllContent() {
     if (!hpData)
       content = <div>해당 병원에서는 중증질환 데이터를 제공해주지 않음</div>;
     else {
-      const { adult: adultData, kid: kidData } = classifySurgery(hpData);
+      const {
+        adult: adultData,
+        kid: kidData,
+        etc: etcData,
+      } = classifySurgery(hpData);
+
+      const StyledEtcSrIll = styled(EtcSrIll)`
+        justify-self: start;
+        align-self: start;
+      `;
 
       content = (
         <>
@@ -41,6 +50,7 @@ function HpSriIllContent() {
           <Models>
             <AdultModel data={adultData} />
             <KidModel data={kidData} />
+            {etcData.length !== 0 && <StyledEtcSrIll data={etcData} />}
           </Models>
         </>
       );
@@ -68,8 +78,11 @@ const Desc = styled.p`
 `;
 
 const Models = styled.div`
-  display: flex;
-  align-items: end;
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr;
+  justify-items: center;
+  align-items: baseline;
+  margin-top: 1rem;
 `;
 
 export default HpSriIllContent;
