@@ -11,7 +11,6 @@ function Tooltip({
   className,
 }) {
   let renderContent;
-  console.log(content, typeof content);
   if (typeof content === 'string') renderContent = <p>{content}</p>;
   else if (typeof content === 'object') {
     renderContent = (
