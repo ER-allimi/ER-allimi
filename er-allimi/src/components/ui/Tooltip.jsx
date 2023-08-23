@@ -12,7 +12,7 @@ function Tooltip({
 }) {
   let renderContent;
   if (typeof content === 'string') renderContent = <p>{content}</p>;
-  else if (typeof content === 'object') {
+  else if (Array.isArray(content)) {
     renderContent = (
       <>
         {content.map((word, i) => (

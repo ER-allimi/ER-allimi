@@ -172,15 +172,17 @@ function AdultModel({ data }) {
   return (
     <StyledAdultModel>
       <Body />
-      <StyledHead data={data.head} />
-      <StyledChest data={data.chest} />
-      <StyledStomach data={data.stomach} />
-      <Limbs>
-        <StyledArm1 data={data.limbs} />
-        <StyledArm2 data={data.limbs} />
-        <StyledLeg1 data={data.limbs} />
-        <StyledLeg2 data={data.limbs} />
-      </Limbs>
+      {data.head.length !== 0 && <StyledHead data={data.head} />}
+      {data.chest.length !== 0 && <StyledChest data={data.chest} />}
+      {data.stomach.length !== 0 && <StyledStomach data={data.stomach} />}
+      {data.limbs.length !== 0 && (
+        <Limbs>
+          <StyledArm1 data={data.limbs} />
+          <StyledArm2 data={data.limbs} />
+          <StyledLeg1 data={data.limbs} />
+          <StyledLeg2 data={data.limbs} />
+        </Limbs>
+      )}
     </StyledAdultModel>
   );
 }
