@@ -1,21 +1,30 @@
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { useFetchHpSrIII } from '@hooks';
 import { AdultModel, KidModel } from '@components';
 import { classifySurgery } from '@utils';
+import { hpDetailState } from '@stores';
 
 function HpSriIllContent() {
-  // 나중에 hpDetailState selector에서 실 데이터 가져오기
-  const [stage1, stage2, hpId] = ['서울특별시', '종로구', 'A1100006'];
+  const hpDetail = useRecoilValue(hpDetailState);
+
+  let content;
+  if (hpDetail.length === 0) content = <div>로딩 중...</div>;
+
+  const { stage1, stage2, hpId } = hpDetail;
   const { data, isLoading, isFetching, isError, error } = useFetchHpSrIII(
     stage1,
     stage2,
   );
 
-  let content;
   if (isFetching) content = <div>데이터를 가져오는 중...</div>;
   else if (isError) content = <div>데이터를 가져오는데 실패함</div>;
   else {
-    const hpData = data?.find((item) => item.dutyName === hpId);
+    const hpData =
+      data &&
+      (Array.isArray(data)
+        ? data.find((item) => item.dutyName === hpId)
+        : data);
 
     if (!hpData)
       content = <div>해당 병원에서는 중증질환 데이터를 제공해주지 않음</div>;
