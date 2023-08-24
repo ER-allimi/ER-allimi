@@ -4,4 +4,6 @@ export { getErRTavailableBedByColor } from './getErRTavailableBedByColor';
 export { getAddressByCoor } from './getAddressByCoor';
 export { getCoorByAddress } from './getCoorByAddress';
 export { copyText } from './copyText';
+export { getDateStrByHvidate } from './getDateStrByHvidate';
 export { classifySurgery } from './classifySurgery';
+

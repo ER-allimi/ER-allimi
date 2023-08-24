@@ -84,6 +84,8 @@ export {
   HpRtHrAvailableBedBox,
   HpSrIIIBox,
   HpInfoContent,
+  HpRtErAvailableBedContent,
+  ErChart,
   HpSrIllContent,
   AdultModel,
   KidModel,
