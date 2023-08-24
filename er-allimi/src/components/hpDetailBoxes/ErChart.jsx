@@ -4,12 +4,19 @@ import styled from '@emotion/styled';
 import bb, { gauge } from 'billboard.js';
 import { useEffect, useRef } from 'react';
 
-function ErChart({ availableBed, totalBed, hpid }) {
+function ErChart({ availableBed, totalBed, hpid, title }) {
   const rate = Math.round((availableBed / totalBed) * 100);
-  const colorByrate = getErRTavailableBedByColor(availableBed, totalBed);
+  let isIsolation = false;
+  if (title.includes('격리')) {
+    isIsolation = true;
+  }
+  const colorByrate = getErRTavailableBedByColor(
+    availableBed,
+    totalBed,
+    isIsolation,
+  );
   const chartRef = useRef(null);
   useEffect(() => {
-    console.log(hpid, '후');
     const chart = bb.generate({
       data: {
         columns: [['가용병상', 0]],
@@ -60,15 +67,36 @@ function ErChart({ availableBed, totalBed, hpid }) {
 
   return (
     <StyledChartContainer>
-      <div ref={chartRef} />
+      <Chart>
+        <div ref={chartRef} />
+      </Chart>
+      <TitleText>{title}</TitleText>
+      <DataText>
+        {availableBed >= 0 ? availableBed : `0(초과 ${-1 * availableBed})`} /{' '}
+        {totalBed}
+      </DataText>
     </StyledChartContainer>
   );
 }
 const StyledChartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+const Chart = styled.div`
+  .bb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bb svg {
+    height: 60px;
+  }
   .bb-legend-item text {
     font-size: 5px;
     font-weight: 500;
   }
+
   .bb-tooltip-container {
     z-index: 1;
   }
@@ -100,11 +128,36 @@ const StyledChartContainer = styled.div`
     transform: translate(10px, 25px);
   }
 `;
+const TitleText = styled.div`
+  font-size: 13px;
+  text-align: center;
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 12px;
+  }
 
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    font-size: 11px;
+  }
+`;
+const DataText = styled.div`
+  font-size: 13px;
+  font-weight: 600;
+  height: 2rem;
+  whitespace: 'pre-line';
+  text-align: center;
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 12px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    font-size: 11px;
+  }
+`;
 ErChart.propTypes = {
   availableBed: PropTypes.number,
   totalBed: PropTypes.number,
   hpid: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default ErChart;
