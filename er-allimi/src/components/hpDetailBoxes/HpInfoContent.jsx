@@ -1,16 +1,19 @@
+import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { IoLocationSharp, BiSolidPhone } from '@components';
 import { copyText } from '@utils';
+import { hpDetailState } from '@stores';
 
 function HpInfoContent() {
-  // 나중에 hpDetailState selector에서 실 데이터 가져오기
-  const [dutyName, dutyEmclsName, dutyAddr, dutyTel3] = [
-    '서울적십자병원',
-    '지역응급의료기관',
-    '서울특별시 종로구 새문안로 9',
-    '02-2002-8888',
-  ];
+  const hpDetail = useRecoilValue(hpDetailState);
+
+  if (hpDetail.length === 0) return '로딩중...';
+
+  const {
+    hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
+    HpRTavailableBed,
+  } = hpDetail;
 
   const handlePhoneNumberClick = () => {
     copyText({
@@ -42,6 +45,12 @@ function HpInfoContent() {
           <p onClick={handlePhoneNumberClick}>{dutyTel3}</p>
         </div>
       </Body>
+      {Boolean(HpRTavailableBed) || (
+        <Foot>
+          <p>* 응급실/입원실 가용 병상 정보를 제공하지 않음</p>
+          {/* <p>* 중증응급질환 수술 여부 정보를 제공하지 않음</p> */}
+        </Foot>
+      )}
     </StyledHpInfoContent>
   );
 }
@@ -91,7 +100,7 @@ const ErClassName = styled.p`
 const Body = styled.div`
   margin-top: 0.5rem;
   width: 100%;
-  line-height: 1.5rem;
+  line-height: 1.2rem;
   font-size: 12px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
@@ -135,6 +144,16 @@ const Body = styled.div`
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+`;
+
+const Foot = styled.div`
+  margin-top: 0.5rem;
+
+  p {
+    text-align: right;
+    font-size: 11px;
+    color: ${({ theme }) => theme.colors.gray};
   }
 `;
 

@@ -14,7 +14,6 @@ export {
   ErsMovingBox,
   PostCodeButton,
   SortingButtons,
-  EmptyBox,
   RefreshButton,
   ErrorMessage,
   SuccessMessage,
@@ -29,6 +28,9 @@ export {
   Toggle,
   MovingBox,
   ClosedBox,
+  Tooltip,
+  Spinner,
+  EmptyBox,
 } from './ui';
 
 export {
@@ -58,6 +60,9 @@ export {
   BiSolidError,
   MdLocationOff,
   BsCheckCircleFill,
+  ImSpinner2,
+  BiError,
+  TbArticleOff,
 } from './icons';
 
 export {
@@ -81,4 +86,8 @@ export {
   HpInfoContent,
   HpRtErAvailableBedContent,
   ErChart,
+  HpSrIllContent,
+  AdultModel,
+  KidModel,
+  EtcSrIll,
 } from './hpDetailBoxes';

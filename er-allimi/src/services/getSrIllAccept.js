@@ -15,7 +15,7 @@ const getSrIllAccept = async function ({ STAGE1, STAGE2 }) {
       },
     });
 
-    return res.data.response.body.items?.item;
+    return res.data.response.body.items?.item || [];
   } catch (error) {
     console.error(error);
   }
