@@ -79,4 +79,6 @@ export {
   HpRtHrAvailableBedBox,
   HpSrIIIBox,
   HpInfoContent,
+  HpRtErAvailableBedContent,
+  ErChart,
 } from './hpDetailBoxes';
