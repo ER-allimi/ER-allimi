@@ -23,6 +23,7 @@ const useMarker = (map, setupMarkerEventListeners) => {
     const sortedErsPerPage = sortedErsWithRadius.slice(start, end);
 
     const nearByErCount = sortedErsPerPage.length;
+    const newInfowindows = [];
     const newErMarkers = sortedErsPerPage.map((item, idx) => {
       const hpInfo = item.hpInfo;
       const availableBedInfo = item.availableBedInfo;
@@ -63,14 +64,16 @@ const useMarker = (map, setupMarkerEventListeners) => {
         yAnchor: 1,
         zIndex: nearByErCount + 1,
       });
+      newInfowindows.push(newInfoWindow);
       setupMarkerEventListeners(hpInfo.hpid, newInfoWindow);
       return newMarker;
     });
-    //모든 마커 지우기
     setErMarkers(newErMarkers);
+    //모든 마커 지우기
 
     return () => {
       newErMarkers.forEach((marker) => marker.setMap(null));
+      newInfowindows.forEach((infoWindow) => infoWindow.setMap(null));
     };
   }, [map, sortedErsWithRadius, ersPagination]);
 
