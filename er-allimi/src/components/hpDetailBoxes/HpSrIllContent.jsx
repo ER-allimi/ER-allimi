@@ -1,7 +1,15 @@
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { useFetchHpSrIII } from '@hooks';
-import { AdultModel, KidModel, EtcSrIll } from '@components';
+import {
+  AdultModel,
+  KidModel,
+  EtcSrIll,
+  EmptyBox,
+  Spinner,
+  BiError,
+  TbArticleOff,
+} from '@components';
 import { classifySurgery } from '@utils';
 import { hpDetailState } from '@stores';
 
@@ -9,7 +17,12 @@ function HpSriIllContent() {
   const hpDetail = useRecoilValue(hpDetailState);
 
   let content;
-  if (hpDetail.length === 0) content = <div>로딩 중...</div>;
+  if (hpDetail.length === 0)
+    content = (
+      <EmptyBox height={200}>
+        <Spinner />
+      </EmptyBox>
+    );
 
   const { stage1, stage2, hpId } = hpDetail;
   const { data, isLoading, isFetching, isError, error } = useFetchHpSrIII(
@@ -17,8 +30,18 @@ function HpSriIllContent() {
     stage2,
   );
 
-  if (isFetching) content = <div>데이터를 가져오는 중...</div>;
-  else if (isError) content = <div>데이터를 가져오는데 실패함</div>;
+  if (isFetching) {
+    content = (
+      <EmptyBox height={200}>
+        <Spinner />
+      </EmptyBox>
+    );
+  } else if (isError)
+    content = (
+      <EmptyBox height={200} icon={<BiError />}>
+        <Text>데이터를 가져오는데 실패함</Text>
+      </EmptyBox>
+    );
   else {
     const hpData =
       data &&
@@ -27,7 +50,11 @@ function HpSriIllContent() {
         : data);
 
     if (!hpData)
-      content = <div>해당 병원에서는 중증질환 데이터를 제공해주지 않음</div>;
+      content = (
+        <EmptyBox height={200} icon={<TbArticleOff />}>
+          <Text>해당 병원에서는 중증질환 데이터를 제공해주지 않음</Text>
+        </EmptyBox>
+      );
     else {
       const {
         adult: adultData,
@@ -83,6 +110,11 @@ const Models = styled.div`
   justify-items: center;
   align-items: baseline;
   margin-top: 1rem;
+`;
+
+const Text = styled.p`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default HpSriIllContent;
