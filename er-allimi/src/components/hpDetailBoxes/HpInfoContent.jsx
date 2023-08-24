@@ -100,7 +100,7 @@ const ErClassName = styled.p`
 const Body = styled.div`
   margin-top: 0.5rem;
   width: 100%;
-  line-height: 1.5rem;
+  line-height: 1.2rem;
   font-size: 12px;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
