@@ -11,6 +11,8 @@ function useFetchHpSrIII(stage1, stage2) {
         <ErrorMessage content="[실패] 중증질환 데이터 가져오기" refreshButton />
       ),
     },
+    staleTime: 29 * 60 * 1000, // ms
+    cacheTime: 29 * 60 * 1000, // ms
     retry: 3,
     refetchInterval: 30 * 60 * 1000, // ms
     refetchIntervalInBackground: true,
