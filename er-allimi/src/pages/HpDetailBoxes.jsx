@@ -11,11 +11,14 @@ import {
   HpRtHrAvailableBedBox,
   HpSrIIIBox,
 } from '@components';
+import { useRecoilValue } from 'recoil';
+import { hpDetailState } from '@stores';
+
 HpDetailBoxes.propTypes = {
   className: PropTypes.string,
 };
-
 function HpDetailBoxes({ className }) {
+  const HpRTavailableBedData = useRecoilValue(hpDetailState).HpRTavailableBed;
   return (
     <Container className={className}>
       <LayoutTop>
@@ -24,21 +27,28 @@ function HpDetailBoxes({ className }) {
       <LayoutLeft>
         <StyledCurrentLocationBox />
         <StyledHpInfoBox />
-        <StyledHpRtErAvailableBedBox />
-        <StyledHpRtHrAvailableBedBox />
+        {HpRTavailableBedData && (
+          <>
+            <StyledHpRtErAvailableBedBox />
+            <StyledHpRtHrAvailableBedBox />
+          </>
+        )}
       </LayoutLeft>
       <LayoutRight>
-        <StyledHpMessageBox />
+        {HpRTavailableBedData ? <StyledHpMessageBox /> : <EmptyBox></EmptyBox>}
         <StyledHpSrIIIBox />
       </LayoutRight>
       <LayoutBottom>
-        <StyledHpMessageBox />
+        {HpRTavailableBedData && <StyledHpMessageBox />}
         <StyledErsMovingBox />
       </LayoutBottom>
     </Container>
   );
 }
 
+const EmptyBox = styled.div`
+  height: 100px;
+`
 const Container = styled.div`
   display: grid;
   grid-template-rows: 1fr;
