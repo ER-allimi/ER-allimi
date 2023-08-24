@@ -14,7 +14,6 @@ export {
   ErsMovingBox,
   PostCodeButton,
   SortingButtons,
-  EmptyBox,
   RefreshButton,
   ErrorMessage,
   SuccessMessage,
@@ -31,6 +30,7 @@ export {
   ClosedBox,
   Tooltip,
   Spinner,
+  EmptyBox,
 } from './ui';
 
 export {
