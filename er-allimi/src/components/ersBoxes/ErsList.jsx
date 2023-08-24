@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
-import { ErItem, EmptyBox } from '@components';
+import { ErItem, EmptyBox, TbHomeOff } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
 
@@ -20,7 +20,9 @@ function ErsList({ className }) {
 
   const renderErItems =
     dataPerPage.length === 0 ? (
-      <EmptyBox />
+      <EmptyBox height={150} icon={<TbHomeOff />}>
+        이 위치 주변에는 응급실이 없습니다.
+      </EmptyBox>
     ) : (
       dataPerPage.map((item, idx) => {
         return (

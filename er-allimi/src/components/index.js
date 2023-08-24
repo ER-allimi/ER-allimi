@@ -30,6 +30,7 @@ export {
   MovingBox,
   ClosedBox,
   Tooltip,
+  Spinner,
 } from './ui';
 
 export {
@@ -59,6 +60,9 @@ export {
   BiSolidError,
   MdLocationOff,
   BsCheckCircleFill,
+  ImSpinner2,
+  BiError,
+  TbArticleOff,
 } from './icons';
 
 export {
