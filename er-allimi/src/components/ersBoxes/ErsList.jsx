@@ -20,7 +20,7 @@ function ErsList({ className }) {
 
   const renderErItems =
     dataPerPage.length === 0 ? (
-      <EmptyBox height={150} icon={<TbHomeOff />}>
+      <EmptyBox height={130} icon={<TbHomeOff />}>
         이 위치 주변에는 응급실이 없습니다.
       </EmptyBox>
     ) : (
