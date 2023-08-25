@@ -63,7 +63,7 @@ const StyledBody = styled.tbody`
 
 const textBox = () => css`
   padding: .3rem .5rem;
-  min-width: 7rem;
+  min-width: 6.5rem;
   text-align: center;
   margin: 0;
   border-bottom: 1px solid ${theme.colors.gray};
