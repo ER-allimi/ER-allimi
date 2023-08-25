@@ -7,6 +7,7 @@ export {
   ersRTavailableBedState,
   ersPaginationState,
   targetHpIdState,
+  showHpMessageState,
 } from './atoms';
 
 export {
