@@ -6,4 +6,6 @@ export { getCoorByAddress } from './getCoorByAddress';
 export { copyText } from './copyText';
 export { getDateStrByHvidate } from './getDateStrByHvidate';
 export { classifySurgery } from './classifySurgery';
+export { getHpRtHrAvailableBedData } from './getHpRtHrAvailableBedData';
 export { classifyMsgSymTyp } from './classifyMsgSymTyp';
+

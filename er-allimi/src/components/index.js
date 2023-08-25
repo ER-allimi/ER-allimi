@@ -31,6 +31,8 @@ export {
   Tooltip,
   Spinner,
   EmptyBox,
+  Table,
+  ScrollBar,
   Badge,
   Slider,
   AutoPlaySlider,
@@ -101,4 +103,6 @@ export {
   AdultModel,
   KidModel,
   EtcSrIll,
+  HpRtHrAvailableBedContent,
+  HpTableItem,
 } from './hpDetailBoxes';

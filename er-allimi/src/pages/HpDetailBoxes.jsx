@@ -145,16 +145,16 @@ const StyledCurrentLocationInput = styled(CurrentLocationInput)`
 `;
 
 const StyledCurrentLocationBox = styled(CurrentLocationBox)`
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   ${zIndexBox}
 `;
 
 const StyledHpInfoBox = styled(HpInfoBox)`
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   ${zIndexBox}
 `;
 const StyledHpRtErAvailableBedBox = styled(HpRtErAvailableBedBox)`
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   ${zIndexBox}
 `;
 const StyledHpRtHrAvailableBedBox = styled(HpRtHrAvailableBedBox)`

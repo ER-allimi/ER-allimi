@@ -45,7 +45,7 @@ function ErChart({ availableBed, totalBed, hpid, title }) {
         background: '#CCCCCC',
         label: {
           format: function (value) {
-            return value + '%';
+            return value >= 0 ? value + '%' : `0%`;
           },
         },
       },
@@ -129,28 +129,30 @@ const Chart = styled.div`
   }
 `;
 const TitleText = styled.div`
-  font-size: 13px;
+  font-size: 12px;
+  font-weight: 600;
   text-align: center;
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 12px;
+    font-size: 11px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    font-size: 11px;
+    font-size: 10px;
   }
 `;
 const DataText = styled.div`
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   height: 2rem;
   whitespace: 'pre-line';
+  color: ${({ theme }) => theme.colors.grayDark};
   text-align: center;
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    font-size: 11px;
+    font-size: 9px;
   }
 `;
 ErChart.propTypes = {
