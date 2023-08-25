@@ -30,7 +30,7 @@ function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
           hospitalId: hpInfo.hpid,
         })}
       >
-        <HpName>
+        <HpName title={hpInfo.dutyName}>
           {order}. {hpInfo.dutyName}
         </HpName>
       </Link>
@@ -39,11 +39,11 @@ function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
         availableBed={availableBedInfo?.hvec}
         totalBed={availableBedInfo?.hvs01}
       >
-        <div>
+        <div title={hpInfo.dutyAddr}>
           <IoLocationSharp />
           <p onClick={handleAddressClick}>{hpInfo.dutyAddr}</p>
         </div>
-        <div>
+        <div title={hpInfo.dutyTel3}>
           <BiSolidPhone />
           <p onClick={handlePhoneNumberClick}>{hpInfo.dutyTel3}</p>
         </div>
