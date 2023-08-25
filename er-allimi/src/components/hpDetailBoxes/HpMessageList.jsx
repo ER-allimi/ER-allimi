@@ -1,30 +1,34 @@
 import PropTypes from 'prop-types';
-import { HpMessageItem } from '@components';
+import { HpMessageItem, AutoPlaySlider } from '@components';
 import { classifyMsgSymTyp } from '@utils';
 
 function HpMessageList({ data }) {
+  const SlidesData = data.map((item) => {
+    return { ...item, label: `${item.hpid}+${item.rnum}` };
+  });
+
+  const renderSlide = (data) => {
+    const { symBlkMsgTyp, symBlkSttDtm, symBlkEndDtm, symTypCod, symBlkMsg } =
+      data;
+
+    return (
+      <HpMessageItem
+        msgType={symBlkMsgTyp}
+        msgStartDate={symBlkSttDtm}
+        msgEndDate={symBlkEndDtm}
+        msgSymType={classifyMsgSymTyp(symTypCod)}
+        msgContent={symBlkMsg}
+      ></HpMessageItem>
+    );
+  };
+
   return (
-    <div>
-      {data.map((item, idx) => {
-        const {
-          symBlkMsgTyp,
-          symBlkSttDtm,
-          symBlkEndDtm,
-          symTypCod,
-          symBlkMsg,
-        } = item;
-        return (
-          <HpMessageItem
-            key={idx}
-            msgType={symBlkMsgTyp}
-            msgStartDate={symBlkSttDtm}
-            msgEndDate={symBlkEndDtm}
-            msgSymType={classifyMsgSymTyp(symTypCod)}
-            msgContent={symBlkMsg}
-          ></HpMessageItem>
-        );
-      })}
-    </div>
+    <AutoPlaySlider
+      data={SlidesData}
+      renderSlide={renderSlide}
+      controllersPosition="top"
+      dotsPosition="top"
+    />
   );
 }
 

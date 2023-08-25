@@ -43,7 +43,7 @@ const Container = styled.div`
   grid-template-rows: 1rem 1fr;
   grid-template-columns: 1.5rem 1fr;
   row-gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.7rem 0.5rem;
   border-radius: 0.1rem;
   background-color: ${({ theme }) => theme.colors.grayDark};
   color: white;
@@ -69,7 +69,7 @@ const TitleText = styled.p`
 `;
 
 const DateText = styled.span`
-  font-size: 11px;
+  font-size: 10px;
 `;
 
 const ContentText = styled.div`

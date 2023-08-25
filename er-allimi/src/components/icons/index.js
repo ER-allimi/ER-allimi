@@ -9,9 +9,10 @@ export {
 } from 'react-icons/bi';
 export { GrMapLocation } from 'react-icons/gr';
 export { FaMapMarkedAlt, FaMapMarker, FaBed } from 'react-icons/fa';
-export { AiOutlineInfoCircle, AiTwotoneAlert } from 'react-icons/ai';
 export { RxHamburgerMenu } from 'react-icons/rx';
 export {
+  AiOutlineInfoCircle,
+  AiTwotoneAlert,
   AiOutlinePlus,
   AiOutlineMinus,
   AiFillNotification,
@@ -28,3 +29,9 @@ export { PiArrowBendUpLeftBold } from 'react-icons/pi';
 export { TbNoteOff, TbHomeOff, TbArticleOff } from 'react-icons/tb';
 export { ImSpinner2 } from 'react-icons/im';
 export { RiCloseCircleFill, RiCloseCircleLine } from 'react-icons/ri';
+export {
+  HiMiniArrowSmallLeft,
+  HiMiniArrowSmallRight,
+  HiMiniArrowLongLeft,
+  HiMiniArrowLongRight,
+} from 'react-icons/hi2';
