@@ -9,9 +9,11 @@ const getErMsg = async ({ HPID }) => {
       params: {
         serviceKey,
         HPID,
+        numOfRows: 100,
       },
     });
-    return response.data.response.body.items?.item || '1';
+
+    return response.data.response.body.items?.item || [];
   } catch (error) {
     console.error(error);
   }

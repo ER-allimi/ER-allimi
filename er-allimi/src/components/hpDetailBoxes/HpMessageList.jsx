@@ -1,27 +1,39 @@
-import HpMessageItem from './HpMessageItem';
+import PropTypes from 'prop-types';
+import { HpMessageItem, AutoPlaySlider } from '@components';
+import { classifyMsgSymTyp } from '@utils';
 
-function HpMessageList() {
-  const dummyData = [
-    {
-      type: '응급',
-      content: '소아 중증환자, 소아외상 진료함',
-      date: '2023-08-07 10:00:00',
-    },
-    {
-      type: '중증',
-      content:
-        '영상의학과 staff학회참석으로 angiography  (PCD, PTBD, pigtail,  AV shunt 관련시술) 불가',
-      date: '2023-08-07 10:00:00',
-    },
-  ];
-  return dummyData.map((data, idx) => {
-    <HpMessageItem
-      key={idx}
-      megType={data.type}
-      msgContent={data.content}
-      msgDate={data.date}
-    ></HpMessageItem>;
+function HpMessageList({ data }) {
+  const SlidesData = data.map((item) => {
+    return { ...item, label: `${item.hpid}+${item.rnum}` };
   });
+
+  const renderSlide = (data) => {
+    const { symBlkMsgTyp, symBlkSttDtm, symBlkEndDtm, symTypCod, symBlkMsg } =
+      data;
+
+    return (
+      <HpMessageItem
+        msgType={symBlkMsgTyp}
+        msgStartDate={symBlkSttDtm}
+        msgEndDate={symBlkEndDtm}
+        msgSymType={classifyMsgSymTyp(symTypCod)}
+        msgContent={symBlkMsg}
+      ></HpMessageItem>
+    );
+  };
+
+  return (
+    <AutoPlaySlider
+      data={SlidesData}
+      renderSlide={renderSlide}
+      controllersPosition="top"
+      dotsPosition="top"
+    />
+  );
 }
+
+HpMessageList.propTypes = {
+  data: PropTypes.array,
+};
 
 export default HpMessageList;

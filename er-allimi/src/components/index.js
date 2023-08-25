@@ -33,6 +33,9 @@ export {
   EmptyBox,
   Table,
   ScrollBar,
+  Badge,
+  Slider,
+  AutoPlaySlider,
 } from './ui';
 
 export {
@@ -65,6 +68,14 @@ export {
   ImSpinner2,
   BiError,
   TbArticleOff,
+  RiCloseCircleFill,
+  RiCloseCircleLine,
+  AiFillNotification,
+  IoNotificationsCircleOutline,
+  HiMiniArrowSmallLeft,
+  HiMiniArrowSmallRight,
+  HiMiniArrowLongLeft,
+  HiMiniArrowLongRight,
 } from './icons';
 
 export {

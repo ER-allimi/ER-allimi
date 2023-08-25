@@ -4,7 +4,8 @@ import { Box, ErsContent } from '@components';
 
 function ErsBox({ className }) {
   const StyledErsBox = styled(Box)`
-    height: calc(100vh - 200px);
+    min-height: 260px;
+    max-height: calc(100vh - 200px);
   `;
 
   return (

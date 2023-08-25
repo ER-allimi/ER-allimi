@@ -11,3 +11,6 @@ export { default as Spinner } from './Spinner';
 export { default as EmptyBox } from './EmptyBox';
 export { default as Table } from './Table';
 export { default as ScrollBar } from './ScrollBar';
+export { default as Badge } from './Badge';
+export { default as Slider } from './Slider';
+export { default as AutoPlaySlider } from './AutoPlaySlider';

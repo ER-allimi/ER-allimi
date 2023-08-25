@@ -1,19 +1,12 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import { VscTriangleDown, VscTriangleUp } from '@components';
 
-function MovingBox({ className, children }) {
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const handleTriangleClick = () => {
-    setIsExpanded(!isExpanded);
-  };
-
+function MovingBox({ className, children, isExpanded, handleExpand }) {
   return (
     <StyledMovingBox className={className} isExpanded={isExpanded}>
-      <ExpandIcon onClick={handleTriangleClick}>
+      <ExpandIcon onClick={handleExpand}>
         {isExpanded ? <VscTriangleDown /> : <VscTriangleUp />}
       </ExpandIcon>
       {children}
@@ -22,10 +15,27 @@ function MovingBox({ className, children }) {
 }
 
 const expand = ({ isExpanded }) =>
-  !isExpanded &&
-  css`
+  isExpanded
+    ? keyframes`
+  0% {
     transform: translateY(calc(100% - 2rem));
-  `;
+  }
+
+  100% {
+    transform: translateY(0);
+
+  }
+`
+    : keyframes`
+0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(100% - 2rem));
+
+  }
+`;
 
 const StyledMovingBox = styled.div`
   display: flex;
@@ -38,9 +48,8 @@ const StyledMovingBox = styled.div`
   background-color: white;
   border-radius: 0.7rem 0.7rem 0 0;
   box-shadow: -3px 0 5px 3px ${({ theme }) => theme.colors.grayLight};
-  transition: transform 0.3s linear;
-
-  ${expand}
+  animation: ${expand} 0.3s linear;
+  animation-fill-mode: forwards;
 `;
 
 const ExpandIcon = styled.div`
@@ -54,6 +63,8 @@ const ExpandIcon = styled.div`
 MovingBox.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
+  isExpanded: PropTypes.bool,
+  handleExpand: PropTypes.func,
 };
 
 export default MovingBox;
