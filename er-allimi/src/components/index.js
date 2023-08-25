@@ -31,6 +31,8 @@ export {
   Tooltip,
   Spinner,
   EmptyBox,
+  Table,
+  ScrollBar,
 } from './ui';
 
 export {
@@ -90,4 +92,6 @@ export {
   AdultModel,
   KidModel,
   EtcSrIll,
+  HpRtHrAvailableBedContent,
+  HpTableItem,
 } from './hpDetailBoxes';
