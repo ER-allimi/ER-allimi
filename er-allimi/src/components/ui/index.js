@@ -10,3 +10,5 @@ export { default as Tooltip } from './Tooltip';
 export { default as Spinner } from './Spinner';
 export { default as EmptyBox } from './EmptyBox';
 export { default as Badge } from './Badge';
+export { default as Slider } from './Slider';
+export { default as AutoPlaySlider } from './AutoPlaySlider';

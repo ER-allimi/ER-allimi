@@ -32,6 +32,8 @@ export {
   Spinner,
   EmptyBox,
   Badge,
+  Slider,
+  AutoPlaySlider,
 } from './ui';
 
 export {
@@ -68,6 +70,10 @@ export {
   RiCloseCircleLine,
   AiFillNotification,
   IoNotificationsCircleOutline,
+  HiMiniArrowSmallLeft,
+  HiMiniArrowSmallRight,
+  HiMiniArrowLongLeft,
+  HiMiniArrowLongRight,
 } from './icons';
 
 export {
