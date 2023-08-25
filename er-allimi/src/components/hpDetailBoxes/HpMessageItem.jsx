@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { AiTwotoneAlert } from '@components';
+import { getDateStrByHvidate } from '@utils';
 
 function HpMessageItem({
   msgType,
@@ -26,8 +27,8 @@ function HpMessageItem({
         <AiTwotoneAlert />
         <TitleText>{messageType}</TitleText>
         <DateText>
-          {/* ({msgStartDate} ~ {msgEndDate}) */}
-          (2023.08.25 ~ 2023.08.26)
+          ({getDateStrByHvidate(msgStartDate)} ~{' '}
+          {getDateStrByHvidate(msgEndDate)})
         </DateText>
       </Head>
       <ContentText>
