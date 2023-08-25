@@ -33,14 +33,14 @@ function HpInfoContent() {
 
   return (
     <StyledHpInfoContent>
-      <HpName>{dutyName}</HpName>
+      <HpName title={dutyName}>{dutyName}</HpName>
       <ErClassName>{dutyEmclsName}</ErClassName>
       <Body>
-        <div>
+        <div title={dutyAddr}>
           <IoLocationSharp />
           <p onClick={handleAddressClick}>{dutyAddr}</p>
         </div>
-        <div>
+        <div title={dutyTel3}>
           <BiSolidPhone />
           <p onClick={handlePhoneNumberClick}>{dutyTel3}</p>
         </div>
