@@ -31,6 +31,7 @@ export {
   Tooltip,
   Spinner,
   EmptyBox,
+  Badge,
 } from './ui';
 
 export {
@@ -63,6 +64,10 @@ export {
   ImSpinner2,
   BiError,
   TbArticleOff,
+  RiCloseCircleFill,
+  RiCloseCircleLine,
+  AiFillNotification,
+  IoNotificationsCircleOutline,
 } from './icons';
 
 export {
