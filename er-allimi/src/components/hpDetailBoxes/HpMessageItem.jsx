@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import { AiTwotoneAlert } from '@components';
 import { getDateStrByHvidate } from '@utils';
 
@@ -47,6 +48,12 @@ const Container = styled.div`
   border-radius: 0.1rem;
   background-color: ${({ theme }) => theme.colors.grayDark};
   color: white;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      padding: 0.2rem 0.5rem 0.9rem 0.5rem;
+    }
+  `}
 `;
 
 const Head = styled.div`
@@ -66,16 +73,51 @@ const TitleText = styled.p`
   font-size: 13px;
   font-weight: 600;
   color: inherit;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      font-size: 12px;
+    }
+  `}
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      font-size: 11px;
+    }
+  `}
 `;
 
 const DateText = styled.span`
   font-size: 10px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      font-size: 9px;
+    }
+  `}
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      font-size: 8px;
+    }
+  `}
 `;
 
 const ContentText = styled.div`
   grid-row: 2/3;
   grid-column: 2/3;
   font-size: 12px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      line-height: 15px;
+      font-size: 11px;
+    }
+  `}
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      line-height: 14px;
+      font-size: 10px;
+    }
+  `}
 `;
 
 HpMessageItem.propTypes = {
