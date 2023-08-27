@@ -10,7 +10,9 @@ function HpMovingBox({ className }) {
   const setShowHpMessage = useSetRecoilState(showHpMessageState);
 
   const handleExpand = () => {
-    isExpanded ? setShowHpMessage(false) : setShowHpMessage(true);
+    isExpanded
+      ? setShowHpMessage(false)
+      : setTimeout(() => setShowHpMessage(true), 0.3 * 1000);
     setIsExpanded(!isExpanded);
   };
 

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import {
   HpMessageList,
   BiError,
@@ -67,6 +68,12 @@ function HpMessageBox({ className }) {
 
 const StyledMessageBox = styled.div`
   max-width: 300px;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      max-width: 100%;
+    }
+  `}
 `;
 
 const ErrorText = styled.p`

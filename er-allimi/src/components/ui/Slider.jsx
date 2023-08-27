@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { HiMiniArrowSmallLeft, HiMiniArrowSmallRight } from '@components';
 
 function Slider({
+  className,
   data,
   renderSlide,
   control,
@@ -119,7 +120,7 @@ function Slider({
     });
 
   return (
-    <SliderContainer>
+    <SliderContainer className={className}>
       <SliderWrap>
         <SlideList
           className="slide-list"
@@ -127,6 +128,7 @@ function Slider({
           dataLength={newData.length}
           sliding={sliding}
           transitionTime={transitionTime}
+          dotsPosition={dotsPosition}
         >
           {renderSlideItems}
         </SlideList>
@@ -172,10 +174,26 @@ const sliding = ({ sliding, transitionTime }) => {
   `;
 };
 
+const slideListAlign = ({ dotsPosition }) => {
+  switch (dotsPosition) {
+    case 'top':
+      return css`
+        align-items: start;
+      `;
+    case 'bottom':
+      return css`
+        align-items: end;
+      `;
+    default:
+      return css`
+        align-items: end;
+      `;
+  }
+};
+
 const SlideList = styled.div`
   display: flex;
-  align-items: top;
-
+  ${slideListAlign}
   ${sliding}
 `;
 
@@ -300,6 +318,7 @@ const DefaultInactiveDot = styled.span`
 `;
 
 Slider.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.array.isRequired,
   renderSlide: PropTypes.func.isRequired,
   control: PropTypes.bool, // controllers 유뮤
