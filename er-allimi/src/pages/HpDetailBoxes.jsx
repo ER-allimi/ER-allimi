@@ -21,9 +21,6 @@ function HpDetailBoxes({ className }) {
   const HpRTavailableBedData = useRecoilValue(hpDetailState).HpRTavailableBed;
   return (
     <Container className={className}>
-      <LayoutTop>
-        <StyledCurrentLocationInput />
-      </LayoutTop>
       <LayoutLeft>
         <StyledCurrentLocationBox />
         <StyledHpInfoBox />
@@ -35,11 +32,16 @@ function HpDetailBoxes({ className }) {
         )}
       </LayoutLeft>
       <LayoutRight>
-        {HpRTavailableBedData ? <StyledHpMessageBox /> : <EmptyBox></EmptyBox>}
+        {/* {HpRTavailableBedData ? <StyledHpMessageBox /> : <EmptyBox></EmptyBox>} */}
+        <StyledHpMessageBox />
         <StyledHpSrIIIBox />
       </LayoutRight>
+      <LayoutTop>
+        <StyledCurrentLocationInput />
+        {/* {HpRTavailableBedData && <StyledHpMessageBox />} */}
+        <StyledHpMessageBox />
+      </LayoutTop>
       <LayoutBottom>
-        {HpRTavailableBedData && <StyledHpMessageBox />}
         <StyledErsMovingBox />
       </LayoutBottom>
     </Container>
@@ -48,7 +50,7 @@ function HpDetailBoxes({ className }) {
 
 const EmptyBox = styled.div`
   height: 100px;
-`
+`;
 const Container = styled.div`
   display: grid;
   grid-template-rows: 1fr;
@@ -103,9 +105,9 @@ const LayoutTop = styled.div`
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
       align-items: start;
-      padding: 1rem;
     }
   `}
 `;
@@ -117,7 +119,6 @@ const LayoutBottom = styled.div`
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
-      grid-row: 1/3;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -142,19 +143,25 @@ const zIndexBox = css`
 
 const StyledCurrentLocationInput = styled(CurrentLocationInput)`
   ${zIndexBox}
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      margin: 1rem;
+    }
+  `}
 `;
 
 const StyledCurrentLocationBox = styled(CurrentLocationBox)`
-  margin-bottom: .5rem;
+  margin: 0.5rem;
   ${zIndexBox}
 `;
 
 const StyledHpInfoBox = styled(HpInfoBox)`
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   ${zIndexBox}
 `;
 const StyledHpRtErAvailableBedBox = styled(HpRtErAvailableBedBox)`
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   ${zIndexBox}
 `;
 const StyledHpRtHrAvailableBedBox = styled(HpRtHrAvailableBedBox)`
@@ -165,17 +172,6 @@ const StyledHpSrIIIBox = styled(HpSrIIIBox)`
 `;
 const StyledHpMessageBox = styled(HpMessageBox)`
   ${zIndexBox}
-  ${({ theme }) => css`
-    @media (max-width: ${theme.breakPoints.md}) {
-      margin: 1rem;
-      margin-top: 3.5rem;
-    }
-  `}
-  ${({ theme }) => css`
-    @media (max-width: ${theme.breakPoints.sm}) {
-      display: none;
-    }
-  `}
 `;
 
 const StyledErsMovingBox = styled(HpMovingBox)`
