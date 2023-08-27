@@ -15,29 +15,99 @@ function Slider({
   activeDot,
   inactiveDot,
   dotsPosition,
+  sliding,
+  transitionTime,
+  infinite,
   currentSlide,
   setCurrentSlide,
 }) {
   const slideList = useRef();
 
+  let newData = data;
+  if (infinite) newData = [data.at(-1), ...data, data.at(0)]; // 무한 슬라이드인 경우
+
   useEffect(() => {
     slideList.current.style.transform = `translateX(${-currentSlide * 100}%)`;
   }, [currentSlide]);
 
-  const handleCurrentSlideChange = (nexSlide) => {
-    if (nexSlide < 0 || nexSlide >= data.length) return;
+  const handleCurrentSlideChange = (nextSlide) => {
+    // 무한 슬라이드인 경우
+    if (infinite) {
+      if (nextSlide === newData.length - 1) {
+        setCurrentSlide(nextSlide);
+        return setTimeout(() => {
+          slideList.current.style.transition = `none`;
+          setCurrentSlide(1);
+          return setTimeout(() => {
+            if (sliding)
+              slideList.current.style.transition = `transform ${transitionTime}s`;
+          }, transitionTime * 1000);
+        }, transitionTime * 1000);
+      }
 
-    setCurrentSlide(nexSlide);
+      if (nextSlide === 0) {
+        setCurrentSlide(nextSlide);
+        return setTimeout(() => {
+          slideList.current.style.transition = `none`;
+          setCurrentSlide(newData.length - 2);
+          return setTimeout(() => {
+            if (sliding)
+              slideList.current.style.transition = `transform ${transitionTime}s`;
+          }, transitionTime * 1000);
+        }, transitionTime * 1000);
+      }
+    }
+
+    // 무한 슬라이드가 아닌 경우
+    if (nextSlide < 0 || nextSlide >= newData.length) return;
+
+    setCurrentSlide(nextSlide);
   };
 
-  const renderSlideItems = data.map((item) => (
-    <SlideItem key={item.label}>{renderSlide(item)}</SlideItem>
-  ));
+  const renderSlideItems = newData.map((item, idx) => {
+    // 무한 슬라이드인 경우
+    if (infinite) {
+      if (idx === 0) {
+        return (
+          <SlideItem key={`${item.label}+addFirst`}>
+            {renderSlide(item)}
+          </SlideItem>
+        );
+      }
+
+      if (idx === newData.length - 1) {
+        return (
+          <SlideItem key={`${item.label}+addLast`}>
+            {renderSlide(item)}
+          </SlideItem>
+        );
+      }
+    }
+
+    // 무한 슬라이드가 아닌 경우
+    return <SlideItem key={item.label}>{renderSlide(item)}</SlideItem>;
+  });
 
   const renderDots = Array(data.length)
     .fill(0)
     .map((item, idx) => {
       let dot;
+      // 무한 슬라이드인 경우
+      if (infinite) {
+        if (currentSlide === 0 && idx === data.length - 1) dot = activeDot;
+        else if (currentSlide === newData.length - 1 && idx === 0)
+          dot = activeDot;
+        else if (currentSlide - 1 === idx) dot = activeDot;
+        else dot = inactiveDot;
+
+        return (
+          <Dot key={idx} onClick={() => handleCurrentSlideChange(idx + 1)}>
+            {dot}
+          </Dot>
+        );
+      }
+
+      // 무한 슬라이드가 아닌 경우
       if (currentSlide === idx) dot = activeDot;
       else dot = inactiveDot;
 
@@ -51,18 +121,28 @@ function Slider({
   return (
     <SliderContainer>
       <SliderWrap>
-        <SlideList ref={slideList} dataLength={data.length}>
+        <SlideList
+          className="slide-list"
+          ref={slideList}
+          dataLength={newData.length}
+          sliding={sliding}
+          transitionTime={transitionTime}
+        >
           {renderSlideItems}
         </SlideList>
       </SliderWrap>
       {control && (
         <Controllers controllersPosition={controllersPosition}>
           <LeftController
+            infinite={infinite}
+            firstSlide={currentSlide === 0}
             onClick={() => handleCurrentSlideChange(currentSlide - 1)}
           >
             {leftController}
           </LeftController>
           <RightController
+            infinite={infinite}
+            lastSlide={currentSlide === data.length - 1}
             onClick={() => handleCurrentSlideChange(currentSlide + 1)}
           >
             {rightController}
@@ -84,9 +164,19 @@ const SliderWrap = styled.div`
   overflow: hidden;
 `;
 
+const sliding = ({ sliding, transitionTime }) => {
+  if (!sliding) return;
+
+  return css`
+    transition: transform ${transitionTime}s;
+  `;
+};
+
 const SlideList = styled.div`
   display: flex;
   align-items: top;
+
+  ${sliding}
 `;
 
 const SlideItem = styled.div`
@@ -126,28 +216,38 @@ const Controllers = styled.div`
   width: 100%;
 `;
 
-const LeftController = styled.span``;
+const LeftController = styled.span`
+  color: white;
 
-const RightController = styled.span``;
+  ${({ infinite, firstSlide }) => {
+    if (!infinite && firstSlide)
+      return css`
+        color: #ffffff9d;
+      `;
+  }}
+`;
+
+const RightController = styled.span`
+  color: white;
+
+  ${({ infinite, lastSlide }) => {
+    if (!infinite && lastSlide)
+      return css`
+        color: #ffffff9d;
+      `;
+  }}
+`;
 
 const DefaultLeftController = styled(HiMiniArrowSmallLeft)`
   font-size: 1.5rem;
-  color: #ffffff9d;
+  color: inherit;
   cursor: pointer;
-
-  /* &:hover {
-    color: white;
-  } */
 `;
 
 const DefaultRightController = styled(HiMiniArrowSmallRight)`
   font-size: 1.5rem;
-  color: #ffffff9d;
+  color: inherit;
   cursor: pointer;
-
-  /* &:hover {
-    color: white;
-  } */
 `;
 
 const dotsPos = ({ dotsPosition }) => {
@@ -210,6 +310,9 @@ Slider.propTypes = {
   activeDot: PropTypes.node,
   inactiveDot: PropTypes.node,
   dotsPosition: PropTypes.oneOf(['top', 'bottom']),
+  sliding: PropTypes.bool, // 슬라이딩 여부
+  transitionTime: PropTypes.number, // 단위: s
+  infinite: PropTypes.bool, // 무한 슬라이딩 여부
   currentSlide: PropTypes.number.isRequired,
   setCurrentSlide: PropTypes.func.isRequired,
 };
@@ -223,6 +326,9 @@ Slider.defaultProps = {
   activeDot: <DefaultActiveDot />,
   inactiveDot: <DefaultInactiveDot />,
   dotsPosition: 'bottom',
+  sliding: true,
+  transitionTime: 0.5,
+  infinite: false,
   currentSlide: 0,
 };
 

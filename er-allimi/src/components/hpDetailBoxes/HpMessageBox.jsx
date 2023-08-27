@@ -66,7 +66,7 @@ function HpMessageBox({ className }) {
 }
 
 const StyledMessageBox = styled.div`
-  min-width: 300px;
+  max-width: 300px;
 `;
 
 const ErrorText = styled.p`
