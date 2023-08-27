@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Slider } from '@components';
 
 function AutoPlaySlider({
+  className,
   data,
   renderSlide,
   control,
@@ -49,7 +50,7 @@ function AutoPlaySlider({
   }, [currentSlide, autoSlider]);
 
   return (
-    <AutoSlider ref={autoSlider}>
+    <AutoSlider ref={autoSlider} className={className}>
       <Slider
         data={data}
         renderSlide={renderSlide}
@@ -76,6 +77,7 @@ const AutoSlider = styled.div`
 `;
 
 AutoPlaySlider.propTypes = {
+  className: PropTypes.string,
   data: PropTypes.array.isRequired,
   renderSlide: PropTypes.func.isRequired,
   control: PropTypes.bool, // controllers 유뮤
