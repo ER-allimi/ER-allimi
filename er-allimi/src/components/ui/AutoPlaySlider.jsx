@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import styled from '@emotion/styled';
 import { Slider } from '@components';
 
 function AutoPlaySlider({
@@ -13,37 +14,66 @@ function AutoPlaySlider({
   activeDot,
   inactiveDot,
   dotsPosition,
+  sliding,
+  transitionTime,
+  infinite,
   intervalTime,
 }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const autoSlider = useRef();
+  const [currentSlide, setCurrentSlide] = useState(infinite ? 1 : 0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (currentSlide === data.length - 1) return setCurrentSlide(0);
+      // 무한 슬라이드인 경우
+      if (infinite && currentSlide === data.length) {
+        setCurrentSlide(currentSlide + 1);
+        return setTimeout(() => {
+          const slideList = autoSlider?.current.querySelector('.slide-list');
+          slideList.style.transition = `none`;
+          setCurrentSlide(1);
+          return setTimeout(() => {
+            if (sliding)
+              slideList.style.transition = `transform ${transitionTime}s`;
+          }, transitionTime * 1000);
+        }, transitionTime * 1000);
+      }
+
+      // 무한 슬라이드가 아닌 경우
+      if (!infinite && currentSlide === data.length - 1)
+        return setCurrentSlide(0);
 
       setCurrentSlide(currentSlide + 1);
     }, intervalTime * 1000);
 
     return () => clearTimeout(timer);
-  }, [currentSlide]);
+  }, [currentSlide, autoSlider]);
 
   return (
-    <Slider
-      data={data}
-      renderSlide={renderSlide}
-      control={control}
-      leftController={leftController}
-      rightController={rightController}
-      controllersPosition={controllersPosition}
-      pagination={pagination}
-      activeDot={activeDot}
-      inactiveDot={inactiveDot}
-      dotsPosition={dotsPosition}
-      currentSlide={currentSlide}
-      setCurrentSlide={setCurrentSlide}
-    ></Slider>
+    <AutoSlider ref={autoSlider}>
+      <Slider
+        data={data}
+        renderSlide={renderSlide}
+        control={control}
+        leftController={leftController}
+        rightController={rightController}
+        controllersPosition={controllersPosition}
+        pagination={pagination}
+        activeDot={activeDot}
+        inactiveDot={inactiveDot}
+        dotsPosition={dotsPosition}
+        sliding={sliding}
+        transitionTime={transitionTime}
+        infinite={infinite}
+        currentSlide={currentSlide}
+        setCurrentSlide={setCurrentSlide}
+      ></Slider>
+    </AutoSlider>
   );
 }
+
+const AutoSlider = styled.div`
+  width: 100%;
+`;
 
 AutoPlaySlider.propTypes = {
   data: PropTypes.array.isRequired,
@@ -56,10 +86,16 @@ AutoPlaySlider.propTypes = {
   activeDot: PropTypes.node,
   inactiveDot: PropTypes.node,
   dotsPosition: PropTypes.oneOf(['top', 'bottom']),
+  sliding: PropTypes.bool, // 슬라이딩 여부
+  transitionTime: PropTypes.number, // 단위: s
+  infinite: PropTypes.bool, // 무한 슬라이딩 여부
   intervalTime: PropTypes.number, // 단위: s
 };
 
 AutoPlaySlider.defaultProps = {
+  sliding: true,
+  transitionTime: 0.5,
+  infinite: true,
   intervalTime: 5,
 };
 
