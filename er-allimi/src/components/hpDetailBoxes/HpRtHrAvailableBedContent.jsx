@@ -54,9 +54,8 @@ function HpRtHrAvailableBedContent() {
           );
         })}
       </SortButtonContainer>
-      <ScrollBar
+      <StyledScrollBar
         scrollBarWidth={10}
-        totalHeight={100}
         scrollBarBackground={'grayLighter'}
         scrollBarColor={'grayLight'}
       >
@@ -73,7 +72,7 @@ function HpRtHrAvailableBedContent() {
             );
           })}
         </TableContainer>
-      </ScrollBar>
+      </StyledScrollBar>
     </>
   );
 }
@@ -118,8 +117,10 @@ const SortButtonContainer = styled.div`
   margin-bottom: 0.7rem;
 `;
 
-const TableContainer = styled.div`
-  
+const StyledScrollBar = styled(ScrollBar)`
+  max-height:  calc(100vh - 580px);
+
 `;
+const TableContainer = styled.div``;
 
 export default HpRtHrAvailableBedContent;
