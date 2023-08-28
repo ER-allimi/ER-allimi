@@ -2,25 +2,29 @@ import styled from '@emotion/styled';
 import { hpDetailState } from '@stores';
 import { useRecoilValue } from 'recoil';
 import { getDateStrByHvidate } from '@utils';
-import { ErChart, Tooltip, BsFillInfoSquareFill } from '@components';
+import { ErChart, Tooltip, BsFillInfoSquareFill, Skeleton } from '@components';
 function HpRtErAvailableBedContent() {
-  const HpRTavailableBedData = useRecoilValue(hpDetailState).HpRTavailableBed;
+  const hpRTavailableBedData = useRecoilValue(hpDetailState);
+
+  if (hpRTavailableBedData.length === 0) return <Skeleton />;
   const {
-    hpid,
-    hvidate,
-    hvec = 0,
-    hvs01 = 0,
-    hv28 = 0,
-    hvs02 = 0,
-    hv29 = 0,
-    hv13 = 0,
-    hvs03 = 0,
-    hvs46 = 0,
-    hv30 = 0,
-    hv14 = 0,
-    hvs04 = 0,
-    hvs47 = 0,
-  } = HpRTavailableBedData;
+    HpRTavailableBed: {
+      hpid,
+      hvidate,
+      hvec = 0,
+      hvs01 = 0,
+      hv28 = 0,
+      hvs02 = 0,
+      hv29 = 0,
+      hv13 = 0,
+      hvs03 = 0,
+      hvs46 = 0,
+      hv30 = 0,
+      hv14 = 0,
+      hvs04 = 0,
+      hvs47 = 0,
+    },
+  } = hpRTavailableBedData;
 
   const updateDate = getDateStrByHvidate(hvidate);
   const guideContent = [
