@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 
 function ScrollBar({
-  totalHeight,
+  className,
   scrollBarWidth,
   scrollBarBackground,
   scrollBarColor,
@@ -11,9 +11,9 @@ function ScrollBar({
   return (
     <ScrollBarContainer
       scrollBarWidth={scrollBarWidth}
-      totalHeight={totalHeight}
       scrollBarBackground={scrollBarBackground}
       scrollBarColor={scrollBarColor}
+      className={className}
     >
       {children}
     </ScrollBarContainer>
@@ -22,7 +22,6 @@ function ScrollBar({
 
 const ScrollBarContainer = styled.div`
   overflow-y: auto;
-  height: ${({ totalHeight }) => `${totalHeight}px`};
   &::-webkit-scrollbar {
     width: ${({ scrollBarWidth }) => `${scrollBarWidth}px`};
   }
@@ -40,7 +39,7 @@ const ScrollBarContainer = styled.div`
 
 ScrollBar.propTypes = {
   children: PropTypes.node,
-  totalHeight: PropTypes.number,
+  className: PropTypes.node,
   scrollBarWidth: PropTypes.number,
   scrollBarColor: PropTypes.oneOf([
     'gray',
