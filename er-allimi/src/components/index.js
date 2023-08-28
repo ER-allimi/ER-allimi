@@ -76,6 +76,7 @@ export {
   HiMiniArrowSmallRight,
   HiMiniArrowLongLeft,
   HiMiniArrowLongRight,
+  BsFillInfoSquareFill,
 } from './icons';
 
 export {

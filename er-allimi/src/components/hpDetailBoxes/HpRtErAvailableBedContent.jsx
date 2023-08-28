@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { hpDetailState } from '@stores';
 import { useRecoilValue } from 'recoil';
 import { getDateStrByHvidate } from '@utils';
-import { ErChart } from '@components';
+import { ErChart, Tooltip, BsFillInfoSquareFill } from '@components';
 function HpRtErAvailableBedContent() {
   const HpRTavailableBedData = useRecoilValue(hpDetailState).HpRTavailableBed;
   const {
@@ -23,13 +23,36 @@ function HpRtErAvailableBedContent() {
   } = HpRTavailableBedData;
 
   const updateDate = getDateStrByHvidate(hvidate);
+  const guideContent = [
+    <GuideContainer key={hpid}>
+      응급실일반/응급실소아 : <GreenCircle /> 80% 이상 <YellowCircle /> 50~79%{' '}
+      <RedCircle /> 50% 미만
+      <br />
+      음압/일반 : <GreenCircle /> 100% <YellowCircle /> 50~99% <RedCircle /> 50%
+      미만
+      <br />
+      음압격리 = 응급실 음압격리 + 격리진료구역 음압격리
+      <br />
+      일반격리 = 응급실 일반격리 + 격리진료구역 일반격리
+    </GuideContainer>,
+  ];
   return (
     <>
       <TitleContainer>
         <TitleText>실시간 응급실 가용병상 정보</TitleText>
         <DateText> (전송 일시: {updateDate})</DateText>
       </TitleContainer>
-      <RateGuideText>가용 병상 수(초과 병상 수) / 전체 병상 수</RateGuideText>
+      <GuideInfoContainer>
+        <RateGuideText>가용 병상 수(초과 병상 수) / 전체 병상 수</RateGuideText>
+        <Tooltip
+          direction="right"
+          color="grayDarker"
+          distanceAwy={10}
+          content={guideContent}
+        >
+          <BsFillInfoSquareFill />
+        </Tooltip>
+      </GuideInfoContainer>
       <ChartContainer>
         {hvs01 > 0 && (
           <ErChart
@@ -64,17 +87,6 @@ function HpRtErAvailableBedContent() {
           />
         )}
       </ChartContainer>
-      <GuideContainer>
-        응급실일반/응급실소아 : <GreenCircle /> 80% 이상 <YellowCircle /> 50~79%{' '}
-        <RedCircle /> 50% 미만
-        <br />
-        음압/일반 : <GreenCircle /> 100% <YellowCircle /> 50~99% <RedCircle />{' '}
-        50% 미만
-        <br />
-        음압격리 = 응급실 음압격리 + 격리진료구역 음압격리
-        <br />
-        일반격리 = 응급실 일반격리 + 격리진료구역 일반격리
-      </GuideContainer>
     </>
   );
 }
@@ -114,21 +126,34 @@ const DateText = styled(CommonText)`
 `;
 
 const RateGuideText = styled(CommonText)`
-  text-align: right;
   color: ${({ theme }) => theme.colors.grayDark};
+  margin-right: 0.5rem;
 `;
 const ChartContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
 `;
-const GuideContainer = styled(CommonText)`
-  color: ${({ theme }) => theme.colors.gray};
-  margin-left: 2px;
-  margin-top: 0.5rem;
+const GuideInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0;
+  align-items: center;
+`;
+const GuideContainer = styled.span`
+  font-size: 10px;
+  letter-spacing: -0.05rem;
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    font-size: 9px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    font-size: 8px;
+  }
+  color: white;
   whitespace: 'pre-line';
 `;
-const Circle = styled.div`
+const Circle = styled.span`
   display: inline-block;
   width: 0.5rem;
   height: 0.5rem;
