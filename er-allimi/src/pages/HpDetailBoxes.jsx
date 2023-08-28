@@ -140,7 +140,7 @@ const StyledCurrentLocationInput = styled(CurrentLocationInput)`
 `;
 
 const StyledCurrentLocationBox = styled(CurrentLocationBox)`
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
   ${zIndexBox}
 `;
 
