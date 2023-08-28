@@ -15,4 +15,4 @@ export { default as KidModel } from './KidModel';
 export { default as EtcSrIll } from './EtcSrIll';
 export { default as HpRtHrAvailableBedContent } from './HpRtHrAvailableBedContent';
 export { default as HpTableItem } from './HpTableItem';
-
+export { default as SelectButtons } from './SelectButtons';
