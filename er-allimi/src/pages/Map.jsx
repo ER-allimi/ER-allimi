@@ -9,7 +9,12 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPathHospitalDetail } from '@utils';
 import { renderToString } from 'react-dom/server';
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from 'recoil';
 import {
   userLocationState,
   mapCenterPointState,
@@ -24,7 +29,7 @@ const { kakao } = window;
 
 function Map() {
   const { latitude, longitude } = useRecoilValue(userLocationState);
-  const [centerPoint,setCenterPoint] = useRecoilState(mapCenterPointState);
+  const [centerPoint, setCenterPoint] = useRecoilState(mapCenterPointState);
   const resetPagination = useResetRecoilState(ersPaginationState);
   const ersList = useRecoilValue(ersListState);
 
@@ -115,8 +120,7 @@ function Map() {
       erMarkers.forEach((marker) => marker.setMap(null));
       newCircleOverlay.setMap(null);
     };
-
-  }, [map, centerPoint, radius]);
+  }, [map, centerPoint, radius, latitude, longitude]);
 
   // 디테일 페이지로 이동 시
   useEffect(() => {
