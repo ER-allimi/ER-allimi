@@ -36,6 +36,7 @@ export {
   Badge,
   Slider,
   AutoPlaySlider,
+  Skeleton,
 } from './ui';
 
 export {
