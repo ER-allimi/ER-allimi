@@ -8,6 +8,7 @@ export {
   ersPaginationState,
   targetHpIdState,
   showHpMessageState,
+  selectedHpDetailContentState,
 } from './atoms';
 
 export {

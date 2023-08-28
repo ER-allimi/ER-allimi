@@ -92,7 +92,9 @@ function HpSriIllContent() {
   );
 }
 
-const StyledHpSriIllContent = styled.div``;
+const StyledHpSriIllContent = styled.div`
+  width: 100%;
+`;
 
 const Title = styled.h2`
   margin-bottom: 0.5rem;

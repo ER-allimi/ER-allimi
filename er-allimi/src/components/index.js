@@ -77,6 +77,7 @@ export {
   HiMiniArrowSmallRight,
   HiMiniArrowLongLeft,
   HiMiniArrowLongRight,
+  GiHealingShield,
   BsFillInfoSquareFill,
 } from './icons';
 
@@ -107,4 +108,5 @@ export {
   EtcSrIll,
   HpRtHrAvailableBedContent,
   HpTableItem,
+  SelectButtons,
 } from './hpDetailBoxes';

@@ -53,7 +53,7 @@ Button.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-    PropTypes.element,
+    PropTypes.node,
   ]),
   color: PropTypes.oneOf([
     'gray',

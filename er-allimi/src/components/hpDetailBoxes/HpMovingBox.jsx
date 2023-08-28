@@ -1,20 +1,43 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useCallback, useState } from 'react';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
-import { MovingBox } from '@components';
-import { showHpMessageState } from '@stores';
+import {
+  MovingBox,
+  HpInfoContent,
+  HpRtErAvailableBedContent,
+  HpRtHrAvailableBedContent,
+  HpSrIllContent,
+  SelectButtons,
+} from '@components';
+import { showHpMessageState, selectedHpDetailContentState } from '@stores';
 
 function HpMovingBox({ className }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const setShowHpMessage = useSetRecoilState(showHpMessageState);
+  const selectedHpDetailContent = useRecoilValue(selectedHpDetailContentState);
 
-  const handleExpand = () => {
-    isExpanded
-      ? setShowHpMessage(false)
-      : setTimeout(() => setShowHpMessage(true), 0.3 * 1000);
+  const handleExpand = useCallback(() => {
+    isExpanded ? setShowHpMessage(false) : setShowHpMessage(true);
     setIsExpanded(!isExpanded);
-  };
+  }, [isExpanded]);
+
+  const renderSelectedContent = [
+    <HpRtErAvailableBedContent key={0} />,
+    <HpRtHrAvailableBedContent key={1} />,
+    <HpSrIllContent key={2} />,
+  ].find((_, idx) => {
+    return idx === selectedHpDetailContent;
+  });
+
+  const StyledMovingErsBox = styled(MovingBox)`
+    height: calc((100vh - 70px) / 2);
+    overflow-y: scroll;
+  `;
+
+  const StyledSelectButtons = styled(SelectButtons)`
+    margin: 1rem 0;
+  `;
 
   return (
     <StyledMovingErsBox
@@ -22,13 +45,12 @@ function HpMovingBox({ className }) {
       isExpanded={isExpanded}
       handleExpand={handleExpand}
     >
-      하단 디테일 박스
+      <HpInfoContent />
+      <StyledSelectButtons />
+      {renderSelectedContent}
     </StyledMovingErsBox>
   );
 }
-const StyledMovingErsBox = styled(MovingBox)`
-  height: calc((100vh - 70px) / 2);
-`;
 
 HpMovingBox.propTypes = {
   className: PropTypes.string,

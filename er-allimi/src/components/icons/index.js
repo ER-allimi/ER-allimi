@@ -39,3 +39,4 @@ export {
   HiMiniArrowLongLeft,
   HiMiniArrowLongRight,
 } from 'react-icons/hi2';
+export { GiHealingShield } from 'react-icons/gi';
