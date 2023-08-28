@@ -14,3 +14,4 @@ export { default as ScrollBar } from './ScrollBar';
 export { default as Badge } from './Badge';
 export { default as Slider } from './Slider';
 export { default as AutoPlaySlider } from './AutoPlaySlider';
+export { default as Skeleton } from './Skeleton';
