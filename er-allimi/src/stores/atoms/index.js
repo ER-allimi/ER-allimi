@@ -7,3 +7,4 @@ export { ersRTavailableBedState } from './ersRTavailableBedState';
 export { ersPaginationState } from './ersPaginationState';
 export { targetHpIdState } from './targetHpIdState';
 export { showHpMessageState } from './showHpMessageState';
+export { selectedHpDetailContentState } from './selectedHpDetailContentState';
