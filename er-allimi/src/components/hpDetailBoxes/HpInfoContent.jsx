@@ -56,8 +56,11 @@ function HpInfoContent() {
 }
 
 const StyledHpInfoContent = styled.div`
+  width: 100%;
+
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    border-bottom: 1px solid ${({ theme }) => theme.colors.grayLighter};
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grayLight};
   }
 `;
 
