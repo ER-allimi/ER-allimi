@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import { VscTriangleDown, VscTriangleUp } from '@components';
 
 function MovingBox({ className, children, isExpanded, handleExpand }) {
@@ -14,28 +14,17 @@ function MovingBox({ className, children, isExpanded, handleExpand }) {
   );
 }
 
-const expand = ({ isExpanded }) =>
-  isExpanded
-    ? keyframes`
-  0% {
-    transform: translateY(calc(100% - 2rem));
+const transform = ({ isExpanded }) => {
+  if (isExpanded)
+    return css`
+      transform: translateY(0);
+    `;
+  else {
+    return css`
+      transform: translateY(calc(100% - 2rem));
+    `;
   }
-
-  100% {
-    transform: translateY(0);
-
-  }
-`
-    : keyframes`
-0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(calc(100% - 2rem));
-
-  }
-`;
+};
 
 const StyledMovingBox = styled.div`
   display: flex;
@@ -48,8 +37,7 @@ const StyledMovingBox = styled.div`
   background-color: white;
   border-radius: 0.7rem 0.7rem 0 0;
   box-shadow: -3px 0 5px 3px ${({ theme }) => theme.colors.grayLight};
-  animation: ${expand} 0.3s linear;
-  animation-fill-mode: forwards;
+  ${transform}
 `;
 
 const ExpandIcon = styled.div`
