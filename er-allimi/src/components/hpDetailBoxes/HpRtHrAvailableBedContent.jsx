@@ -2,12 +2,17 @@ import styled from '@emotion/styled';
 import { hpDetailState } from '@stores';
 import { useRecoilValue } from 'recoil';
 import { getDateStrByHvidate, getHpRtHrAvailableBedData } from '@utils';
-import { Button, HpTableItem, ScrollBar } from '@components';
+import { Button, HpTableItem, ScrollBar, Skeleton } from '@components';
 import { useState } from 'react';
 function HpRtHrAvailableBedContent() {
-  const HpRTavailableBedData = useRecoilValue(hpDetailState).HpRTavailableBed;
+  const hpRTavailableBedData = useRecoilValue(hpDetailState);
+  const { HpRTavailableBed } = hpRTavailableBedData;
+  const [selectedName, setSelectedName] = useState('입원실');
+
+  if (hpRTavailableBedData.length === 0) return <Skeleton />;
+
   const { hrData, icuData, onlyEmergencyData, etcData } =
-    getHpRtHrAvailableBedData(HpRTavailableBedData);
+    getHpRtHrAvailableBedData(HpRTavailableBed);
   const tableData = [
     {
       name: '입원실',
@@ -26,8 +31,10 @@ function HpRtHrAvailableBedContent() {
       detail: etcData,
     },
   ].filter((data) => data.detail.length !== 0);
-  const { hpid, hvidate } = HpRTavailableBedData;
-  const [selectedName, setSelectedName] = useState(tableData[0].name);
+
+  const {
+    HpRTavailableBed: { hvidate },
+  } = hpRTavailableBedData;
   const handleShowContentClick = (name) => {
     setSelectedName(name);
   };
@@ -54,9 +61,8 @@ function HpRtHrAvailableBedContent() {
           );
         })}
       </SortButtonContainer>
-      <ScrollBar
+      <StyledScrollBar
         scrollBarWidth={10}
-        totalHeight={100}
         scrollBarBackground={'grayLighter'}
         scrollBarColor={'grayLight'}
       >
@@ -73,7 +79,7 @@ function HpRtHrAvailableBedContent() {
             );
           })}
         </TableContainer>
-      </ScrollBar>
+      </StyledScrollBar>
     </>
   );
 }
@@ -118,8 +124,9 @@ const SortButtonContainer = styled.div`
   margin-bottom: 0.7rem;
 `;
 
-const TableContainer = styled.div`
-  
+const StyledScrollBar = styled(ScrollBar)`
+  max-height: calc(100vh - 590px);
 `;
+const TableContainer = styled.div``;
 
 export default HpRtHrAvailableBedContent;

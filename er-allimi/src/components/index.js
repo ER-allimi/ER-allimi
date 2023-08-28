@@ -36,6 +36,7 @@ export {
   Badge,
   Slider,
   AutoPlaySlider,
+  Skeleton,
 } from './ui';
 
 export {
@@ -77,6 +78,7 @@ export {
   HiMiniArrowLongLeft,
   HiMiniArrowLongRight,
   GiHealingShield,
+  BsFillInfoSquareFill,
 } from './icons';
 
 export {

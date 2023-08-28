@@ -1,14 +1,14 @@
 import { useRecoilValue } from 'recoil';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { IoLocationSharp, BiSolidPhone } from '@components';
+import { IoLocationSharp, BiSolidPhone, Skeleton } from '@components';
 import { copyText } from '@utils';
 import { hpDetailState } from '@stores';
 
 function HpInfoContent() {
   const hpDetail = useRecoilValue(hpDetailState);
 
-  if (hpDetail.length === 0) return '로딩중...';
+  if (hpDetail.length === 0) return <Skeleton />;
 
   const {
     hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
