@@ -118,7 +118,7 @@ const SortButtonContainer = styled.div`
 `;
 
 const StyledScrollBar = styled(ScrollBar)`
-  max-height:  calc(100vh - 580px);
+  max-height:  calc(100vh - 590px);
 
 `;
 const TableContainer = styled.div``;
