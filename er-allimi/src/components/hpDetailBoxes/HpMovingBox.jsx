@@ -32,7 +32,7 @@ function HpMovingBox({ className }) {
   });
 
   const StyledMovingErsBox = styled(MovingBox)`
-    height: calc((100vh - 70px) / 2);
+    height: calc((100vh - (30px + 1rem)) / 2);
     /* overflow-y: auto; */
   `;
 
