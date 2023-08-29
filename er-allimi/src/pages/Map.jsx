@@ -9,12 +9,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPathHospitalDetail } from '@utils';
 import { renderToString } from 'react-dom/server';
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from 'recoil';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   userLocationState,
   mapCenterPointState,
@@ -160,5 +155,15 @@ const ControlWrapper = styled.div`
   position: absolute;
   top: 20vh;
   right: 5vw;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    right: 4vw;
+    top: 10vh;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    right: 3vw;
+    top: 9vh;
+  }
 `;
 export default Map;
