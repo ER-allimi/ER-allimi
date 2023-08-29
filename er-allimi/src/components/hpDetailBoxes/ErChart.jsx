@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import { getErRTavailableBedByColor } from '@utils';
 import styled from '@emotion/styled';
 import bb, { gauge } from 'billboard.js';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function ErChart({ availableBed, totalBed, hpid, title }) {
+  const defaultWidth = window.innerWidth >= 760 ? 60 : 130;
+  const [responsiveWidth, setResponsiveWidth] = useState(defaultWidth);
   const rate = Math.round((availableBed / totalBed) * 100);
   let isIsolation = false;
   if (title.includes('격리')) {
@@ -15,15 +17,20 @@ function ErChart({ availableBed, totalBed, hpid, title }) {
     totalBed,
     isIsolation,
   );
+
   const chartRef = useRef(null);
   useEffect(() => {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 760) setResponsiveWidth(120);
+      else setResponsiveWidth(60);
+    });
     const chart = bb.generate({
       data: {
         columns: [['가용병상', 0]],
         type: gauge(),
       },
       size: {
-        width: 60,
+        width: responsiveWidth,
         height: 100,
       },
       legend: {
@@ -63,7 +70,7 @@ function ErChart({ availableBed, totalBed, hpid, title }) {
     return () => {
       chart.destroy();
     };
-  }, [hpid]);
+  }, [hpid, responsiveWidth]);
 
   return (
     <StyledChartContainer>
@@ -91,10 +98,13 @@ const Chart = styled.div`
   }
   .bb svg {
     height: 60px;
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      height: 70px;
+    }
   }
   .bb-legend-item text {
-    font-size: 5px;
-    font-weight: 500;
+    font-size: 7px;
+    font-weight: 600;
   }
 
   .bb-tooltip-container {
@@ -111,10 +121,16 @@ const Chart = styled.div`
   .bb-chart-arcs-gauge-min,
   .bb-chart-arcs-gauge-max {
     font-size: 5px;
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      font-size: 8px;
+    }
   }
   .bb-gauge-value {
     font-size: 8.5px !important;
     font-weight: 600;
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      font-size: 11px !important;
+    }
   }
   .bb-tooltip-container .name,
   .bb-tooltip-container .value {
@@ -126,6 +142,10 @@ const Chart = styled.div`
   }
   .bb-legend {
     transform: translate(10px, 25px);
+    background-color: red;
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      transform: translate(10px, 60px);
+    }
   }
 `;
 const TitleText = styled.div`
@@ -133,17 +153,19 @@ const TitleText = styled.div`
   font-weight: 600;
   text-align: center;
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    margin-top: 0.3rem;
     font-size: 11px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    margin-top: 0.3rem;
     font-size: 10px;
   }
 `;
 const DataText = styled.div`
   font-size: 11px;
   font-weight: 600;
-  height: 2rem;
+  /* height: 2rem; */
   whitespace: 'pre-line';
   color: ${({ theme }) => theme.colors.grayDark};
   text-align: center;
