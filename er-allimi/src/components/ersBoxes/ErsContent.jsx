@@ -5,6 +5,7 @@ import {
   ErsList,
   RadiusDropdown,
   ErsPagination,
+  ScrollBar,
 } from '@components';
 import { sortedErsWithRadiusState } from '@stores';
 
@@ -41,9 +42,9 @@ function ErsContent() {
     }
   `;
 
-  const StyledErsList = styled(ErsList)`
+  const StyledScrollBar = styled(ScrollBar)`
     height: calc(100% - 100px);
-    overflow-y: scroll;
+    overflow-y: auto;
 
     @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
       height: calc(100% - 100px + 5px);
@@ -73,7 +74,9 @@ function ErsContent() {
         <SortingButtons />
         <StyledRadiusDropdown />
       </Utils>
-      <StyledErsList />
+      <StyledScrollBar>
+        <ErsList />
+      </StyledScrollBar>
       <MarginTopPagination />
     </StyledErsContent>
   );

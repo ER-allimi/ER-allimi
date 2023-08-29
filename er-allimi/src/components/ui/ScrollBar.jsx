@@ -86,4 +86,10 @@ ScrollBar.propTypes = {
     'greenLighter',
   ]),
 };
+
+ScrollBar.defaultProps = {
+  scrollBarWidth: 10,
+  scrollBarBackground: 'grayLighter',
+  scrollBarColor: 'grayLight',
+};
 export default ScrollBar;

@@ -9,6 +9,7 @@ import {
   HpRtHrAvailableBedContent,
   HpSrIllContent,
   SelectButtons,
+  ScrollBar,
 } from '@components';
 import { showHpMessageState, selectedHpDetailContentState } from '@stores';
 
@@ -32,7 +33,12 @@ function HpMovingBox({ className }) {
 
   const StyledMovingErsBox = styled(MovingBox)`
     height: calc((100vh - 70px) / 2);
-    overflow-y: scroll;
+    /* overflow-y: auto; */
+  `;
+
+  const StyledScrollBar = styled(ScrollBar)`
+    width: 100%;
+    overflow-y: auto;
   `;
 
   const StyledSelectButtons = styled(SelectButtons)`
@@ -45,9 +51,11 @@ function HpMovingBox({ className }) {
       isExpanded={isExpanded}
       handleExpand={handleExpand}
     >
-      <HpInfoContent />
-      <StyledSelectButtons />
-      {renderSelectedContent}
+      <StyledScrollBar>
+        <HpInfoContent />
+        <StyledSelectButtons />
+        {renderSelectedContent}
+      </StyledScrollBar>
     </StyledMovingErsBox>
   );
 }
