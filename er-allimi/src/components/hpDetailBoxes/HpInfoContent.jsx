@@ -11,8 +11,7 @@ function HpInfoContent() {
   if (hpDetail.length === 0) return <Skeleton />;
 
   const {
-    hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
-    HpRTavailableBed,
+    hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 }
   } = hpDetail;
 
   const handlePhoneNumberClick = () => {
@@ -45,12 +44,6 @@ function HpInfoContent() {
           <p onClick={handlePhoneNumberClick}>{dutyTel3}</p>
         </div>
       </Body>
-      {Boolean(HpRTavailableBed) || (
-        <Foot>
-          <p>* 응급실/입원실 가용 병상 정보를 제공하지 않음</p>
-          {/* <p>* 중증응급질환 수술 여부 정보를 제공하지 않음</p> */}
-        </Foot>
-      )}
     </StyledHpInfoContent>
   );
 }
@@ -147,16 +140,6 @@ const Body = styled.div`
       text-decoration: underline;
       cursor: pointer;
     }
-  }
-`;
-
-const Foot = styled.div`
-  margin-top: 0.5rem;
-
-  p {
-    text-align: right;
-    font-size: 11px;
-    color: ${({ theme }) => theme.colors.gray};
   }
 `;
 
