@@ -150,9 +150,16 @@ const RateGuideText = styled(CommonText)`
   margin-right: 0.5rem;
 `;
 const ChartContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 1rem;
+  }
 `;
 const GuideInfoContainer = styled.div`
   display: flex;
