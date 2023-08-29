@@ -2,10 +2,26 @@ import styled from '@emotion/styled';
 import { hpDetailState } from '@stores';
 import { useRecoilValue } from 'recoil';
 import { getDateStrByHvidate } from '@utils';
-import { ErChart, Tooltip, BsFillInfoSquareFill, Skeleton } from '@components';
+import {
+  ErChart,
+  Tooltip,
+  BsFillInfoSquareFill,
+  Skeleton,
+  EmptyBox,
+  TbArticleOff,
+} from '@components';
 function HpRtErAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
 
+  if (!hpRTavailableBedData.HpRTavailableBed)
+    return (
+      <>
+        <TitleText>실시간 응급실 가용병상 정보</TitleText>
+        <EmptyBox height={80} icon={<TbArticleOff />}>
+          <Text>해당 병원에서는 응급실 데이터를 제공해주지 않음</Text>
+        </EmptyBox>
+      </>
+    );
   if (hpRTavailableBedData.length === 0) return <Skeleton />;
   const {
     HpRTavailableBed: {
@@ -172,6 +188,10 @@ const YellowCircle = styled(Circle)`
 `;
 const GreenCircle = styled(Circle)`
   background-color: ${({ theme }) => theme.colors.green};
+`;
+const Text = styled.p`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.gray};
 `;
 
 export default HpRtErAvailableBedContent;
