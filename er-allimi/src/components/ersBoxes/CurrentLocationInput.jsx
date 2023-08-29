@@ -75,11 +75,11 @@ function CurrentLocationInput({ className }) {
         placeholder="현재 위치"
         leftIcon={<IoLocationSharp />}
         rightIcon={
-          showPostCodeButton && (
+          showPostCodeButton ? (
             <StyledButton color="gray" round="lg">
               위치 찾기
             </StyledButton>
-          )
+          ) : undefined
         }
         color="redLighter"
         round="lg"
