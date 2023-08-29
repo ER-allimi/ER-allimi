@@ -91,13 +91,13 @@ const TitleContainer = styled.div`
   margin-bottom: 0.5rem;
 `;
 const TitleText = styled.h5`
-  font-size: 14px;
+  font-size: 15px;
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    font-size: 12px;
+    font-size: 14px;
   }
 `;
 
