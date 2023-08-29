@@ -1,19 +1,26 @@
 import PropTypes from 'prop-types';
+import { useMatch } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Box, CurrentLocationInput, PostCodeButton } from '@components';
+import { PATH_HOSPITALDETAIL } from '@constants';
 
 function CurrentLocationBox({ className }) {
+  const match = useMatch(PATH_HOSPITALDETAIL);
+  const showBody = !match;
+
   return (
     <Box className={className}>
       <Title>현 위치</Title>
       <CurrentLocationInput />
-      <Body>
-        <Text>
-          현재 자신의 위치 정보가 일치하지 않을경우 <br />
-          위치 찾기에서 주소를 검색하시면 재설정합니다.
-        </Text>
-        <PostCodeButton />
-      </Body>
+      {showBody && (
+        <Body>
+          <Text>
+            현재 자신의 위치 정보가 일치하지 않을경우 <br />
+            위치 찾기에서 주소를 검색하시면 재설정합니다.
+          </Text>
+          <PostCodeButton />
+        </Body>
+      )}
     </Box>
   );
 }
