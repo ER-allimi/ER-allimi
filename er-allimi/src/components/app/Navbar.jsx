@@ -64,6 +64,7 @@ const StyledNavbar = styled.nav`
     @media (max-width: ${theme.breakPoints.md}) {
       flex-direction: row;
       justify-content: space-between;
+      padding: 0.5rem 1rem;
       width: 100%;
     }
   `}
@@ -82,7 +83,7 @@ const Header = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
+      padding: 0.5rem 1rem;
       width: 100%;
     }
   `}
@@ -101,6 +102,13 @@ const Logo = styled.div`
     border-radius: 0.5rem;
     object-fit: contain;
   }
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      width: 30px;
+      height: 30px;
+    }
+  `}
 `;
 
 const Utils = styled.div`
@@ -118,7 +126,7 @@ const Utils = styled.div`
       grid-template-columns: ${backButton
         ? 'repeat(3, 1fr)'
         : 'repeat(2, 1fr)'};
-      column-gap: 2rem;
+      column-gap: 1.2rem;
       margin-top: 0;
     }
   `}
@@ -126,11 +134,11 @@ const Utils = styled.div`
   ${({ theme, show }) => css`
     @media (max-width: ${theme.breakPoints.sm}) {
       position: absolute;
-      top: calc(40px + 2rem);
+      top: calc(30px + 1rem);
       left: 0px;
       grid-template-columns: 1fr;
       row-gap: 1rem;
-      padding: 2rem;
+      padding: 1.5rem;
       width: 100%;
       visibility: ${show ? 'visible' : 'hidden'};
       opacity: ${show ? 1 : 0};
@@ -145,15 +153,37 @@ const MapIcon = styled(FaMapMarkedAlt)`
   display: inline-block;
   font-size: 1.7rem;
   color: white;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      font-size: 1.3rem;
+    }
+  `}
 `;
 
-const InfoIcon = MapIcon.withComponent(AiOutlineInfoCircle);
+const InfoIcon = styled(AiOutlineInfoCircle)`
+  display: inline-block;
+  font-size: 1.7rem;
+  color: white;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      font-size: 1.3rem;
+    }
+  `}
+`;
 
 const BackIcon = styled(PiArrowBendUpLeftBold)`
   display: inline-block;
   font-size: 1.7rem;
   color: white;
   cursor: pointer;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      font-size: 1.3rem;
+    }
+  `}
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.sm}) {

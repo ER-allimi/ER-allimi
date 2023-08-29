@@ -44,7 +44,7 @@ function App() {
     ${({ theme }) => css`
       @media (max-width: ${theme.breakPoints.md}) {
         width: 100%;
-        height: calc(100vh - (40px + 2rem));
+        height: calc(100vh - (30px + 1rem));
       }
     `}
   `;
