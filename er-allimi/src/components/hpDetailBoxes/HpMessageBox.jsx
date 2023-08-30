@@ -116,6 +116,18 @@ const Open = styled.div`
     font-size: 2rem;
     color: black;
   }
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      margin-right: 1.5rem;
+    }
+  `}
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      margin-right: 1rem;
+    }
+  `}
 `;
 
 const MsgCntBadge = styled(Badge)`
