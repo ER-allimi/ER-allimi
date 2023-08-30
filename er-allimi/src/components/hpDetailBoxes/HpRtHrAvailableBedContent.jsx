@@ -6,7 +6,7 @@ import {
   Button,
   HpTableItem,
   ScrollBar,
-  Skeleton,
+  Spinner,
   EmptyBox,
   TbArticleOff,
 } from '@components';
@@ -17,6 +17,12 @@ function HpRtHrAvailableBedContent() {
   const { HpRTavailableBed } = hpRTavailableBedData;
   const [selectedName, setSelectedName] = useState('입원실');
 
+  if (hpRTavailableBedData.length === 0)
+    return (
+      <EmptyBox height={150}>
+        <Spinner />
+      </EmptyBox>
+    );
   if (!hpRTavailableBedData.HpRTavailableBed)
     return (
       <>
@@ -26,7 +32,6 @@ function HpRtHrAvailableBedContent() {
         </EmptyBox>
       </>
     );
-  if (hpRTavailableBedData.length === 0) return <Skeleton />;
 
   const { hrData, icuData, onlyEmergencyData, etcData } =
     getHpRtHrAvailableBedData(HpRTavailableBed);
