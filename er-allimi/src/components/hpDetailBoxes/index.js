@@ -16,3 +16,4 @@ export { default as EtcSrIll } from './EtcSrIll';
 export { default as HpRtHrAvailableBedContent } from './HpRtHrAvailableBedContent';
 export { default as HpTableItem } from './HpTableItem';
 export { default as SelectButtons } from './SelectButtons';
+export { default as Models } from './Models';

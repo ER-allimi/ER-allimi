@@ -8,3 +8,15 @@ export {
 } from './defaultLocation';
 export { ERS_CNT_PER_PAGE } from './pagination';
 export { KM_TO_M_UNIT } from './kmToMUnit';
+export {
+  ADULT_HEAD,
+  ADULT_CHEST,
+  ADULT_STOMACH,
+  ADULT_ARM1,
+  ADULT_ARM2,
+  ADULT_LEG1,
+  ADULT_LEG2,
+  KID_CHEST,
+  KID_STOMACH,
+  ETC,
+} from './bodyParts';
