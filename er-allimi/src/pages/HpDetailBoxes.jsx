@@ -160,6 +160,12 @@ const StyledHpSrIIIBox = styled(HpSrIIIBox)`
 `;
 const StyledHpMessageBox = styled(HpMessageBox)`
   ${zIndexBox}
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      width: 100vw;
+    }
+  `}
 `;
 
 const StyledErsMovingBox = styled(HpMovingBox)`
