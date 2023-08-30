@@ -27,6 +27,8 @@ function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
     <StyledErItem>
       <Link
         to={getPathHospitalDetail({
+          stage1: hpInfo.dutyAddr.split(' ')[0],
+          stage2: hpInfo.dutyAddr.split(' ')[1],
           hospitalId: hpInfo.hpid,
         })}
       >

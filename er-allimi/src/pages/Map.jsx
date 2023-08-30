@@ -68,7 +68,11 @@ function Map() {
     if (!lastElement) return;
 
     lastElement.addEventListener('click', () => {
-      navigate(getPathHospitalDetail({ hospitalId }));
+      const targetHpAddr = ersList.find(
+        (item) => item.hpid === hospitalId,
+      ).dutyAddr;
+      const [stage1, stage2] = targetHpAddr.split(' ');
+      navigate(getPathHospitalDetail({ stage1, stage2, hospitalId }));
     });
 
     lastElement.addEventListener('mouseover', () => {
