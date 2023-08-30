@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { Tooltip } from '@components';
+import { css } from '@emotion/react';
+import { Tooltip, Popover } from '@components';
+import { KID_CHEST, KID_STOMACH } from '@constants';
 
 function Body() {
   return (
@@ -32,70 +34,161 @@ function Body() {
   );
 }
 
-function Chest({ data, className }) {
+function Chest({
+  data,
+  showContent,
+  handlePopoverClick,
+  handleContentRemove,
+  className,
+}) {
   return (
-    <Tooltip
-      className={className}
-      direction="left"
-      content={data}
-      distanceAway={15}
-      color="blue"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="15"
-        viewBox="0 0 28 15"
-        fill="none"
-      >
-        <ellipse
-          className="chest"
-          cx="14"
-          cy="7.5"
-          rx="14"
-          ry="7.5"
-          fill="#FFEE54"
-        />
-      </svg>
-    </Tooltip>
+    <>
+      <BodyPartAtLg className={className}>
+        <Tooltip direction="left" content={data} distanceAway={15} color="blue">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="15"
+            viewBox="0 0 28 15"
+            fill="none"
+          >
+            <ellipse
+              className="chest"
+              cx="14"
+              cy="7.5"
+              rx="14"
+              ry="7.5"
+              fill="#FFEE54"
+            />
+          </svg>
+        </Tooltip>
+      </BodyPartAtLg>
+      <BodyPartAtMd className={className}>
+        <Popover
+          direction="left"
+          containerClassName="hpMovingBox"
+          content={data}
+          distanceAway={5}
+          color="blue"
+          showContent={showContent}
+          handlePopoverClick={handlePopoverClick}
+          handleContentRemove={handleContentRemove}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="15"
+            viewBox="0 0 28 15"
+            fill="none"
+          >
+            <ellipse
+              className="chest"
+              cx="14"
+              cy="7.5"
+              rx="14"
+              ry="7.5"
+              fill="#FFEE54"
+            />
+          </svg>
+        </Popover>
+      </BodyPartAtMd>
+    </>
   );
 }
 
-function Stomach({ data, className }) {
+function Stomach({
+  data,
+  showContent,
+  handlePopoverClick,
+  handleContentRemove,
+  className,
+}) {
   return (
-    <Tooltip
-      className={className}
-      direction="left"
-      content={data}
-      distanceAway={15}
-      color="blue"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="28"
-        height="18"
-        viewBox="0 0 28 18"
-        fill="none"
-      >
-        <ellipse
-          className="stomach"
-          cx="14"
-          cy="9"
-          rx="14"
-          ry="9"
-          fill="#FFEE54"
-        />
-      </svg>
-    </Tooltip>
+    <>
+      <BodyPartAtLg className={className}>
+        <Tooltip direction="left" content={data} distanceAway={15} color="blue">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="18"
+            viewBox="0 0 28 18"
+            fill="none"
+          >
+            <ellipse
+              className="stomach"
+              cx="14"
+              cy="9"
+              rx="14"
+              ry="9"
+              fill="#FFEE54"
+            />
+          </svg>
+        </Tooltip>
+      </BodyPartAtLg>
+      <BodyPartAtMd className={className}>
+        <Popover
+          direction="left"
+          containerClassName="hpMovingBox"
+          content={data}
+          distanceAway={5}
+          color="blue"
+          showContent={showContent}
+          handlePopoverClick={handlePopoverClick}
+          handleContentRemove={handleContentRemove}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="18"
+            viewBox="0 0 28 18"
+            fill="none"
+          >
+            <ellipse
+              className="stomach"
+              cx="14"
+              cy="9"
+              rx="14"
+              ry="9"
+              fill="#FFEE54"
+            />
+          </svg>
+        </Popover>
+      </BodyPartAtMd>
+    </>
   );
 }
 
-function KidModel({ data }) {
+function KidModel({
+  data,
+  displayedPopover,
+  handlePopoverClick,
+  handleContentRemove,
+}) {
   return (
     <StyledAKidModel>
       <Body />
-      {data.chest.length !== 0 && <StyledChest data={data.chest} />}
-      {data.stomach.length !== 0 && <StyledStomach data={data.stomach} />}
+      {data.chest.length !== 0 && (
+        <StyledChest
+          data={data.chest}
+          showContent={
+            displayedPopover.find((part) => part.bodyPart === KID_CHEST)
+              .showContent
+          }
+          handlePopoverClick={() => handlePopoverClick(KID_CHEST)}
+          handleContentRemove={handleContentRemove}
+        />
+      )}
+      {data.stomach.length !== 0 && (
+        <StyledStomach
+          data={data.stomach}
+          showContent={
+            displayedPopover.find((part) => part.bodyPart === KID_STOMACH)
+              .showContent
+          }
+          handlePopoverClick={() => handlePopoverClick(KID_STOMACH)}
+          handleContentRemove={handleContentRemove}
+        />
+      )}
     </StyledAKidModel>
   );
 }
@@ -110,11 +203,38 @@ const StyledAKidModel = styled.div`
   }
 `;
 
+const BodyPartAtLg = styled.div`
+  display: inline-block;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: none;
+  }
+`;
+
+const BodyPartAtMd = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: inline-block;
+  }
+`;
+
+const showContentTrue = ({ theme, showContent }) => {
+  if (showContent)
+    return css`
+      fill: ${theme.colors.yellowDarker};
+    `;
+};
+
 const StyledChest = styled(Chest)`
   position: absolute;
   top: 30px;
   left: 50%;
   transform: translateX(-50%);
+
+  .chest {
+    ${showContentTrue}
+  }
 `;
 
 const StyledStomach = styled(Stomach)`
@@ -122,19 +242,32 @@ const StyledStomach = styled(Stomach)`
   top: 50px;
   left: 50%;
   transform: translateX(-50%);
+
+  .stomach {
+    ${showContentTrue}
+  }
 `;
 
 KidModel.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  displayedPopover: PropTypes.array.isRequired,
+  handlePopoverClick: PropTypes.func.isRequired,
+  handleContentRemove: PropTypes.func.isRequired,
 };
 
 Chest.propTypes = {
   data: PropTypes.array,
+  showContent: PropTypes.bool.isRequired,
+  handlePopoverClick: PropTypes.func.isRequired,
+  handleContentRemove: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
 Stomach.propTypes = {
   data: PropTypes.array,
+  showContent: PropTypes.bool.isRequired,
+  handlePopoverClick: PropTypes.func.isRequired,
+  handleContentRemove: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 
