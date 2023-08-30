@@ -51,7 +51,7 @@ function HpMovingBox({ className }) {
       isExpanded={isExpanded}
       handleExpand={handleExpand}
     >
-      <StyledScrollBar>
+      <StyledScrollBar className="hpMovingBox">
         <HpInfoContent />
         <StyledSelectButtons />
         {renderSelectedContent}
