@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
+import ReactDom from 'react-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -10,6 +12,59 @@ function Tooltip({
   color,
   className,
 }) {
+  const [showContent, setShowContent] = useState(false);
+  const target = useRef();
+  const contentBox = useRef();
+
+  useEffect(() => {
+    const targetEl = target.current;
+    if (!targetEl) return;
+
+    const mouseoverCallback = () => setShowContent(true);
+    targetEl.addEventListener('mouseover', mouseoverCallback);
+
+    const mouseoutCallback = () => setShowContent(false);
+    targetEl.addEventListener('mouseout', mouseoutCallback);
+
+    return () => {
+      targetEl.removeEventListener('mouseover', mouseoverCallback);
+      targetEl.removeEventListener('mouseout', mouseoutCallback);
+    };
+  }, [target]);
+
+  useEffect(() => {
+    const targetEl = target.current;
+    const contentBoxEl = contentBox.current;
+
+    if (!targetEl || !contentBoxEl) return;
+
+    const { top, bottom, left, right, width, height } =
+      targetEl.getBoundingClientRect();
+
+    switch (direction) {
+      case 'left':
+        contentBoxEl.style.top = `${top + height / 2}px`;
+        contentBoxEl.style.left = `${left - distanceAway}px`;
+        contentBoxEl.style.transform = `translate(-100%, -50%)`;
+        break;
+      case 'right':
+        contentBoxEl.style.top = `${top + height / 2}px`;
+        contentBoxEl.style.left = `${right + distanceAway}px`;
+        contentBoxEl.style.transform = `translateY(-50%)`;
+        break;
+      case 'top':
+        contentBoxEl.style.top = `${top - distanceAway}px`;
+        contentBoxEl.style.left = `${left + width / 2}px`;
+        contentBoxEl.style.transform = `translate(-50%, -100%)`;
+        break;
+      case 'bottom':
+        contentBoxEl.style.top = `${bottom + distanceAway}px`;
+        contentBoxEl.style.left = `${left + width / 2}px`;
+        contentBoxEl.style.transform = `translateX(-50%)`;
+        break;
+    }
+  }, [target, showContent]);
+
   let renderContent;
   if (typeof content === 'string') renderContent = <p>{content}</p>;
   else if (Array.isArray(content)) {
@@ -23,51 +78,25 @@ function Tooltip({
   }
 
   return (
-    <StyledTooltip className={className}>
+    <StyledTooltip className={className} ref={target}>
       {children}
-      <ContentBox
-        className="tooltip-content-box"
-        direction={direction}
-        distanceAway={distanceAway}
-        color={color}
-      >
-        {renderContent}
-        <Pointy direction={direction} />
-      </ContentBox>
+      {showContent &&
+        ReactDom.createPortal(
+          <ContentBox
+            className="tooltip-content-box"
+            direction={direction}
+            distanceAway={distanceAway}
+            color={color}
+            ref={contentBox}
+          >
+            {renderContent}
+            <Pointy direction={direction} />
+          </ContentBox>,
+          document.querySelector('.tooltip-container'),
+        )}
     </StyledTooltip>
   );
 }
-
-const contentBoxPosition = ({ direction, distanceAway }) => {
-  const dis = distanceAway + 'px';
-
-  switch (direction) {
-    case 'left':
-      return css`
-        top: 50%;
-        right: calc(100% + ${dis});
-        transform: translateY(-50%);
-      `;
-    case 'right':
-      return css`
-        top: 50%;
-        left: calc(100% + ${dis});
-        transform: translateY(-50%);
-      `;
-    case 'top':
-      return css`
-        bottom: calc(100% + ${dis});
-        left: 50%;
-        transform: translateX(-50%);
-      `;
-    case 'bottom':
-      return css`
-        top: calc(100% + ${dis});
-        left: 50%;
-        transform: translateX(-50%);
-      `;
-  }
-};
 
 const pointyPosition = ({ direction }) => {
   switch (direction) {
@@ -98,16 +127,10 @@ const StyledTooltip = styled.div`
   position: relative;
   display: inline-block;
   cursor: pointer;
-
-  &:hover .tooltip-content-box {
-    display: inline-block;
-  }
 `;
 
 const ContentBox = styled.div`
-  display: none;
-  position: absolute;
-  ${contentBoxPosition}
+  position: fixed;
   width: max-content;
   padding: 0.5rem 0.7rem;
   background-color: ${({ theme, color }) => theme.colors[color]};
