@@ -1,18 +1,33 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import PropTypes from 'prop-types';
-import { ErItem, EmptyBox, TbHomeOff } from '@components';
+import { ErItem, EmptyBox, TbHomeOff, Skeleton } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
+import { useFetchErList, useFetchErsRTavailableBed } from '@hooks';
 
 function ErsList({ className }) {
   const ersList = useRef();
   const data = useRecoilValue(sortedErsWithRadiusState);
   const page = useRecoilValue(ersPaginationState);
+  const { isFetching: isErListFetching } = useFetchErList();
+  const { isFetching: isAvailableBedFetching } = useFetchErsRTavailableBed();
 
   useEffect(() => {
-    ersList.current.scrollTo(0, 0);
+    if (ersList.current) {
+      ersList.current.scrollTo(0, 0);
+    }
   }, [page]);
+
+  if (isErListFetching || isAvailableBedFetching) {
+    return (
+      <>
+        <Skeleton isWithAvailableBed={true} />
+        <Skeleton isWithAvailableBed={true} />
+        <Skeleton isWithAvailableBed={true} />
+      </>
+    );
+  }
 
   const start = (page - 1) * ERS_CNT_PER_PAGE;
   const end = page * ERS_CNT_PER_PAGE;

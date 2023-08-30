@@ -6,13 +6,19 @@ import {
   ErChart,
   Tooltip,
   BsFillInfoSquareFill,
-  Skeleton,
   EmptyBox,
+  Spinner,
   TbArticleOff,
 } from '@components';
 function HpRtErAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
 
+  if (hpRTavailableBedData.length === 0)
+    return (
+      <EmptyBox height={150}>
+        <Spinner />
+      </EmptyBox>
+    );
   if (!hpRTavailableBedData.HpRTavailableBed)
     return (
       <>
@@ -22,7 +28,6 @@ function HpRtErAvailableBedContent() {
         </EmptyBox>
       </>
     );
-  if (hpRTavailableBedData.length === 0) return <Skeleton />;
   const {
     HpRTavailableBed: {
       hpid,
