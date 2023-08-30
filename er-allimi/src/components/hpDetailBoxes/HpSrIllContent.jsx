@@ -1,16 +1,7 @@
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useFetchHpSrIII } from '@hooks';
-import {
-  AdultModel,
-  KidModel,
-  EtcSrIll,
-  EmptyBox,
-  Spinner,
-  BiError,
-  TbArticleOff,
-} from '@components';
-import { classifySurgery } from '@utils';
+import { EmptyBox, Spinner, BiError, TbArticleOff, Models } from '@components';
 
 function HpSriIllContent() {
   const { stage1, stage2, hospitalId: hpId } = useParams();
@@ -46,17 +37,6 @@ function HpSriIllContent() {
         </EmptyBox>
       );
     else {
-      const {
-        adult: adultData,
-        kid: kidData,
-        etc: etcData,
-      } = classifySurgery(hpData);
-
-      const StyledEtcSrIll = styled(EtcSrIll)`
-        justify-self: start;
-        align-self: start;
-      `;
-
       content = (
         <>
           <DescAtLg>
@@ -69,11 +49,7 @@ function HpSriIllContent() {
             <br />* 노란색 부분을 클릭하면, 진행 가능한 수술을 알 수 있음
             <br />* '정보 미제공' 데이터는 표시하지 않음
           </DescAtMd>
-          <Models>
-            <AdultModel data={adultData} />
-            <KidModel data={kidData} />
-            {etcData.length !== 0 && <StyledEtcSrIll data={etcData} />}
-          </Models>
+          <Models hpData={hpData} />
         </>
       );
     }
@@ -115,14 +91,6 @@ const DescAtMd = styled.p`
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     display: block;
   }
-`;
-
-const Models = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 2fr 1fr;
-  justify-items: center;
-  align-items: baseline;
-  margin-top: 1rem;
 `;
 
 const Text = styled.p`

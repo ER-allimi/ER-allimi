@@ -37,6 +37,7 @@ export {
   Slider,
   AutoPlaySlider,
   Skeleton,
+  Popover,
 } from './ui';
 
 export {
@@ -109,4 +110,5 @@ export {
   HpRtHrAvailableBedContent,
   HpTableItem,
   SelectButtons,
+  Models,
 } from './hpDetailBoxes';
