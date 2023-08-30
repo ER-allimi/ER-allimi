@@ -29,8 +29,8 @@ const Wrapper = styled.div`
   margin-top: 0.6rem;
 `;
 const Title = styled.div`
-  width: 266px;
-  height: 20px;
+  width: 80%;
+  height: 19px;
   position: relative;
   overflow: hidden;
   background-color: #f2f2f2;
@@ -46,8 +46,8 @@ const Title = styled.div`
   }
 `;
 const SubTitle = styled.div`
-  width: 266px;
-  height: 16px;
+  width: 40%;
+  height: 14px;
   position: relative;
   overflow: hidden;
   background-color: #f2f2f2;
@@ -63,8 +63,8 @@ const SubTitle = styled.div`
   }
 `;
 const Content = styled.div`
-  width: 266px;
-  height: 5rem;
+  width: 100%;
+  height: 40px;
   position: relative;
   overflow: hidden;
   background-color: #f2f2f2;
