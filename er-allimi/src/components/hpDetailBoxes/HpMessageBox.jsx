@@ -11,11 +11,12 @@ import {
   Badge,
 } from '@components';
 import { useFetchHpMsg } from '@hooks';
-import { useRecoilValue } from 'recoil';
-import { targetHpIdState, showHpMessageState } from '@stores';
+import { showHpMessageState } from '@stores';
+import { useParams } from 'react-router-dom';
 
 function HpMessageBox({ className }) {
-  const targetHpId = useRecoilValue(targetHpIdState);
+  const targetHpId = useParams().hospitalId;
+
   const { data, isLoading, isError } = useFetchHpMsg(targetHpId);
   const [showHpMessage, setShowHpMessage] = useRecoilState(showHpMessageState);
   const [showLocalHpMessage, setShowLocalHpMessage] = useState(true);
