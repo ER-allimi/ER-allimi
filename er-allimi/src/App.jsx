@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import styled from '@emotion/styled';
 import { ThemeProvider, Global, css } from '@emotion/react';
 import { theme, globalStyles } from '@styles';
-import { Navbar } from '@components';
+import { Navbar, NoticeModal } from '@components';
 import {
   useGetUserLocation,
   useFetchErList,
@@ -59,6 +59,7 @@ function App() {
         </StyledOutlet>
       </StyledApp>
       <Toaster position="top-center" reverseOrder={false} />
+      <NoticeModal />
     </ThemeProvider>
   );
 }

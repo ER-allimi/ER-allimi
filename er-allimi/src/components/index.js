@@ -1,4 +1,4 @@
-export { Navbar } from './app';
+export { Navbar, NoticeModal } from './app';
 
 export {
   CurrentLocationInput,
@@ -38,6 +38,7 @@ export {
   AutoPlaySlider,
   Skeleton,
   Popover,
+  Modal,
   GuideBox,
 } from './ui';
 
@@ -81,6 +82,8 @@ export {
   HiMiniArrowLongRight,
   GiHealingShield,
   BsFillInfoSquareFill,
+  IoClose,
+  GrAnnounce,
 } from './icons';
 
 export {
