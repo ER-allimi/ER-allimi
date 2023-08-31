@@ -39,6 +39,7 @@ export {
   Skeleton,
   Popover,
   Modal,
+  GuideBox,
 } from './ui';
 
 export {
