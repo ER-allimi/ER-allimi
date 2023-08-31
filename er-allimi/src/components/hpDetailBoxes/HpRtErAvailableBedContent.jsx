@@ -159,11 +159,10 @@ const ChartContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-row-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(50%,auto));
   }
 `;
 const GuideInfoContainer = styled.div`
