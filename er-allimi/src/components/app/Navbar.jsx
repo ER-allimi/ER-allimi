@@ -43,7 +43,7 @@ function Navbar() {
           <MapIcon />
           <Text>메인 화면</Text>
         </Link>
-        <Link to="">
+        <Link to="https://defiant-beard-9a5.notion.site/9664f7bb2cb24775b65ce273971aefe1?pvs=4">
           <InfoIcon />
           <Text>응급실 알리미 소개 및 사용 방법</Text>
         </Link>
