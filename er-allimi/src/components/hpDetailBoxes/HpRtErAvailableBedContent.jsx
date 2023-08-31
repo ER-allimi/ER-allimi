@@ -9,9 +9,12 @@ import {
   EmptyBox,
   Spinner,
   TbArticleOff,
+  Popover,
 } from '@components';
+import { useState } from 'react';
 function HpRtErAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
+  const [showContent, setShowContent] = useState(false);
 
   if (hpRTavailableBedData.length === 0)
     return (
@@ -69,14 +72,32 @@ function HpRtErAvailableBedContent() {
       </TitleContainer>
       <GuideInfoContainer>
         <RateGuideText>가용 병상 수(초과 병상 수) / 전체 병상 수</RateGuideText>
-        <Tooltip
-          direction="right"
-          color="grayDarker"
-          distanceAwy={10}
-          content={guideContent}
-        >
-          <BsFillInfoSquareFill />
-        </Tooltip>
+        <TooltipWrapper>
+          <Tooltip
+            direction="right"
+            color="grayDarker"
+            distanceAwy={10}
+            content={guideContent}
+          >
+            <BsFillInfoSquareFill />
+          </Tooltip>
+        </TooltipWrapper>
+        <PopoverWrapper>
+          <Popover
+            direction="left"
+            containerClassName="hpMovingBox"
+            content={guideContent}
+            distanceAway={5}
+            color="grayDarker"
+            showContent={showContent}
+            handlePopoverClick={() => {
+              setShowContent(!showContent);
+            }}
+            handleContentRemove={() => setShowContent(false)}
+          >
+            <BsFillInfoSquareFill />
+          </Popover>
+        </PopoverWrapper>
       </GuideInfoContainer>
       <ChartContainer>
         {hvs01 > 0 && (
@@ -162,7 +183,7 @@ const ChartContainer = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    grid-template-columns: repeat(auto-fill, minmax(50%,auto));
+    grid-template-columns: repeat(auto-fill, minmax(50%, auto));
   }
 `;
 const GuideInfoContainer = styled.div`
@@ -203,6 +224,19 @@ const GreenCircle = styled(Circle)`
 const Text = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray};
+`;
+
+const TooltipWrapper = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: none;
+  }
+`;
+const PopoverWrapper = styled.div`
+  margin-right: 1rem;
+  display: none;
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    display: block;
+  }
 `;
 
 export default HpRtErAvailableBedContent;
