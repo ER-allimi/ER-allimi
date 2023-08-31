@@ -6,6 +6,7 @@ import {
   RadiusDropdown,
   ErsPagination,
   ScrollBar,
+  GuideBox,
 } from '@components';
 import { sortedErsWithRadiusState } from '@stores';
 
@@ -67,9 +68,16 @@ function ErsContent() {
     }
   `;
 
+  const HeadContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+  `;
   return (
     <StyledErsContent>
-      <Title>내 위치 주변 응급실 ({data.length})</Title>
+      <HeadContainer>
+        <Title>내 위치 주변 응급실 ({data.length})</Title>
+        <GuideBox />
+      </HeadContainer>
       <Utils>
         <SortingButtons />
         <StyledRadiusDropdown />

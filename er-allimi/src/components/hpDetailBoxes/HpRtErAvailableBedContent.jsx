@@ -4,17 +4,13 @@ import { useRecoilValue } from 'recoil';
 import { getDateStrByHvidate } from '@utils';
 import {
   ErChart,
-  Tooltip,
-  BsFillInfoSquareFill,
   EmptyBox,
   Spinner,
   TbArticleOff,
-  Popover,
+  GuideBox,
 } from '@components';
-import { useState } from 'react';
 function HpRtErAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
-  const [showContent, setShowContent] = useState(false);
 
   if (hpRTavailableBedData.length === 0)
     return (
@@ -51,19 +47,6 @@ function HpRtErAvailableBedContent() {
   } = hpRTavailableBedData;
 
   const updateDate = getDateStrByHvidate(hvidate);
-  const guideContent = [
-    <GuideContainer key={hpid}>
-      응급실일반/응급실소아 : <GreenCircle /> 80% 이상 <YellowCircle /> 50~79%{' '}
-      <RedCircle /> 50% 미만
-      <br />
-      음압/일반 : <GreenCircle /> 100% <YellowCircle /> 50~99% <RedCircle /> 50%
-      미만
-      <br />
-      음압격리 = 응급실 음압격리 + 격리진료구역 음압격리
-      <br />
-      일반격리 = 응급실 일반격리 + 격리진료구역 일반격리
-    </GuideContainer>,
-  ];
   return (
     <>
       <TitleContainer>
@@ -72,32 +55,7 @@ function HpRtErAvailableBedContent() {
       </TitleContainer>
       <GuideInfoContainer>
         <RateGuideText>가용 병상 수(초과 병상 수) / 전체 병상 수</RateGuideText>
-        <TooltipWrapper>
-          <Tooltip
-            direction="right"
-            color="grayDarker"
-            distanceAwy={10}
-            content={guideContent}
-          >
-            <BsFillInfoSquareFill />
-          </Tooltip>
-        </TooltipWrapper>
-        <PopoverWrapper>
-          <Popover
-            direction="left"
-            containerClassName="hpMovingBox"
-            content={guideContent}
-            distanceAway={5}
-            color="grayDarker"
-            showContent={showContent}
-            handlePopoverClick={() => {
-              setShowContent(!showContent);
-            }}
-            handleContentRemove={() => setShowContent(false)}
-          >
-            <BsFillInfoSquareFill />
-          </Popover>
-        </PopoverWrapper>
+        <GuideBox />
       </GuideInfoContainer>
       <ChartContainer>
         {hvs01 > 0 && (
@@ -191,52 +149,14 @@ const GuideInfoContainer = styled.div`
   justify-content: space-between;
   margin-top: 0;
   align-items: center;
-`;
-const GuideContainer = styled.span`
-  font-size: 10px;
-  letter-spacing: -0.05rem;
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 9px;
+    margin-right: 1rem;
   }
+`;
 
-  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    font-size: 8px;
-  }
-  color: white;
-  whitespace: 'pre-line';
-`;
-const Circle = styled.span`
-  display: inline-block;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  margin: 0 0.2rem;
-`;
-const RedCircle = styled(Circle)`
-  background-color: ${({ theme }) => theme.colors.red};
-`;
-const YellowCircle = styled(Circle)`
-  background-color: ${({ theme }) => theme.colors.yellow};
-`;
-const GreenCircle = styled(Circle)`
-  background-color: ${({ theme }) => theme.colors.green};
-`;
 const Text = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray};
-`;
-
-const TooltipWrapper = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    display: none;
-  }
-`;
-const PopoverWrapper = styled.div`
-  margin-right: 1rem;
-  display: none;
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    display: block;
-  }
 `;
 
 export default HpRtErAvailableBedContent;
