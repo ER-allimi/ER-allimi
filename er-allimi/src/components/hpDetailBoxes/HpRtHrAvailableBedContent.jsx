@@ -145,9 +145,13 @@ const SortButtonContainer = styled.div`
   margin-bottom: 0.7rem;
 `;
 const StyledScrollBar = styled(ScrollBar)`
-  max-height: calc(100vh - 590px);
+  max-height: calc(100vh - (500px + 3.5rem));
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    overflow-y: visible;
+  }
 `;
-const TableContainer = styled.div``;
+const TableContainer = styled.div`
+`;
 const Text = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray};

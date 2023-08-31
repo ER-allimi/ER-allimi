@@ -52,6 +52,7 @@ function Table({ columns, defaultData }) {
 const TableContainer = styled.table`
   border: 1px solid ${({ theme }) => theme.colors.gray};
   border-collapse: collapse;
+  width: 100%;
 `;
 const StyledBody = styled.tbody`
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
