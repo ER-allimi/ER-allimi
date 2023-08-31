@@ -16,3 +16,4 @@ export { default as Slider } from './Slider';
 export { default as AutoPlaySlider } from './AutoPlaySlider';
 export { default as Skeleton } from './Skeleton';
 export { default as Popover } from './Popover';
+export { default as Modal } from './Modal';

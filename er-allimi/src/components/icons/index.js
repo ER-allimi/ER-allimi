@@ -21,6 +21,7 @@ export {
   IoLocationSharp,
   IoCloseSharp,
   IoNotificationsCircleOutline,
+  IoClose,
 } from 'react-icons/io5';
 export { MdOutlineInsertChartOutlined, MdLocationOff } from 'react-icons/md';
 export { VscTriangleDown, VscTriangleUp } from 'react-icons/vsc';
@@ -40,3 +41,4 @@ export {
   HiMiniArrowLongRight,
 } from 'react-icons/hi2';
 export { GiHealingShield } from 'react-icons/gi';
+export { GrAnnounce } from 'react-icons/gr';
