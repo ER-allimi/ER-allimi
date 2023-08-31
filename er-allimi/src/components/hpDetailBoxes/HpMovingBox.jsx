@@ -39,6 +39,7 @@ function HpMovingBox({ className }) {
   const StyledScrollBar = styled(ScrollBar)`
     width: 100%;
     overflow-y: auto;
+    padding-bottom: 2rem;
   `;
 
   const StyledSelectButtons = styled(SelectButtons)`
