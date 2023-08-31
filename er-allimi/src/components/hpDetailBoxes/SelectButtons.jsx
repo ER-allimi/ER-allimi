@@ -93,7 +93,7 @@ const StyledSelectButtons = styled.div`
 const ButtonsAtLg = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: calc(0.3rem + 0.1vw);
 
   button {
     display: inline-flex;
@@ -140,12 +140,14 @@ const ButtonWrap = styled.div`
 
 const Text = styled.p`
   display: inline-block;
-  letter-spacing: calc(-1px + 0.1vw);
+  letter-spacing: calc(-1px + 0.15vw);
   word-spacing: -1px;
-  font-size: calc(10px + 0.5vw);
+  font-size: calc(10px + 0.2vw);
   color: ${({ theme }) => theme.colors.grayDark};
 
   @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    word-spacing: 0;
+    font-size: 10px;
     font-weight: 600;
   }
 `;

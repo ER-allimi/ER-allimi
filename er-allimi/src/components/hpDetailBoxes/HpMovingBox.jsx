@@ -42,7 +42,7 @@ function HpMovingBox({ className }) {
   `;
 
   const StyledSelectButtons = styled(SelectButtons)`
-    margin: 1rem 0;
+    margin: 1rem 0 2rem 0;
   `;
 
   return (
