@@ -1,23 +1,35 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { useMatch } from 'react-router-dom';
 import { Tooltip, BsFillInfoSquareFill, Popover } from '@components';
+import { PATH_HOSPITALDETAIL } from '@constants';
 
 function GuideBox() {
+  const match = useMatch(PATH_HOSPITALDETAIL);
+  const isHpDetailPage = !!match;
+
   const [showContent, setShowContent] = useState(false);
 
-  const guideContent = [
-    <GuideContainer key={0}>
-      응급실일반/응급실소아 : <GreenCircle /> 80% 이상 <YellowCircle /> 50~79%{' '}
-      <RedCircle /> 50% 미만
-      <br />
-      음압/일반 : <GreenCircle /> 100% <YellowCircle /> 50~99% <RedCircle /> 50%
-      미만
-      <br />
-      음압격리 = 응급실 음압격리 + 격리진료구역 음압격리
-      <br />
-      일반격리 = 응급실 일반격리 + 격리진료구역 일반격리
-    </GuideContainer>,
-  ];
+  const guideContent = isHpDetailPage
+    ? [
+        <GuideContainer key={0}>
+          응급실일반/응급실소아 : <GreenCircle /> 80% 이상 <YellowCircle />{' '}
+          50~79% <RedCircle /> 50% 미만
+          <br />
+          음압/일반 : <GreenCircle /> 100% <YellowCircle /> 50~99% <RedCircle />{' '}
+          50% 미만
+          <br />
+          음압격리 = 응급실 음압격리 + 격리진료구역 음압격리
+          <br />
+          일반격리 = 응급실 일반격리 + 격리진료구역 일반격리
+        </GuideContainer>,
+      ]
+    : [
+        <GuideContainer key={0}>
+          응급실일반 : <GreenCircle /> 80% 이상 <YellowCircle /> 50~79%{' '}
+          <RedCircle /> 50% 미만
+        </GuideContainer>,
+      ];
 
   return (
     <>
