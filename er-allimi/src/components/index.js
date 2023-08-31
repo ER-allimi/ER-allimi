@@ -38,6 +38,7 @@ export {
   AutoPlaySlider,
   Skeleton,
   Popover,
+  GuideBox,
 } from './ui';
 
 export {
