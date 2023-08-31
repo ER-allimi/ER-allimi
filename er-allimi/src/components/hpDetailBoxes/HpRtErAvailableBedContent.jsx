@@ -97,7 +97,8 @@ function HpRtErAvailableBedContent() {
 
 const TitleContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   margin-top: 6px;
   margin-bottom: 0.5rem;
 `;
