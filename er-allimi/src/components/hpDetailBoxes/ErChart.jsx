@@ -88,7 +88,6 @@ function ErChart({ availableBed, totalBed, hpid, title }) {
 const StyledChartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
 `;
 const Chart = styled.div`
   .bb {
