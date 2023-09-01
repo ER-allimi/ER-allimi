@@ -5,3 +5,4 @@ export { default as ErsBoxes } from './ErsBoxes';
 export { default as HpDetailBoxes } from './HpDetailBoxes';
 export { default as Map } from './Map';
 export { default as Chart } from './Chart';
+export { default as NotFoundPage } from './NotFoundPage';
