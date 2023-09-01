@@ -9,8 +9,8 @@ function NotFoundPage() {
   const navigate = useNavigate();
   const currentPath = useParams();
   const handleBackClick = () => {
-    console.log(currentPath)
-    console.log(currentPath['*'])
+    console.log(currentPath);
+    console.log(currentPath['*']);
     if (currentPath['*'] === 'not-found') {
       navigate(-2);
     } else {
@@ -56,8 +56,16 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  margin: 0 30%;
+  margin: 0 auto;
+  padding: 0 5rem;
   gap: 4rem;
+  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+    padding: 0 3rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    padding: 0 2rem;
+  }
 `;
 
 const Logo = styled.div`
@@ -90,7 +98,7 @@ const Description = styled.div`
     margin-top: 1rem;
     color: ${({ theme }) => theme.colors.grayDark};
 
-    @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
       font-size: 12px;
     }
 
