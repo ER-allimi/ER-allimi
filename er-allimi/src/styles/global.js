@@ -1,8 +1,10 @@
 import { css } from '@emotion/react';
 
 const globalStyles = ({ colors, breakPoints }) => css`
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
   body {
-    font-family: 'Noto Sans KR';
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
   * {
@@ -46,10 +48,10 @@ const globalStyles = ({ colors, breakPoints }) => css`
     cursor: pointer;
   }
 
-  @font-face {
+  /* @font-face {
     font-family: 'Noto Sans KR';
-    src: url('/public/assets/NotoSansKR-Regular.woff') format('font-woff');
-  }
+    src: url('/public/assets/NotoSansKR-Regular.woff');
+  } */
 `;
 
 export { globalStyles };
