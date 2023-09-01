@@ -127,6 +127,10 @@ function Map() {
     if (!hpIdParameter) return;
     if (ersList.length === 0) return;
     const targetHp = ersList.find((item) => item.hpid === hpIdParameter);
+    if (!targetHp) {
+      navigate('/not-found');
+      return;
+    }
 
     const targetHpPosition = new kakao.maps.LatLng(
       targetHp.wgs84Lat,
