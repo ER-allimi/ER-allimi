@@ -48,7 +48,7 @@ const globalStyles = ({ colors, breakPoints }) => css`
 
   @font-face {
     font-family: 'Noto Sans KR';
-    src: url('/src/assets/NotoSansKR-Regular.otf');
+    src: url('/public/assets/NotoSansKR-Regular.otf');
   }
 `;
 
