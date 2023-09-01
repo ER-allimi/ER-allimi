@@ -108,8 +108,7 @@ function HpRtHrAvailableBedContent() {
 
 const TitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: start;
+  align-items: center;
   margin-top: 6px;
   margin-bottom: 0.5rem;
 `;
@@ -151,8 +150,7 @@ const StyledScrollBar = styled(ScrollBar)`
     overflow-y: visible;
   }
 `;
-const TableContainer = styled.div`
-`;
+const TableContainer = styled.div``;
 const Text = styled.p`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray};
