@@ -94,6 +94,7 @@ const LayoutTop = styled.div`
 const LayoutBottom = styled.div`
   grid-row: 2/3;
   grid-column: 1/2;
+  overflow: hidden;
   display: none;
 
   ${({ theme }) => css`
