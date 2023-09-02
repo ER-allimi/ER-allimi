@@ -15,7 +15,7 @@ function ErsList({ className }) {
 
   useEffect(() => {
     if (ersList.current) {
-      ersList.current.scrollTo(0, 0);
+      ersList.current.scrollIntoView({ block: 'start' });
     }
   }, [page]);
 
