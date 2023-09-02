@@ -43,9 +43,9 @@ function ErsContent() {
     }
   `;
 
-  const StyledScrollBar = styled(ScrollBar)`
+  const StyledErsList = styled(ErsList)`
     height: calc(100% - 100px);
-    overflow-y: auto;
+    overflow-y: scroll;
 
     @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
       height: calc(100% - 100px + 5px);
@@ -53,6 +53,19 @@ function ErsContent() {
 
     @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
       height: calc(100% - 100px + 10px);
+    }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 10%;
+      background: ${({ theme }) => theme.colors.grayLight};
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: ${({ theme }) => theme.colors.grayLighter};
     }
   `;
 
@@ -82,9 +95,7 @@ function ErsContent() {
         <SortingButtons />
         <StyledRadiusDropdown />
       </Utils>
-      <StyledScrollBar>
-        <ErsList />
-      </StyledScrollBar>
+      <StyledErsList />
       <MarginTopPagination />
     </StyledErsContent>
   );
