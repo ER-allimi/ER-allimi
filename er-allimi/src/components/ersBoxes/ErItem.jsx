@@ -7,7 +7,11 @@ import { css } from '@emotion/react';
 import { IoLocationSharp, BiSolidPhone, SuccessMessage } from '@components';
 import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
 
-function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
+function ErItem({
+  item: { hpInfo, availableBedInfo, distanceFromLocation },
+  order,
+}) {
+  const roundedDistance = Math.round(distanceFromLocation * 100) / 100;
   return (
     <StyledErItem>
       <Link
@@ -21,7 +25,10 @@ function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
           {order}. {hpInfo.dutyName}
         </HpName>
       </Link>
-      <ErClassName>{hpInfo.dutyEmclsName}</ErClassName>
+      <StyledSubTitle>
+        <ErClassName>{hpInfo.dutyEmclsName}</ErClassName>
+        <p className="distanceText">{roundedDistance}km</p>
+      </StyledSubTitle>
       <Body
         availableBed={availableBedInfo?.hvec}
         totalBed={availableBedInfo?.hvs01}
@@ -85,6 +92,27 @@ const StyledErItem = styled.div`
   }
 `;
 
+const StyledSubTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  .distanceText {
+    color: ${({ theme }) => theme.colors.grayDark};
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 11px;
+    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
+      font-size: 10px;
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
+      font-size: 9px;
+    }
+  }
+`;
 const shortening = css`
   overflow-x: hidden;
   white-space: nowrap;
@@ -111,18 +139,8 @@ const HpName = styled.h5`
 `;
 
 const ErClassName = styled.p`
-  font-size: 11px;
   color: ${({ theme }) => theme.colors.gray};
-
   ${shortening}
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-    font-size: 10px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakPoints.sm}) {
-    font-size: 9px;
-  }
 `;
 
 const Body = styled.div`
