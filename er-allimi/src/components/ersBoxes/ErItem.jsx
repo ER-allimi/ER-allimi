@@ -1,28 +1,13 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import toast from 'react-hot-toast';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { IoLocationSharp, BiSolidPhone } from '@components';
+import { IoLocationSharp, BiSolidPhone, SuccessMessage } from '@components';
 import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
-import { copyText } from '@utils';
 
 function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
-  const handlePhoneNumberClick = () => {
-    copyText({
-      text: hpInfo.dutyTel3,
-      successMessage: '응급실 전화번호가 복사되었습니다.',
-      errorMessage: '[실패] 응급실 전화번호가 복사되지 못했습니다.',
-    });
-  };
-
-  const handleAddressClick = () => {
-    copyText({
-      text: hpInfo.dutyAddr,
-      successMessage: '응급실 주소가 복사되었습니다.',
-      errorMessage: '[실패] 응급실 주소가 복사되지 못했습니다.',
-    });
-  };
-
   return (
     <StyledErItem>
       <Link
@@ -43,11 +28,29 @@ function ErItem({ item: { hpInfo, availableBedInfo }, order }) {
       >
         <div title={hpInfo.dutyAddr}>
           <IoLocationSharp />
-          <p onClick={handleAddressClick}>{hpInfo.dutyAddr}</p>
+          <CopyToClipboard
+            text={hpInfo.dutyAddr}
+            onCopy={() =>
+              toast(() => (
+                <SuccessMessage content="응급실 주소가 복사되었습니다." />
+              ))
+            }
+          >
+            <p>{hpInfo.dutyAddr}</p>
+          </CopyToClipboard>
         </div>
         <div title={hpInfo.dutyTel3}>
           <BiSolidPhone />
-          <p onClick={handlePhoneNumberClick}>{hpInfo.dutyTel3}</p>
+          <CopyToClipboard
+            text={hpInfo.dutyTel3}
+            onCopy={() =>
+              toast(() => (
+                <SuccessMessage content="응급실 전화번호가 복사되었습니다." />
+              ))
+            }
+          >
+            <p>{hpInfo.dutyTel3}</p>
+          </CopyToClipboard>
         </div>
         <div>
           {availableBedInfo ? (

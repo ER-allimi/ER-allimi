@@ -1,8 +1,14 @@
 import { useRecoilValue } from 'recoil';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import toast from 'react-hot-toast';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { IoLocationSharp, BiSolidPhone, Skeleton } from '@components';
-import { copyText } from '@utils';
+import {
+  IoLocationSharp,
+  BiSolidPhone,
+  Skeleton,
+  SuccessMessage,
+} from '@components';
 import { hpDetailState } from '@stores';
 
 function HpInfoContent() {
@@ -11,24 +17,8 @@ function HpInfoContent() {
   if (hpDetail.length === 0) return <Skeleton />;
 
   const {
-    hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 }
+    hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
   } = hpDetail;
-
-  const handlePhoneNumberClick = () => {
-    copyText({
-      text: dutyTel3,
-      successMessage: '응급실 전화번호가 복사되었습니다.',
-      errorMessage: '[실패] 응급실 전화번호가 복사되지 못했습니다.',
-    });
-  };
-
-  const handleAddressClick = () => {
-    copyText({
-      text: dutyAddr,
-      successMessage: '응급실 주소가 복사되었습니다.',
-      errorMessage: '[실패] 응급실 주소가 복사되지 못했습니다.',
-    });
-  };
 
   return (
     <StyledHpInfoContent>
@@ -37,11 +27,29 @@ function HpInfoContent() {
       <Body>
         <div title={dutyAddr}>
           <IoLocationSharp />
-          <p onClick={handleAddressClick}>{dutyAddr}</p>
+          <CopyToClipboard
+            text={dutyAddr}
+            onCopy={() =>
+              toast(() => (
+                <SuccessMessage content="응급실 주소가 복사되었습니다." />
+              ))
+            }
+          >
+            <p>{dutyAddr}</p>
+          </CopyToClipboard>
         </div>
         <div title={dutyTel3}>
           <BiSolidPhone />
-          <p onClick={handlePhoneNumberClick}>{dutyTel3}</p>
+          <CopyToClipboard
+            text={dutyTel3}
+            onCopy={() =>
+              toast(() => (
+                <SuccessMessage content="응급실 전화번호가 복사되었습니다." />
+              ))
+            }
+          >
+            <p>{dutyTel3}</p>
+          </CopyToClipboard>
         </div>
       </Body>
     </StyledHpInfoContent>
