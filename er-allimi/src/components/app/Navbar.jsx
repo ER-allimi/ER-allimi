@@ -8,6 +8,7 @@ import {
   AiOutlineInfoCircle,
   RxHamburgerMenu,
   PiArrowBendUpLeftBold,
+  HpSearchInput,
 } from '@components';
 import { PATH_ROOT, PATH_HOSPITALDETAIL } from '@constants';
 
@@ -27,6 +28,16 @@ function Navbar() {
     setShowSubNavbar(!showSubNavbar);
   };
 
+  const StyledHpSearchInput = styled(HpSearchInput)`
+    display: none;
+
+    ${({ theme, backButton }) => css`
+      @media (max-width: ${theme.breakPoints.md}) {
+        display: ${backButton ? 'none' : 'block'};
+      }
+    `}
+  `;
+
   return (
     <StyledNavbar>
       <Header>
@@ -38,6 +49,7 @@ function Navbar() {
         <BurgerIcon onClick={handleBurgerClick} />
       </Header>
       <Utils show={showSubNavbar} backButton={backButton}>
+        <StyledHpSearchInput backButton={backButton} />
         {backButton && <BackIcon onClick={() => navigate(-1)} />}
         <Link to={PATH_ROOT}>
           <MapIcon />
@@ -114,6 +126,7 @@ const Logo = styled.div`
 const Utils = styled.div`
   display: grid;
   grid-template-columns: 1fr;
+  align-items: center;
   row-gap: 2rem;
   margin-top: 3rem;
 
@@ -125,9 +138,10 @@ const Utils = styled.div`
     @media (max-width: ${theme.breakPoints.md}) {
       grid-template-columns: ${backButton
         ? 'repeat(3, 1fr)'
-        : 'repeat(2, 1fr)'};
-      column-gap: 1.2rem;
+        : 'repeat(1, minmax(200px, 300px)) repeat(2, 1fr)'};
+      column-gap: calc(0.5rem + 0.5vw);
       margin-top: 0;
+      margin-left: 1rem;
     }
   `}
 
@@ -138,6 +152,7 @@ const Utils = styled.div`
       left: 0px;
       grid-template-columns: 1fr;
       row-gap: 1rem;
+      margin-left: 0;
       padding: 1.5rem;
       width: 100%;
       visibility: ${show ? 'visible' : 'hidden'};

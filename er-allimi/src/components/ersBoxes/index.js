@@ -14,3 +14,6 @@ export { default as SortingButtons } from './SortingButtons';
 export { default as RefreshButton } from './RefreshButton';
 export { default as ErrorMessage } from './ErrorMessage';
 export { default as SuccessMessage } from './SuccessMessage';
+export { default as HpSearchInput } from './HpSearchInput';
+export { default as MatchedHpList } from './MatchedHpList';
+export { default as MatchedHpItem } from './MatchedHpItem';

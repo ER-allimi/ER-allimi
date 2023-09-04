@@ -9,6 +9,7 @@ import {
   CurrentLocationInput,
   ViewButton,
   ErsMovingBox,
+  HpSearchInput,
 } from '@components';
 
 function ErsBoxes({ className }) {
@@ -18,6 +19,9 @@ function ErsBoxes({ className }) {
         <StyledCurrentLocationBox />
         <StyledErsBox />
       </LayoutLeft>
+      <LayoutCenter>
+        <StyledHpSearchInput />
+      </LayoutCenter>
       <LayoutRight></LayoutRight>
       <LayoutTop>
         <StyledCurrentLocationInput />
@@ -53,6 +57,21 @@ const LayoutLeft = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: start;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.md}) {
+      display: none;
+    }
+  `}
+`;
+
+const LayoutCenter = styled.div`
+  grid-row: 1/2;
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
@@ -114,6 +133,10 @@ const StyledCurrentLocationBox = styled(CurrentLocationBox)`
 `;
 
 const StyledErsBox = styled(ErsBox)`
+  ${zIndexBox}
+`;
+
+const StyledHpSearchInput = styled(HpSearchInput)`
   ${zIndexBox}
 `;
 
