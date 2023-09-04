@@ -33,7 +33,11 @@ export {
 export { PiArrowBendUpLeftBold } from 'react-icons/pi';
 export { TbNoteOff, TbHomeOff, TbArticleOff } from 'react-icons/tb';
 export { ImSpinner2 } from 'react-icons/im';
-export { RiCloseCircleFill, RiCloseCircleLine } from 'react-icons/ri';
+export {
+  RiCloseCircleFill,
+  RiCloseCircleLine,
+  RiHospitalLine,
+} from 'react-icons/ri';
 export {
   HiMiniArrowSmallLeft,
   HiMiniArrowSmallRight,
@@ -42,3 +46,4 @@ export {
 } from 'react-icons/hi2';
 export { GiHealingShield } from 'react-icons/gi';
 export { GrAnnounce } from 'react-icons/gr';
+export { FiSearch } from 'react-icons/fi';

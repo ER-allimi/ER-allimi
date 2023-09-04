@@ -17,6 +17,9 @@ export {
   RefreshButton,
   ErrorMessage,
   SuccessMessage,
+  HpSearchInput,
+  MatchedHpList,
+  MatchedHpItem,
 } from './ersBoxes';
 
 export {
@@ -84,6 +87,8 @@ export {
   BsFillInfoSquareFill,
   IoClose,
   GrAnnounce,
+  FiSearch,
+  RiHospitalLine,
 } from './icons';
 
 export {
