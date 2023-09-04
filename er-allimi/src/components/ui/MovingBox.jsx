@@ -32,7 +32,7 @@ const StyledMovingBox = styled.div`
   justify-content: start;
   align-items: center;
   padding: 0rem 1rem 0.7rem 1rem;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background-color: white;
   border-radius: 0.7rem 0.7rem 0 0;
