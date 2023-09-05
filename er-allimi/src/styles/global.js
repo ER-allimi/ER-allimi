@@ -3,7 +3,13 @@ import { css } from '@emotion/react';
 const globalStyles = ({ colors, breakPoints }) => css`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
+  :root {
+    --vh: 100%;
+  }
+
   body {
+    height: 100vh;
+    height: var(--vh);
     font-family: 'Noto Sans KR', sans-serif;
   }
 
