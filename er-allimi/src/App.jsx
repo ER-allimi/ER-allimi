@@ -24,13 +24,27 @@ function App() {
     );
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const StyledApp = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100vw;
-    min-height: 100vh;
+    /* min-height: 100vh;
     height: -webkit-fill-available;
-    height: fill-available;
+    height: fill-available; */
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
 
     ${({ theme }) => css`
