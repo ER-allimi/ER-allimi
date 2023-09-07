@@ -27,9 +27,9 @@ const theme = {
     blueLighter: '#00a7ed',
   },
   breakPoints: {
-    sm: '320px', // mobile
-    md: '760px', // tablet
-    lg: '1024px', // laptop
+    sm: '767px', // mobile
+    md: '1023px', // tablet
+    // lg: '1024px', // laptop
   },
 };
 
