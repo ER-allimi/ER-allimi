@@ -71,6 +71,7 @@ const StyledNavbar = styled.nav`
   align-items: center;
   padding: 1rem;
   background-color: ${({ theme }) => theme.colors.grayDarker};
+  z-index: 101;
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
