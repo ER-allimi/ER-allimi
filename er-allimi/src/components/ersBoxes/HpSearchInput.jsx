@@ -13,15 +13,18 @@ function HpSearchInput({ className }) {
   const container = useRef();
 
   useEffect(() => {
-    const handleClick = (e) => {
+    // 검색창 외부를 클릭했을 때, 병원 목록 사라지게 하기
+    const handleOutsideClick = (e) => {
       if (container.current && container.current.contains(e.target))
         return setShowHpList(true);
 
       return setShowHpList(false);
     };
-    window.addEventListener('click', handleClick, true);
+    window.addEventListener('click', handleOutsideClick, true);
 
-    return () => window.removeEventListener('click', handleClick, true);
+    return () => {
+      window.removeEventListener('click', handleOutsideClick, true);
+    };
   }, []);
 
   let matchedHospitals = [];

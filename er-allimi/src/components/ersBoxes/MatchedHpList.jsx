@@ -1,11 +1,45 @@
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { MatchedHpItem } from '@components';
 
 function MatchedHpList({ data, className }) {
-  const renderItems = data.map((item) => (
-    <MatchedHpItem key={item.hpid} data={item} />
+  const [activeItem, setActiveItem] = useState(-1);
+
+  useEffect(() => {
+    // 키보드 down/up을 눌렀을 때, 병원 목록에서 초점을 아래/위로 이동시키기
+    const handleKeyClick = (e) => {
+      if (e.key === 'ArrowDown')
+        return activeItem === data.length - 1
+          ? null
+          : setActiveItem(activeItem + 1);
+      if (e.key === 'ArrowUp')
+        return activeItem === 0 ? null : setActiveItem(activeItem - 1);
+    };
+    window.addEventListener('keydown', handleKeyClick);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyClick);
+    };
+  }, [activeItem]);
+
+  const handleMouseOver = (idx) => {
+    setActiveItem(idx);
+  };
+
+  const handleMouseOut = () => {
+    setActiveItem(-1);
+  };
+
+  const renderItems = data.map((item, idx) => (
+    <MatchedHpItem
+      key={item.hpid}
+      data={item}
+      active={idx === activeItem}
+      handleMouseOver={handleMouseOver.bind(undefined, idx)}
+      handleMouseOut={handleMouseOut.bind(undefined, idx)}
+    />
   ));
 
   return (
