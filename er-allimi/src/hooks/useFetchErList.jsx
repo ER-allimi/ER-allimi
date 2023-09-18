@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getErList } from '@services';
 import { ersListState } from '@stores';
 import { ErrorMessage } from '@components';
+import { useCallback } from 'react';
 
 // 응급실 전체 목록 정보 가져오기
 function useFetchErList() {
@@ -12,9 +13,10 @@ function useFetchErList() {
     queryKey: ['erList'],
     queryFn: getErList,
     retry: 3,
-    onSuccess: (data) => {
-      setErsListState(data);
-    },
+    select:useCallback(
+      (data) => setErsListState(data),
+      []
+    ),
     meta: {
       errorMessage: (
         <ErrorMessage
