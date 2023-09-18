@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getErRTavailableBed } from '@services';
 import { ersRTavailableBedState } from '@stores';
 import { ErrorMessage } from '@components';
+import { useCallback } from 'react';
 
 function useFetchErsRTavailableBed() {
   const setErsRTavailableBed = useSetRecoilState(ersRTavailableBedState);
@@ -11,9 +12,7 @@ function useFetchErsRTavailableBed() {
     queryKey: ['ersRTavailableBed'],
     queryFn: () => getErRTavailableBed({ STAGE1: '', STAGE2: '' }),
     retry: 3,
-    onSuccess: (data) => {
-      setErsRTavailableBed(data);
-    },
+    select: useCallback((data) => setErsRTavailableBed(data), []),
     meta: {
       errorMessage: (
         <ErrorMessage

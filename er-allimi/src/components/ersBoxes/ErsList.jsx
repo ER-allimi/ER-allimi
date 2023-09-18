@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { ErItem, EmptyBox, TbHomeOff, Skeleton } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
-import { useFetchErList, useFetchErsRTavailableBed } from '@hooks';
+import { useOutletContext } from 'react-router-dom';
 
 function ErsList({ className }) {
+  const isFetchingData = useOutletContext()
   const ersList = useRef();
   const data = useRecoilValue(sortedErsWithRadiusState);
   const page = useRecoilValue(ersPaginationState);
-  const { isFetching: isErListFetching } = useFetchErList();
-  const { isFetching: isAvailableBedFetching } = useFetchErsRTavailableBed();
 
   useEffect(() => {
     if (ersList.current) {
@@ -19,7 +18,7 @@ function ErsList({ className }) {
     }
   }, [page]);
 
-  if (isErListFetching || isAvailableBedFetching) {
+  if (isFetchingData) {
     return (
       <>
         <Skeleton isWithAvailableBed={true} />
