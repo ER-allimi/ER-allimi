@@ -5,11 +5,12 @@ import { EmptyBox, Spinner, BiError, TbArticleOff, Models } from '@components';
 
 function HpSriIllContent() {
   const { stage1, stage2, hospitalId: hpId } = useParams();
-  const { hpData, isLoading, isFetching, isError } = useFetchHpSrIII(
-    stage1,
-    stage2,
-    (data) =>
-      Array.isArray(data) ? data.find((item) => item.dutyName === hpId) : data,
+  const {
+    data: hpData,
+    isFetching,
+    isError,
+  } = useFetchHpSrIII(stage1, stage2, (data) =>
+    Array.isArray(data) ? data.find((item) => item.dutyName === hpId) : data,
   );
 
   let content;
