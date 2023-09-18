@@ -12,9 +12,12 @@ import {
 } from '@hooks';
 
 function App() {
-  const { handleGetCurPosSuccess, handleGetCurPosFail } = useGetUserLocation(); // 사용자 위치 정보 가져오기
-  useFetchErList(); // 응급실 전체 목록 정보 가져오기
-  useFetchErsRTavailableBed(); // 응급실 전체 목록 정보 가져오기
+  // 사용자 위치 정보 가져오기
+  const { handleGetCurPosSuccess, handleGetCurPosFail } = useGetUserLocation();
+  // 응급실 전체 목록 정보 가져오기
+  const { isFetching: isErListFetching } = useFetchErList();
+  // 응급실 전체 목록 정보 가져오기
+  const { isFetching: isAvailableBedFetching } = useFetchErsRTavailableBed();
 
   useEffect(() => {
     // 사용자 위치 정보 가져오기
@@ -71,7 +74,7 @@ function App() {
       <StyledApp>
         <Navbar />
         <StyledOutlet>
-          <Outlet />
+          <Outlet context={isErListFetching || isAvailableBedFetching} />
         </StyledOutlet>
       </StyledApp>
       <Toaster position="top-center" reverseOrder={false} />
