@@ -17,6 +17,7 @@ function useFetchHpSrIII(stage1, stage2, select) {
     retry: 3,
     refetchInterval: 30 * 60 * 1000, // ms
     refetchIntervalInBackground: true,
+    suspense: true,
   });
 
   return query;
