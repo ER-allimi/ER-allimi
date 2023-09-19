@@ -120,4 +120,5 @@ export {
   HpTableItem,
   SelectButtons,
   Models,
+  HpSrIllData,
 } from './hpDetailBoxes';
