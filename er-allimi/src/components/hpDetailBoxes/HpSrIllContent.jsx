@@ -5,9 +5,12 @@ import { EmptyBox, Spinner, BiError, TbArticleOff, Models } from '@components';
 
 function HpSriIllContent() {
   const { stage1, stage2, hospitalId: hpId } = useParams();
-  const { data, isLoading, isFetching, isError, error } = useFetchHpSrIII(
-    stage1,
-    stage2,
+  const {
+    data: hpData,
+    isFetching,
+    isError,
+  } = useFetchHpSrIII(stage1, stage2, (data) =>
+    Array.isArray(data) ? data.find((item) => item.dutyName === hpId) : data,
   );
 
   let content;
@@ -24,12 +27,6 @@ function HpSriIllContent() {
       </EmptyBox>
     );
   else {
-    const hpData =
-      data &&
-      (Array.isArray(data)
-        ? data.find((item) => item.dutyName === hpId)
-        : data);
-
     if (!hpData)
       content = (
         <EmptyBox height={200} icon={<TbArticleOff />}>
