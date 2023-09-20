@@ -69,7 +69,7 @@ function Popover({
         contentBoxEl.style.transform = `translateX(-50%)`;
         break;
     }
-  }, [target, showContent]);
+  }, [target, showContent, direction, distanceAway]);
 
   let renderContent;
   if (typeof content === 'string') renderContent = <p>{content}</p>;
