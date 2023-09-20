@@ -1,29 +1,31 @@
 import { Button } from '@components';
 
+const TEXT = '버튼';
+
 export default {
   title: 'Button',
   component: Button,
+  args: {
+    children: TEXT,
+  },
 };
 
-const TEXT = '버튼';
+export const Default = {};
 
 export const Color = {
   args: {
     color: 'red',
-    children: TEXT,
   },
 };
 
 export const Round = {
   args: {
     round: 'lg',
-    children: TEXT,
   },
 };
 
 export const Outline = {
   args: {
     outline: true,
-    children: TEXT,
   },
 };
