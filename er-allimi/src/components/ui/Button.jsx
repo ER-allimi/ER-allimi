@@ -46,7 +46,7 @@ const StyledButton = styled.button`
 Button.defaultProps = {
   color: 'gray',
   round: 'md',
-  outlined: false,
+  outline: false,
 };
 
 Button.propTypes = {

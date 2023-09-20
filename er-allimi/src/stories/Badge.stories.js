@@ -1,10 +1,10 @@
-import { Button } from '@components';
+import { Badge } from '@components';
 
-const TEXT = '버튼';
+const TEXT = '15';
 
 export default {
-  title: 'Button',
-  component: Button,
+  title: 'Badge',
+  component: Badge,
   args: {
     children: TEXT,
   },
@@ -15,12 +15,6 @@ export const Default = {};
 export const Color = {
   args: {
     color: 'red',
-  },
-};
-
-export const Round = {
-  args: {
-    round: 'lg',
   },
 };
 
