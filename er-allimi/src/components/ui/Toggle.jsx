@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 
-function Toggle({ data, select, handleToggleClick, color, className }) {
+function Toggle({
+  data,
+  select,
+  handleToggleClick,
+  color,
+  className,
+  ...rest
+}) {
   const renderOptions = data.map((item) => {
     return <Option key={item.label}>{item.label}</Option>;
   });
 
   return (
-    <StyledToggle className={className} color={color}>
+    <StyledToggle className={className} color={color} {...rest}>
       {renderOptions}
       <Stone onClick={handleToggleClick} select={select} />
     </StyledToggle>
