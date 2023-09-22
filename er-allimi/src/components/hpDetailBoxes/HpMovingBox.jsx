@@ -19,7 +19,11 @@ function HpMovingBox({ className }) {
   const selectedHpDetailContent = useRecoilValue(selectedHpDetailContentState);
 
   const handleExpand = useCallback(() => {
-    isExpanded ? setShowHpMessage(false) : setShowHpMessage(true);
+    isExpanded
+      ? setShowHpMessage(false)
+      : setTimeout(() => {
+          setShowHpMessage(true);
+        }, 0.5 * 1000);
     setIsExpanded(!isExpanded);
   }, [isExpanded]);
 
