@@ -1,11 +1,27 @@
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { VscTriangleDown, VscTriangleUp } from '@components';
 
 function MovingBox({ className, children, isExpanded, handleExpand }) {
+  const movingBox = useRef();
+
+  useEffect(() => {
+    const movingBoxEl = movingBox.current;
+    if (!movingBoxEl) return;
+
+    movingBoxEl.style.transform = isExpanded
+      ? `translateY(0%)`
+      : `translateY(calc(100% - 2rem))`;
+  }, [isExpanded]);
+
   return (
-    <StyledMovingBox className={className} isExpanded={isExpanded}>
+    <StyledMovingBox
+      ref={movingBox}
+      className={className}
+      isExpanded={isExpanded}
+    >
       <ExpandIcon onClick={handleExpand}>
         {isExpanded ? <VscTriangleDown /> : <VscTriangleUp />}
       </ExpandIcon>
@@ -17,11 +33,11 @@ function MovingBox({ className, children, isExpanded, handleExpand }) {
 const transform = ({ isExpanded }) => {
   if (isExpanded)
     return css`
-      transform: translateY(0);
+      transform: translateY(calc(100% - 2rem));
     `;
   else {
     return css`
-      transform: translateY(calc(100% - 2rem));
+      transform: translateY(0);
     `;
   }
 };
@@ -38,6 +54,7 @@ const StyledMovingBox = styled.div`
   border-radius: 0.7rem 0.7rem 0 0;
   box-shadow: -3px 0 5px 3px ${({ theme }) => theme.colors.grayLight};
   ${transform}
+  transition: transform 0.5s ease-out;
 `;
 
 const ExpandIcon = styled.div`
