@@ -1,22 +1,19 @@
 import PropTypes from 'prop-types';
 import { useCallback, useState } from 'react';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import {
   MovingBox,
   HpInfoContent,
-  HpRtErAvailableBedContent,
-  HpRtHrAvailableBedContent,
-  HpSrIllContent,
   SelectButtons,
   ScrollBar,
+  SelectedContent,
 } from '@components';
-import { showHpMessageState, selectedHpDetailContentState } from '@stores';
+import { showHpMessageState } from '@stores';
 
 function HpMovingBox({ className }) {
   const [isExpanded, setIsExpanded] = useState(true);
   const setShowHpMessage = useSetRecoilState(showHpMessageState);
-  const selectedHpDetailContent = useRecoilValue(selectedHpDetailContentState);
 
   const handleExpand = useCallback(() => {
     isExpanded
@@ -26,14 +23,6 @@ function HpMovingBox({ className }) {
         }, 0.5 * 1000);
     setIsExpanded(!isExpanded);
   }, [isExpanded]);
-
-  const renderSelectedContent = [
-    <HpRtErAvailableBedContent key={0} />,
-    <HpRtHrAvailableBedContent key={1} />,
-    <HpSrIllContent key={2} />,
-  ].find((_, idx) => {
-    return idx === selectedHpDetailContent;
-  });
 
   const StyledMovingErsBox = styled(MovingBox)`
     height: calc((var(--vh, 1vh) * 100 - (30px + 1rem)) / 2);
@@ -59,7 +48,7 @@ function HpMovingBox({ className }) {
       <StyledScrollBar className="hpMovingBox">
         <HpInfoContent />
         <StyledSelectButtons />
-        {renderSelectedContent}
+        <SelectedContent />
       </StyledScrollBar>
     </StyledMovingErsBox>
   );

@@ -121,4 +121,5 @@ export {
   SelectButtons,
   Models,
   HpSrIllData,
+  SelectedContent,
 } from './hpDetailBoxes';

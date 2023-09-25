@@ -18,3 +18,4 @@ export { default as HpTableItem } from './HpTableItem';
 export { default as SelectButtons } from './SelectButtons';
 export { default as Models } from './Models';
 export { default as HpSrIllData } from './HpSrIllData';
+export { default as SelectedContent } from './SelectedContent';
