@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
@@ -12,7 +12,7 @@ function MovingBox({ className, children, isExpanded, handleExpand }) {
     if (!movingBoxEl) return;
 
     movingBoxEl.style.transform = isExpanded
-      ? `translateY(0%)`
+      ? `translateY(0)`
       : `translateY(calc(100% - 2rem))`;
   }, [isExpanded]);
 
@@ -30,17 +30,17 @@ function MovingBox({ className, children, isExpanded, handleExpand }) {
   );
 }
 
-const transform = ({ isExpanded }) => {
-  if (isExpanded)
-    return css`
-      transform: translateY(calc(100% - 2rem));
-    `;
-  else {
-    return css`
-      transform: translateY(0);
-    `;
-  }
-};
+// const transform = ({ isExpanded }) => {
+//   if (isExpanded)
+//     return css`
+//       transform: translateY(calc(100% - 2rem));
+//     `;
+//   else {
+//     return css`
+//       transform: translateY(0);
+//     `;
+//   }
+// };
 
 const StyledMovingBox = styled.div`
   display: flex;
@@ -53,8 +53,7 @@ const StyledMovingBox = styled.div`
   background-color: white;
   border-radius: 0.7rem 0.7rem 0 0;
   box-shadow: -3px 0 5px 3px ${({ theme }) => theme.colors.grayLight};
-  ${transform}
-  transition: transform 0.5s ease-out;
+  /* transition: transform 0.5s ease-out; */
 `;
 
 const ExpandIcon = styled.div`
