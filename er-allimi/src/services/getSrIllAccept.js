@@ -12,6 +12,7 @@ const getSrIllAccept = async function ({ STAGE1, STAGE2 }) {
         serviceKey,
         STAGE1,
         STAGE2,
+        numOfRows: 500,
       },
     });
 
