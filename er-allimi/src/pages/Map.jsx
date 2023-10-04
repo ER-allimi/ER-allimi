@@ -84,11 +84,13 @@ function Map() {
     });
   }
 
-  /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화 */
-  const handleCenterChange = () => {
+  /** 중심 위치 변경 시 중심 위도, 경도 업데이트 및 페이지네이션 초기화, 반경 오버레이 이동 */
+  const handleCenterChange = (circleOverlay) => {
     const latLngPoint = map.getCenter();
     setCenterPoint({ latitude: latLngPoint.Ma, longitude: latLngPoint.La });
     resetPagination();
+
+    circleOverlay.setPosition(latLngPoint);
   };
 
   // 반경 오버레이
@@ -108,18 +110,33 @@ function Map() {
     createMap();
   }, [latitude, longitude]);
 
-  // 중심 위치 변경 시 응급실 마커, 반경 오버레이 생성
+  // 지도 생성 후 반경 오버레이 생성, 지도에 중심 위치 변경 이벤트 추가
   useEffect(() => {
     if (!map) return;
 
-    kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
     newCircleOverlay.setMap(map);
 
+    kakao.maps.event.addListener(map, 'center_changed', () =>
+      handleCenterChange(newCircleOverlay),
+    );
+
     return () => {
-      erMarkers.forEach((marker) => marker.setMap(null));
       newCircleOverlay.setMap(null);
     };
-  }, [map, centerPoint, radius, latitude, longitude]);
+  }, [map, radius]);
+
+  // 중심 위치 변경 시 응급실 마커 생성
+  // useEffect(() => {
+  //   if (!map) return;
+
+  //   kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
+  //   newCircleOverlay.setMap(map);
+
+  //   return () => {
+  //     erMarkers.forEach((marker) => marker.setMap(null));
+  //     newCircleOverlay.setMap(null);
+  //   };
+  // }, [map, centerPoint, radius, latitude, longitude]);
 
   // 디테일 페이지로 이동 시
   useEffect(() => {
@@ -174,4 +191,5 @@ const ControlWrapper = styled.div`
     top: 9vh;
   }
 `;
+
 export default Map;
