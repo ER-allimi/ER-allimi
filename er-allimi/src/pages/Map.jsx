@@ -125,19 +125,6 @@ function Map() {
     };
   }, [map, radius]);
 
-  // 중심 위치 변경 시 응급실 마커 생성
-  // useEffect(() => {
-  //   if (!map) return;
-
-  //   kakao.maps.event.addListener(map, 'center_changed', handleCenterChange);
-  //   newCircleOverlay.setMap(map);
-
-  //   return () => {
-  //     erMarkers.forEach((marker) => marker.setMap(null));
-  //     newCircleOverlay.setMap(null);
-  //   };
-  // }, [map, centerPoint, radius, latitude, longitude]);
-
   // 디테일 페이지로 이동 시
   useEffect(() => {
     if (!map) return;
