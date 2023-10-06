@@ -51,7 +51,7 @@ const Container = styled.div`
 
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.md}) {
-      padding: 0.2rem 0.5rem 0.9rem 0.5rem;
+      padding: 0.2rem 0.5rem 1.1rem 0.5rem;
     }
   `}
 `;
