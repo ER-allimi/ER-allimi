@@ -1,4 +1,4 @@
-import { AutoPlaySlider } from '@components';
+import { AutoPlaySlider, BiLeftArrow, BiRightArrow } from '@components';
 
 const data = [
   { label: 1, text: 1, backgroundColor: 'red' },
@@ -42,19 +42,58 @@ Control.args = {
   control: false,
 };
 
+export const ControlIcon = Template.bind({});
+ControlIcon.args = {
+  leftController: <BiLeftArrow />,
+  rightController: <BiRightArrow />,
+};
+
 export const ControllersPosition = Template.bind({});
 ControllersPosition.args = {
   controllersPosition: 'top',
 };
 
-export const Pagination = Template.bind({});
-Pagination.args = {
-  pagination: false,
+export const PaginationDot = Template.bind({});
+PaginationDot.args = {
+  paginationDot: true,
 };
 
-export const DotsPosition = Template.bind({});
-DotsPosition.args = {
-  dotsPosition: 'top',
+export const DotShape = Template.bind({});
+DotShape.args = {
+  paginationDot: true,
+  activeDot: (
+    <span
+      style={{
+        display: 'inline-block',
+        width: '30px',
+        height: '8px',
+        backgroundColor: 'white',
+        borderRadius: '0.5rem',
+      }}
+    ></span>
+  ),
+  inactiveDot: (
+    <span
+      style={{
+        display: 'inline-block',
+        width: '8px',
+        height: '8px',
+        backgroundColor: '#ffffff9d',
+        borderRadius: '50%',
+      }}
+    ></span>
+  ),
+};
+
+export const PaginationFraction = Template.bind({});
+PaginationFraction.args = {
+  paginationFraction: true,
+};
+
+export const PaginationPosition = Template.bind({});
+PaginationPosition.args = {
+  paginationDot: true,
+  paginationPosition: 'top',
 };
 
 export const Sliding = Template.bind({});

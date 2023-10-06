@@ -29,14 +29,16 @@ function HpMessageList({ data }) {
       <AutoPlaySliderAtLg
         data={SlidesData}
         renderSlide={renderSlide}
+        paginationFraction
         controllersPosition="top"
-        dotsPosition="top"
+        paginationPosition="top"
       />
       <AutoPlaySliderAtMd
         data={SlidesData}
         renderSlide={renderSlide}
+        paginationFraction
         controllersPosition="bottom"
-        dotsPosition="bottom"
+        paginationPosition="bottom"
       />
     </>
   );

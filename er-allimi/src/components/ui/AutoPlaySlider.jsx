@@ -11,10 +11,11 @@ function AutoPlaySlider({
   leftController,
   rightController,
   controllersPosition,
-  pagination,
+  paginationDot,
   activeDot,
   inactiveDot,
-  dotsPosition,
+  paginationFraction,
+  paginationPosition,
   sliding,
   transitionTime,
   infinite,
@@ -58,10 +59,11 @@ function AutoPlaySlider({
         leftController={leftController}
         rightController={rightController}
         controllersPosition={controllersPosition}
-        pagination={pagination}
+        paginationDot={paginationDot}
         activeDot={activeDot}
         inactiveDot={inactiveDot}
-        dotsPosition={dotsPosition}
+        paginationFraction={paginationFraction}
+        paginationPosition={paginationPosition}
         sliding={sliding}
         transitionTime={transitionTime}
         infinite={infinite}
@@ -84,10 +86,11 @@ AutoPlaySlider.propTypes = {
   leftController: PropTypes.node,
   rightController: PropTypes.node,
   controllersPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
-  pagination: PropTypes.bool, // dots 유뮤
+  paginationDot: PropTypes.bool, // dots 유뮤
   activeDot: PropTypes.node,
   inactiveDot: PropTypes.node,
-  dotsPosition: PropTypes.oneOf(['top', 'bottom']),
+  paginationFraction: PropTypes.bool, // fraction 유뮤
+  paginationPosition: PropTypes.oneOf(['top', 'bottom']),
   sliding: PropTypes.bool, // 슬라이딩 여부
   transitionTime: PropTypes.number, // 단위: s
   infinite: PropTypes.bool, // 무한 슬라이딩 여부

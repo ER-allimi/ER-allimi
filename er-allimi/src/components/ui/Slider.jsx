@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { HiMiniArrowSmallLeft, HiMiniArrowSmallRight } from '@components';
+import { getFractionNumber } from '@utils';
 
 function Slider({
   className,
@@ -12,10 +13,11 @@ function Slider({
   leftController,
   rightController,
   controllersPosition,
-  pagination,
+  paginationDot,
   activeDot,
   inactiveDot,
-  dotsPosition,
+  paginationFraction,
+  paginationPosition,
   sliding,
   transitionTime,
   infinite,
@@ -119,6 +121,8 @@ function Slider({
       );
     });
 
+  const fractionNumber = getFractionNumber(infinite, data.length, currentSlide);
+
   return (
     <SliderContainer className={className}>
       <SliderWrap>
@@ -128,7 +132,7 @@ function Slider({
           dataLength={newData.length}
           sliding={sliding}
           transitionTime={transitionTime}
-          dotsPosition={dotsPosition}
+          paginationPosition={paginationPosition}
         >
           {renderSlideItems}
         </SlideList>
@@ -151,7 +155,14 @@ function Slider({
           </RightController>
         </Controllers>
       )}
-      {pagination && <Dots dotsPosition={dotsPosition}>{renderDots}</Dots>}
+      {paginationDot && (
+        <Dots paginationPosition={paginationPosition}>{renderDots}</Dots>
+      )}
+      {paginationFraction && (
+        <Fraction
+          paginationPosition={paginationPosition}
+        >{`${fractionNumber} / ${data.length}`}</Fraction>
+      )}
     </SliderContainer>
   );
 }
@@ -174,8 +185,8 @@ const sliding = ({ sliding, transitionTime }) => {
   `;
 };
 
-const slideListAlign = ({ dotsPosition }) => {
-  switch (dotsPosition) {
+const slideListAlign = ({ paginationPosition }) => {
+  switch (paginationPosition) {
     case 'top':
       return css`
         align-items: start;
@@ -236,22 +247,26 @@ const Controllers = styled.div`
 
 const LeftController = styled.span`
   color: white;
+  cursor: pointer;
 
   ${({ infinite, firstSlide }) => {
     if (!infinite && firstSlide)
       return css`
         color: #ffffff9d;
+        cursor: default;
       `;
   }}
 `;
 
 const RightController = styled.span`
   color: white;
+  cursor: pointer;
 
   ${({ infinite, lastSlide }) => {
     if (!infinite && lastSlide)
       return css`
         color: #ffffff9d;
+        cursor: default;
       `;
   }}
 `;
@@ -268,8 +283,8 @@ const DefaultRightController = styled(HiMiniArrowSmallRight)`
   cursor: pointer;
 `;
 
-const dotsPos = ({ dotsPosition }) => {
-  switch (dotsPosition) {
+const dotsPos = ({ paginationPosition }) => {
+  switch (paginationPosition) {
     case 'top':
       return css`
         top: 5px;
@@ -292,6 +307,32 @@ const Dots = styled.div`
   ${dotsPos};
   left: 50%;
   transform: translateX(-50%);
+`;
+
+const fractionPos = ({ paginationPosition }) => {
+  switch (paginationPosition) {
+    case 'top':
+      return css`
+        top: 3px;
+      `;
+    case 'bottom':
+      return css`
+        bottom: 3px;
+      `;
+    default:
+      return css`
+        top: 3px;
+      `;
+  }
+};
+
+const Fraction = styled.div`
+  position: absolute;
+  ${fractionPos};
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 10px;
 `;
 
 const Dot = styled.div`
@@ -325,15 +366,26 @@ Slider.propTypes = {
   leftController: PropTypes.node,
   rightController: PropTypes.node,
   controllersPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
-  pagination: PropTypes.bool, // dots 유뮤
+  paginationDot: PropTypes.bool, // dots 유뮤
   activeDot: PropTypes.node,
   inactiveDot: PropTypes.node,
-  dotsPosition: PropTypes.oneOf(['top', 'bottom']),
+  paginationFraction: PropTypes.bool, // fraction 유뮤
+  paginationPosition: PropTypes.oneOf(['top', 'bottom']),
   sliding: PropTypes.bool, // 슬라이딩 여부
   transitionTime: PropTypes.number, // 단위: s
   infinite: PropTypes.bool, // 무한 슬라이딩 여부
   currentSlide: PropTypes.number.isRequired,
   setCurrentSlide: PropTypes.func.isRequired,
+  onlyOnePagination: function ({ paginationDot, paginationFraction }) {
+    // paginationDot와 paginationFraction 중 하나만 선택해야 함
+    const count = Number(paginationDot) + Number(paginationFraction);
+
+    if (count === 2) {
+      return new Error(
+        `You must choose only one of 'paginationDot' and 'paginationFraction`,
+      );
+    }
+  },
 };
 
 Slider.defaultProps = {
@@ -341,10 +393,11 @@ Slider.defaultProps = {
   leftController: <DefaultLeftController />,
   rightController: <DefaultRightController />,
   controllersPosition: 'center',
-  pagination: true,
+  paginationDot: false,
   activeDot: <DefaultActiveDot />,
   inactiveDot: <DefaultInactiveDot />,
-  dotsPosition: 'bottom',
+  paginationFraction: false,
+  paginationPosition: 'bottom',
   sliding: true,
   transitionTime: 0.5,
   infinite: false,

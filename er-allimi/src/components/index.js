@@ -89,6 +89,8 @@ export {
   GrAnnounce,
   FiSearch,
   RiHospitalLine,
+  BiLeftArrow,
+  BiRightArrow,
 } from './icons';
 
 export {

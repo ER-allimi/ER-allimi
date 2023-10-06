@@ -8,4 +8,4 @@ export { getDateStrByHvidate } from './getDateStrByHvidate';
 export { classifySurgery } from './classifySurgery';
 export { getHpRtHrAvailableBedData } from './getHpRtHrAvailableBedData';
 export { classifyMsgSymTyp } from './classifyMsgSymTyp';
-
+export { getFractionNumber } from './getFractionNumber';

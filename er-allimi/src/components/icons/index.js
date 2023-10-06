@@ -6,6 +6,8 @@ export {
   BiBody,
   BiSolidError,
   BiError,
+  BiLeftArrow,
+  BiRightArrow,
 } from 'react-icons/bi';
 export { GrMapLocation } from 'react-icons/gr';
 export { FaMapMarkedAlt, FaMapMarker, FaBed } from 'react-icons/fa';
