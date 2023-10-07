@@ -18,9 +18,6 @@ const useMarker = (map, setupMarkerEventListeners) => {
   useEffect(() => {
     if (!map) return;
 
-    erMarkers.forEach((marker) => marker.setMap(null));
-    setErMarkers([]);
-
     const start = (ersPagination - 1) * ERS_CNT_PER_PAGE;
     const end = ersPagination * ERS_CNT_PER_PAGE;
     const sortedErsPerPage = sortedErsWithRadius.slice(start, end);
