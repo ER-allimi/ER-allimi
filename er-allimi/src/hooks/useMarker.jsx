@@ -5,6 +5,8 @@ import { ERS_CNT_PER_PAGE } from '@constants';
 import { getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
 import { ErMarkerOverlay, InfoWindowOverlay } from '@components';
+import { Link } from 'react-router-dom';
+import { getPathHospitalDetail } from '@utils';
 const DEFAULT_MARKER_COLOR = '#222222';
 
 const useMarker = (map, setupMarkerEventListeners) => {
@@ -15,8 +17,6 @@ const useMarker = (map, setupMarkerEventListeners) => {
 
   useEffect(() => {
     if (!map) return;
-    erMarkers.forEach((marker) => marker.setMap(null));
-    setErMarkers([]);
 
     const start = (ersPagination - 1) * ERS_CNT_PER_PAGE;
     const end = ersPagination * ERS_CNT_PER_PAGE;
@@ -26,6 +26,9 @@ const useMarker = (map, setupMarkerEventListeners) => {
     const newInfowindows = [];
     const newErMarkers = sortedErsPerPage.map((item, idx) => {
       const hpInfo = item.hpInfo;
+      const hpId = hpInfo.hpid;
+      const stage1 = hpInfo.dutyAddr.split(' ')[0];
+      const stage2 = hpInfo.dutyAddr.split(' ')[1];
       const availableBedInfo = item.availableBedInfo;
       const name = hpInfo.dutyName;
       const lat = hpInfo.wgs84Lat;
@@ -65,12 +68,12 @@ const useMarker = (map, setupMarkerEventListeners) => {
         zIndex: nearByErCount + 1,
       });
       newInfowindows.push(newInfoWindow);
-      setupMarkerEventListeners(hpInfo.hpid, newInfoWindow);
+      setupMarkerEventListeners(hpId, stage1, stage2,newInfoWindow);
       return newMarker;
     });
     setErMarkers(newErMarkers);
-    //모든 마커 지우기
 
+    //모든 마커 지우기
     return () => {
       newErMarkers.forEach((marker) => marker.setMap(null));
       newInfowindows.forEach((infoWindow) => infoWindow.setMap(null));

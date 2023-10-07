@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import {
   CurrentLocationButton,
@@ -6,8 +7,7 @@ import {
   ZoomOutButton,
   CurrentLocationOverlay,
 } from '@components';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getPathHospitalDetail } from '@utils';
+import { useNavigate } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
@@ -15,18 +15,17 @@ import {
   mapCenterPointState,
   radiusState,
   ersPaginationState,
-  ersListState,
 } from '@stores';
 import { KM_TO_M_UNIT } from '@constants';
 import { useMarker } from '@hooks';
+import { getPathHospitalDetail } from '@utils';
 
 const { kakao } = window;
 
-function Map() {
+function Map({targetHp}) {
   const { latitude, longitude } = useRecoilValue(userLocationState);
   const [centerPoint, setCenterPoint] = useRecoilState(mapCenterPointState);
   const resetPagination = useResetRecoilState(ersPaginationState);
-  const ersList = useRecoilValue(ersListState);
 
   // 지도 표시될 HTML 요소
   const mapContainer = useRef(null);
@@ -34,9 +33,8 @@ function Map() {
   const radius = useRecoilValue(radiusState);
   const defaultCenter = new kakao.maps.LatLng(latitude, longitude);
   const [locPosition, setLocPosition] = useState(defaultCenter);
-  const erMarkers = useMarker(map, setupMarkerEventListeners);
+  const erMarkers = useMarker(map, setupMarkerEventListeners, targetHp);
   const navigate = useNavigate();
-  const hpIdParameter = useParams().hospitalId;
 
   /** 카카오 지도 생성 */
   const createMap = () => {
@@ -61,18 +59,15 @@ function Map() {
   };
 
   /** 마커의 이벤트 리스너 설정 */
-  function setupMarkerEventListeners(hospitalId, infoWindow) {
+  function setupMarkerEventListeners(hpId, stage1, stage2, infoWindow) {
     const markerDiv = document.querySelectorAll('.markerHover');
     const lastElement = markerDiv[markerDiv.length - 1];
 
     if (!lastElement) return;
-
+    
     lastElement.addEventListener('click', () => {
-      const targetHpAddr = ersList.find(
-        (item) => item.hpid === hospitalId,
-      ).dutyAddr;
-      const [stage1, stage2] = targetHpAddr.split(' ');
-      navigate(getPathHospitalDetail({ stage1, stage2, hospitalId }));
+      console.log(hpId)
+      navigate(getPathHospitalDetail({ stage1, stage2, hospitalId:hpId }));
     });
 
     lastElement.addEventListener('mouseover', () => {
@@ -128,13 +123,8 @@ function Map() {
   // 디테일 페이지로 이동 시
   useEffect(() => {
     if (!map) return;
-    if (!hpIdParameter) return;
-    if (ersList.length === 0) return;
-    const targetHp = ersList.find((item) => item.hpid === hpIdParameter);
-    if (!targetHp) {
-      navigate('/not-found');
-      return;
-    }
+    if (!targetHp) return;
+    console.log(targetHp, 'targeHP')
 
     const targetHpPosition = new kakao.maps.LatLng(
       targetHp.wgs84Lat,
@@ -145,7 +135,7 @@ function Map() {
       longitude: targetHp.wgs84Lon,
     });
     map.setCenter(targetHpPosition);
-  }, [map, hpIdParameter]);
+  }, [map, targetHp]);
 
   return (
     <MapContainer ref={mapContainer}>
@@ -157,6 +147,9 @@ function Map() {
     </MapContainer>
   );
 }
+Map.propTypes = {
+  targetHp: PropTypes.object,
+};
 
 const MapContainer = styled.div`
   width: 100%;

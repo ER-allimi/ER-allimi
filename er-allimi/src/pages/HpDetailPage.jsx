@@ -1,16 +1,28 @@
 import { Map, HpDetailBoxes } from '@pages';
 import styled from '@emotion/styled';
-import { useSetRecoilState } from 'recoil';
-import { targetHpIdState } from '@stores';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { targetHpIdState, ersListState } from '@stores';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function HpDetailPage() {
-  const targetHpId = useParams();
+  const { hospitalId, stage1, stage2 } = useParams();
   const setTargetHpId = useSetRecoilState(targetHpIdState);
+  const ersList = useRecoilValue(ersListState);
+  const navigate = useNavigate();
+  const targetStages = `${stage1} ${stage2}`;
+  const targetHp = ersList.find((item) => item.hpid === hospitalId);
+
   useEffect(() => {
-    setTargetHpId(targetHpId.hospitalId);
-  }, [targetHpId]);
+    if (ersList.length === 0) return;
+    const targetHp = ersList.find((item) => item.hpid === hospitalId);
+
+    if (!targetHp || !targetHp.dutyAddr.includes(targetStages)) {
+      navigate('/not-found');
+      return;
+    }
+    setTargetHpId(targetHp.hpid);
+  }, [hospitalId]);
 
   const StyledMapView = styled.div`
     position: relative;
@@ -26,7 +38,7 @@ function HpDetailPage() {
 
   return (
     <StyledMapView>
-      <Map />
+      <Map targetHp={targetHp} />
       <AbsoluteErsBoxes />
     </StyledMapView>
   );

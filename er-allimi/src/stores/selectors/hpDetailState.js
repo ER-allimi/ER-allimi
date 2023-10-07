@@ -16,6 +16,8 @@ const hpDetailState = selector({
       (hpData) => hpData.hpid === targetHpId,
     );
 
+    if (!targetHpInfoData) return [];
+
     const targetHpRTavailableBedData = ersRTavailableBedList.find(
       (hpData) => hpData.hpid === targetHpId,
     );

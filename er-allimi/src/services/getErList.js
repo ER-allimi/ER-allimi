@@ -14,7 +14,7 @@ const getErList = async function () {
       },
     });
 
-    return res.data.response.body.items?.item;
+    return res.data.response.body.items?.item || [];
   } catch (error) {
     console.error(error);
   }
