@@ -15,13 +15,12 @@ function HpDetailPage() {
 
   useEffect(() => {
     if (ersList.length === 0) return;
-    const targetHp = ersList.find((item) => item.hpid === hospitalId);
 
     if (!targetHp || !targetHp.dutyAddr.includes(targetStages)) {
       navigate('/not-found');
-      return;
+    } else {
+      setTargetHpId(targetHp.hpid);
     }
-    setTargetHpId(targetHp.hpid);
   }, [hospitalId]);
 
   const StyledMapView = styled.div`
