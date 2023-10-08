@@ -10,7 +10,7 @@ function NotFoundPage() {
   const currentPath = useParams();
   const handleBackClick = () => {
     if (currentPath['*'] === 'not-found') {
-      navigate(-3);
+      navigate(-2);
     } else {
       navigate(-1);
     }
