@@ -66,7 +66,6 @@ function Map({targetHp}) {
     if (!lastElement) return;
     
     lastElement.addEventListener('click', () => {
-      console.log(hpId)
       navigate(getPathHospitalDetail({ stage1, stage2, hospitalId:hpId }));
     });
 
@@ -124,8 +123,7 @@ function Map({targetHp}) {
   useEffect(() => {
     if (!map) return;
     if (!targetHp) return;
-    console.log(targetHp, 'targeHP')
-
+    
     const targetHpPosition = new kakao.maps.LatLng(
       targetHp.wgs84Lat,
       targetHp.wgs84Lon,
