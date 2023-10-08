@@ -5,8 +5,6 @@ import { ERS_CNT_PER_PAGE } from '@constants';
 import { getErRTavailableBedByColor } from '@utils';
 import { renderToString } from 'react-dom/server';
 import { ErMarkerOverlay, InfoWindowOverlay } from '@components';
-import { Link } from 'react-router-dom';
-import { getPathHospitalDetail } from '@utils';
 const DEFAULT_MARKER_COLOR = '#222222';
 
 const useMarker = (map, setupMarkerEventListeners) => {
