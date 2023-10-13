@@ -29,7 +29,7 @@ const theme = {
   breakPoints: {
     sm: '767px', // mobile
     md: '1023px', // tablet
-    // lg: '1024px', // laptop
+    lg: '1024px', // laptop
   },
 };
 

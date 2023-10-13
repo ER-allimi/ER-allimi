@@ -1,6 +1,12 @@
 import { css } from '@emotion/react';
+import { theme } from '@styles';
 
-const globalStyles = ({ colors, breakPoints }) => css`
+interface GlobalStylesProps {
+  colors: typeof theme.colors;
+  breakPoints: typeof theme.breakPoints;
+}
+
+const globalStyles = ({ colors, breakPoints }: GlobalStylesProps) => css`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
   :root {
