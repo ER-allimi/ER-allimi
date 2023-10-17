@@ -3,23 +3,18 @@ import { css } from '@emotion/react';
 import { theme } from '@styles';
 
 interface ButtonProps {
+  color?: keyof typeof theme.colors;
+  round?: 'sm' | 'md' | 'lg';
+  outline?: boolean;
   children: string | number | React.ReactNode;
-  color: keyof typeof theme.colors;
-  round: 'sm' | 'md' | 'lg';
-  outline: boolean;
   className?: string;
+  [key: string]: any;
 }
 
-Button.defaultProps = {
-  color: 'gray',
-  round: 'md',
-  outline: false,
-};
-
 function Button({
-  color,
-  round,
-  outline,
+  color = 'gray',
+  round = 'md',
+  outline = false,
   children,
   className,
   ...rest
