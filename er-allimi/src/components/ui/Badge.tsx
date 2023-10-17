@@ -2,66 +2,49 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { theme } from '@styles';
 
-interface ButtonProps {
+interface BadgeProps {
   color?: keyof typeof theme.colors;
-  round?: 'sm' | 'md' | 'lg';
   outline?: boolean;
   children: string | number | React.ReactNode;
   className?: string;
-  [key: string]: any;
 }
 
-function Button({
+function Badge({
   color = 'gray',
-  round = 'md',
   outline = false,
   children,
   className,
   ...rest
-}: ButtonProps) {
+}: BadgeProps) {
   return (
-    <StyledButton
+    <StyledBadge
       color={color}
-      round={round}
       outline={outline}
       className={className}
       {...rest}
     >
       {children}
-    </StyledButton>
+    </StyledBadge>
   );
 }
 
-const roundValue = {
-  sm: '0.2rem',
-  md: '0.5rem',
-  lg: '0.8rem',
-};
-
-interface outlinedProps {
-  theme: typeof theme;
+interface OutlineProps {
+  theme?: any;
   outline: boolean;
-  color: keyof typeof theme.colors;
+  color: string;
 }
 
-const outlined = ({ theme, outline, color }: outlinedProps) =>
+const outlined = ({ theme, outline, color }: OutlineProps) =>
   outline &&
   css`
     background-color: white;
     color: ${theme.colors[color]};
   `;
 
-interface StyledButtonProps {
-  theme?: typeof theme;
-  round: 'sm' | 'md' | 'lg';
-  color: keyof typeof theme.colors;
-  outline: boolean;
-}
-
-const StyledButton = styled.button<StyledButtonProps>`
-  padding: 0.2rem 0.4rem;
+const StyledBadge = styled.button`
+  padding: 0.1rem 0.3rem;
   border: 1px solid ${({ theme, color }) => theme.colors[color]};
-  border-radius: ${({ round }) => roundValue[round]};
+  border-radius: 50%;
   background-color: ${({ theme, color }) => theme.colors[color]};
   font-size: 13px;
   font-weight: 700;
@@ -72,4 +55,4 @@ const StyledButton = styled.button<StyledButtonProps>`
   ${outlined}
 `;
 
-export default Button;
+export default Badge;
