@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { theme } from '@styles';
 
 interface BadgeProps {
-  color: keyof typeof theme.colors;
-  outline: boolean;
+  color?: keyof typeof theme.colors;
+  outline?: boolean;
   children: string | number | React.ReactNode;
   className?: string;
 }
 
-Badge.defaultProps = {
-  color: 'gray',
-  outlined: false,
-};
-
-function Badge({ color, outline, children, className, ...rest }: BadgeProps) {
+function Badge({
+  color = 'gray',
+  outline = false,
+  children,
+  className,
+  ...rest
+}: BadgeProps) {
   return (
     <StyledBadge
       color={color}
