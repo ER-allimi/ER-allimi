@@ -52,7 +52,6 @@ const outlined = ({ theme, outline, color }: outlinedProps) =>
   `;
 
 interface StyledButtonProps {
-  theme?: typeof theme;
   round: 'sm' | 'md' | 'lg';
   color: keyof typeof theme.colors;
   outline: boolean;
