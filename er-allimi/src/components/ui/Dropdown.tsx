@@ -67,11 +67,7 @@ const StyledDropdown = styled.div`
   cursor: pointer;
 `;
 
-interface ThemeProp {
-  theme?: typeof theme;
-}
-
-const Head = styled.div<ThemeProp>`
+const Head = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,7 +84,7 @@ const Head = styled.div<ThemeProp>`
   }
 `;
 
-interface BodyProps extends ThemeProp {
+interface BodyProps {
   expanded: boolean;
 }
 
@@ -105,7 +101,7 @@ const Body = styled.div<BodyProps>`
   font-size: inherit;
 `;
 
-const Option = styled.div<ThemeProp>`
+const Option = styled.div`
   padding: 0.2rem 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayLight};
   font-size: inherit;
