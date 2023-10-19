@@ -1,6 +1,20 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { theme } from '@styles';
+
+interface InputProps {
+  value: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  placeholder?: string;
+  leftIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement;
+  color?: keyof typeof theme.colors;
+  round?: 'sm' | 'md' | 'lg';
+  fullWidth?: boolean;
+  disabled?: boolean;
+  className?: string;
+}
 
 function Input({
   value,
@@ -9,12 +23,12 @@ function Input({
   placeholder,
   leftIcon,
   rightIcon,
-  color,
-  round,
-  fullWidth,
+  color = 'gray',
+  round = 'md',
+  fullWidth = false,
   disabled,
   className,
-}) {
+}: InputProps) {
   return (
     <StyledInput
       leftIcon={leftIcon}
@@ -45,7 +59,23 @@ const roundValue = {
   lg: '0.8rem',
 };
 
-const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
+interface ContainerProps {
+  theme: typeof theme;
+  leftIcon?: React.ReactElement;
+  rightIcon?: React.ReactElement;
+  color: keyof typeof theme.colors;
+  round: 'sm' | 'md' | 'lg';
+  fullWidth: boolean;
+}
+
+const container = ({
+  theme,
+  leftIcon,
+  rightIcon,
+  color,
+  round,
+  fullWidth,
+}: ContainerProps) =>
   (leftIcon || rightIcon) &&
   css`
     display: flex;
@@ -75,7 +105,10 @@ const container = ({ theme, leftIcon, rightIcon, color, round, fullWidth }) =>
     }
   `;
 
-const StyledInput = styled.div`
+// 인터페이스 T에서 U 속성만 optional로 바꿔주는 유틸리티 타입
+type Optional<T, U extends keyof T> = Omit<T, U> & Partial<Pick<T, U>>;
+
+const StyledInput = styled.div<Optional<ContainerProps, 'theme'>>`
   input {
     padding: 0.2rem 0.5rem;
     width: ${({ fullWidth }) => (fullWidth ? '100%' : '300px')};
@@ -97,46 +130,5 @@ const StyledInput = styled.div`
 
   ${container}
 `;
-
-Input.defaultProps = {
-  color: 'gray',
-  round: 'md',
-  fullWidth: false,
-};
-
-Input.propTypes = {
-  value: PropTypes.string.isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  leftIcon: PropTypes.element,
-  rightIcon: PropTypes.element,
-  color: PropTypes.oneOf([
-    'gray',
-    'grayDark',
-    'grayDarker',
-    'grayLight',
-    'grayLighter',
-    'red',
-    'redDark',
-    'redDarker',
-    'redLight',
-    'redLighter',
-    'yellow',
-    'yellowDark',
-    'yellowDarker',
-    'yellowLight',
-    'yellowLighter',
-    'green',
-    'greenDark',
-    'greenDarker',
-    'greenLight',
-    'greenLighter',
-  ]),
-  round: PropTypes.oneOf(['sm', 'md', 'lg']),
-  fullWidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
 
 export default Input;
