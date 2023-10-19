@@ -1,3 +1,5 @@
+import '@emotion/react';
+
 const theme = {
   colors: {
     gray: 'rgba(52, 52, 52, 33%)',
@@ -32,5 +34,12 @@ const theme = {
     lg: '1024px', // laptop
   },
 };
+
+// Theme에 타입 추가
+type ThemeTypes = typeof theme;
+
+declare module '@emotion/react' {
+  export interface Theme extends ThemeTypes {}
+}
 
 export { theme };
