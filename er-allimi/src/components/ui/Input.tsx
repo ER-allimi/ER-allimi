@@ -105,10 +105,7 @@ const container = ({
     }
   `;
 
-// 인터페이스 T에서 U 속성만 optional로 바꿔주는 유틸리티 타입
-type Optional<T, U extends keyof T> = Omit<T, U> & Partial<Pick<T, U>>;
-
-const StyledInput = styled.div<Optional<ContainerProps, 'theme'>>`
+const StyledInput = styled.div<Omit<ContainerProps, 'theme'>>`
   input {
     padding: 0.2rem 0.5rem;
     width: ${({ fullWidth }) => (fullWidth ? '100%' : '300px')};
