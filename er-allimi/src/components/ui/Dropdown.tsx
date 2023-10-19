@@ -1,24 +1,40 @@
 import { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { BiSolidDownArrow, BiSolidUpArrow } from '@components';
+import { theme } from '@styles';
 
-function Dropdown({ label, data, select, handleOptionClick, className }) {
+interface DropdownProps {
+  label?: string;
+  data: { label: string; value: number }[];
+  select: number;
+  handleOptionClick: (idx: number) => void;
+  className?: string;
+}
+
+function Dropdown({
+  label = '선택',
+  data,
+  select,
+  handleOptionClick,
+  className,
+}: DropdownProps) {
   const [expanded, setExpanded] = useState(false);
-  const dropdown = useRef();
+  const dropdown = useRef<HTMLDivElement>(null);
 
+  // 드롭다운 밖의 지점을 클릭할 경우 닫기
   useEffect(() => {
-    const handler = (e) => {
-      if (!dropdown.current || dropdown.current.contains(e.target)) return;
+    const handler = (e: MouseEvent): undefined | void => {
+      if (!dropdown.current || dropdown.current.contains(e.target as Node))
+        return;
       setExpanded(false);
     };
 
-    document.addEventListener('click', handler);
+    document.addEventListener('click', handler, true);
 
-    return () => document.removeEventListener('click', handler);
+    return () => document.removeEventListener('click', handler, true);
   }, []);
 
-  const handleDropdownClick = () => {
+  const handleDropdownClick = (): void => {
     setExpanded(!expanded);
   };
 
@@ -51,7 +67,11 @@ const StyledDropdown = styled.div`
   cursor: pointer;
 `;
 
-const Head = styled.div`
+interface ThemeProp {
+  theme?: typeof theme;
+}
+
+const Head = styled.div<ThemeProp>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,7 +88,11 @@ const Head = styled.div`
   }
 `;
 
-const Body = styled.div`
+interface BodyProps extends ThemeProp {
+  expanded: boolean;
+}
+
+const Body = styled.div<BodyProps>`
   display: ${({ expanded }) => (expanded ? 'block' : 'none')};
   position: absolute;
   top: 100%;
@@ -81,7 +105,7 @@ const Body = styled.div`
   font-size: inherit;
 `;
 
-const Option = styled.div`
+const Option = styled.div<ThemeProp>`
   padding: 0.2rem 0.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grayLight};
   font-size: inherit;
@@ -94,17 +118,5 @@ const Option = styled.div`
     border-bottom: none;
   }
 `;
-
-Dropdown.propTypes = {
-  label: PropTypes.string,
-  data: PropTypes.array.isRequired,
-  select: PropTypes.number.isRequired,
-  handleOptionClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-};
-
-Dropdown.defaultProps = {
-  label: '선택',
-};
 
 export default Dropdown;
