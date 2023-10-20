@@ -1,14 +1,21 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
+
+interface PaginationProps {
+  totCnt: number;
+  cntPerPage?: number;
+  currentPage: number;
+  handlePageClick: (page: number) => void;
+  className?: string;
+}
 
 function Pagination({
   totCnt,
-  cntPerPage,
+  cntPerPage = 5,
   currentPage,
   handlePageClick,
   className,
-}) {
+}: PaginationProps) {
   const numOfPages = Math.ceil(totCnt / cntPerPage);
 
   const renderPages = Array(numOfPages)
@@ -36,7 +43,12 @@ const StyledPagination = styled.div`
   font-size: 13px;
 `;
 
-const activePageNum = ({ theme, active }) =>
+interface ActivePageNumProps {
+  theme: Theme;
+  active: boolean;
+}
+
+const activePageNum = ({ theme, active }: ActivePageNumProps) =>
   active &&
   css`
     border: 1px solid ${theme.colors.gray};
@@ -45,7 +57,12 @@ const activePageNum = ({ theme, active }) =>
     color: white;
   `;
 
-const PageNum = styled.span`
+interface PageNumProps {
+  theme?: Theme;
+  active: boolean;
+}
+
+const PageNum = styled.span<PageNumProps>`
   display: inline-block;
   margin-right: 0.5rem;
   padding: 0rem 0.35rem;
@@ -61,17 +78,5 @@ const PageNum = styled.span`
 
   ${activePageNum}
 `;
-
-Pagination.propTypes = {
-  totCnt: PropTypes.number.isRequired,
-  cntPerPage: PropTypes.number,
-  currentPage: PropTypes.number.isRequired,
-  handlePageClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-};
-
-Pagination.defaultProps = {
-  cntPerPage: 5,
-};
 
 export default Pagination;
