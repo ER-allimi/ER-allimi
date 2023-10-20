@@ -29,9 +29,9 @@ function Badge({
 }
 
 interface OutlineProps {
-  theme?: any;
+  theme: typeof theme;
   outline: boolean;
-  color: string;
+  color: keyof typeof theme.colors;
 }
 
 const outlined = ({ theme, outline, color }: OutlineProps) =>
@@ -41,7 +41,13 @@ const outlined = ({ theme, outline, color }: OutlineProps) =>
     color: ${theme.colors[color]};
   `;
 
-const StyledBadge = styled.button`
+interface StyledBadgeProps {
+  theme?: typeof theme;
+  outline: boolean;
+  color: keyof typeof theme.colors;
+}
+
+const StyledBadge = styled.button<StyledBadgeProps>`
   padding: 0.1rem 0.3rem;
   border: 1px solid ${({ theme, color }) => theme.colors[color]};
   border-radius: 50%;

@@ -1,13 +1,25 @@
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { IoClose } from '@components';
 
-function Modal({ children, showModal, handleModalClose, closeIcon }) {
+interface ModalProps {
+  children?: React.ReactNode;
+  showModal: boolean;
+  handleModalClose: () => void;
+  closeIcon?: React.ReactNode;
+}
+
+function Modal({
+  children = '모달창 내용을 입력해주세요.',
+  showModal,
+  handleModalClose,
+  closeIcon = <IoClose />,
+}: ModalProps) {
   useEffect(() => {
-    const clickCallback = (e) => {
-      if (e.target.closest('.modal')) return;
+    const clickCallback = (e: MouseEvent) => {
+      const target = e.target as Element;
+      if (target.closest('.modal')) return;
       handleModalClose();
     };
     window.addEventListener('click', clickCallback);
@@ -22,7 +34,7 @@ function Modal({ children, showModal, handleModalClose, closeIcon }) {
           {children}
         </ModalWrap>
       </ModalContainer>,
-      document.querySelector('.modal-container'),
+      document.querySelector('.modal-container') as Element,
     )
   );
 }
@@ -64,17 +76,5 @@ const Close = styled.div`
   color: ${({ theme }) => theme.colors.grayDark};
   cursor: pointer;
 `;
-
-Modal.propTypes = {
-  children: PropTypes.node,
-  showModal: PropTypes.bool.isRequired,
-  handleModalClose: PropTypes.func.isRequired,
-  closeIcon: PropTypes.node,
-};
-
-Modal.defaultProps = {
-  children: '모달창 내용을 입력해주세요.',
-  closeIcon: <IoClose />,
-};
 
 export default Modal;
