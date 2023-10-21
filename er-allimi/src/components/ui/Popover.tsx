@@ -1,23 +1,36 @@
-import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import ReactDom from 'react-dom';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
+import { theme } from '@styles';
+
+interface PopoverProps {
+  className?: string;
+  containerClassName: string; // target(= popover 대상)을 담고 있는 컨테이너의 클래스명
+  children: React.ReactNode; // target(= popover 대상)
+  content?: string | Array<string>;
+  direction?: 'left' | 'right' | 'top' | 'bottom';
+  distanceAway?: number; // 단위: px
+  color?: keyof typeof theme.colors;
+  showContent: boolean;
+  handlePopoverClick: () => void;
+  handleContentRemove: () => void;
+}
 
 function Popover({
   className,
   containerClassName,
   children,
-  content,
-  direction,
-  distanceAway,
-  color,
+  content = '내용',
+  direction = 'top',
+  distanceAway = 10,
+  color = 'grayDarker',
   showContent,
   handlePopoverClick,
   handleContentRemove,
-}) {
-  const target = useRef();
-  const contentBox = useRef();
+}: PopoverProps) {
+  const target = useRef<HTMLDivElement>(null);
+  const contentBox = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // 브라우저 화면 크기가 변경되는 경우, contentBox 안보이게
@@ -84,31 +97,36 @@ function Popover({
   }
 
   return (
-    <StyledPopover
-      className={className}
-      onClick={handlePopoverClick}
-      ref={target}
-    >
-      {children}
+    <>
+      <StyledPopover
+        className={className}
+        onClick={handlePopoverClick}
+        ref={target}
+      >
+        {children}
+      </StyledPopover>
       {showContent &&
         ReactDom.createPortal(
           <ContentBox
             className="popover-content-box"
             direction={direction}
-            distanceAway={distanceAway}
             color={color}
             ref={contentBox}
           >
             {renderContent}
             <Pointy direction={direction} />
           </ContentBox>,
-          document.querySelector('.popover-container'),
+          document.querySelector('.popover-container') as Element,
         )}
-    </StyledPopover>
+    </>
   );
 }
 
-const pointyPosition = ({ direction }) => {
+interface PointyPositionProps {
+  direction: 'left' | 'right' | 'top' | 'bottom';
+}
+
+const pointyPosition = ({ direction }: PointyPositionProps) => {
   switch (direction) {
     case 'left':
       return css`
@@ -139,7 +157,11 @@ const StyledPopover = styled.div`
   cursor: pointer;
 `;
 
-const ContentBox = styled.div`
+interface ContentBoxProps extends PointyPositionProps {
+  color: keyof typeof theme.colors;
+}
+
+const ContentBox = styled.div<ContentBoxProps>`
   position: fixed;
   width: max-content;
   padding: 0.5rem 0.7rem;
@@ -187,51 +209,5 @@ const Pointy = styled.div`
   background-color: inherit;
   transform: rotate(45deg) translate(-50%);
 `;
-
-Popover.propTypes = {
-  className: PropTypes.string,
-  containerClassName: PropTypes.string, // target을 담고 있는 컨테이너의 클래스명
-  children: PropTypes.node, // target의 id명
-  content: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  direction: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  distanceAway: PropTypes.number, // 단위: px
-  color: PropTypes.oneOf([
-    'gray',
-    'grayDark',
-    'grayDarker',
-    'grayLight',
-    'grayLighter',
-    'red',
-    'redDark',
-    'redDarker',
-    'redLight',
-    'redLighter',
-    'yellow',
-    'yellowDark',
-    'yellowDarker',
-    'yellowLight',
-    'yellowLighter',
-    'green',
-    'greenDark',
-    'greenDarker',
-    'greenLight',
-    'greenLighter',
-    'blue',
-    'blueDark',
-    'blueDarker',
-    'blueLight',
-    'blueLighter',
-  ]),
-  showContent: PropTypes.bool.isRequired,
-  handlePopoverClick: PropTypes.func.isRequired,
-  handleContentRemove: PropTypes.func.isRequired,
-};
-
-Popover.defaultProps = {
-  content: '내용',
-  direction: 'top',
-  distanceAway: 10,
-  color: 'grayDarker',
-};
 
 export default Popover;
