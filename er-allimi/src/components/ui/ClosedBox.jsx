@@ -3,7 +3,7 @@ import { Box, IoCloseSharp } from '@components';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 
-function ClosedBox({ className, children, icon }) {
+function ClosedBox({ className, children, icon, outlineColor }) {
   const [isClosed, setIsClosed] = useState(false);
 
   const handleToggleClick = () => {
@@ -12,7 +12,11 @@ function ClosedBox({ className, children, icon }) {
   return (
     <>
       {isClosed ? (
-        <CircleBox className={className} onClick={handleToggleClick}>
+        <CircleBox
+          className={className}
+          onClick={handleToggleClick}
+          outlineColor={outlineColor}
+        >
           {icon}
         </CircleBox>
       ) : (
@@ -36,7 +40,7 @@ const CircleBox = styled.div`
   height: 2.5rem;
   border-radius: 50%;
   color: ${({ theme }) => theme.colors.grayDarker};
-  border: 1.5px solid ${({ theme }) => theme.colors.redLighter};
+  border: 1.5px solid ${({ theme, outlineColor }) => theme.colors[outlineColor]};
   box-shadow: 3px 3px 5px 3px ${({ theme }) => theme.colors.grayLight};
   background-color: white;
 
@@ -53,10 +57,36 @@ const ClosedButtonContainer = styled.div`
   color: ${({ theme }) => theme.colors.gray};
   cursor: pointer;
 `;
+
+ClosedBox.defaultProps = {
+  outlineColor: 'redLighter',
+};
 ClosedBox.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.element,
+  outlineColor: PropTypes.oneOf([
+    'gray',
+    'grayDark',
+    'grayDarker',
+    'grayLight',
+    'grayLighter',
+    'red',
+    'redDark',
+    'redDarker',
+    'redLight',
+    'redLighter',
+    'yellow',
+    'yellowDark',
+    'yellowDarker',
+    'yellowLight',
+    'yellowLighter',
+    'green',
+    'greenDark',
+    'greenDarker',
+    'greenLight',
+    'greenLighter',
+  ]),
 };
 
 export default ClosedBox;
