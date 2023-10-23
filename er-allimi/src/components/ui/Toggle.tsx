@@ -1,27 +1,40 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
+import { theme } from '@styles';
+
+interface Toggle {
+  data: Array<{ label: string; value: string }>;
+  select: 0 | 1;
+  handleToggleClick: () => void;
+  color?: keyof typeof theme.colors;
+  className?: string;
+  style?: React.CSSProperties;
+}
 
 function Toggle({
   data,
   select,
   handleToggleClick,
-  color,
+  color = 'gray',
   className,
-  ...rest
-}) {
+  style,
+}: Toggle) {
   const renderOptions = data.map((item) => {
     return <Option key={item.label}>{item.label}</Option>;
   });
 
   return (
-    <StyledToggle className={className} color={color} {...rest}>
+    <StyledToggle className={className} color={color} style={style}>
       {renderOptions}
       <Stone onClick={handleToggleClick} select={select} />
     </StyledToggle>
   );
 }
 
-const StyledToggle = styled.div`
+interface StyledToggleProps {
+  color: keyof typeof theme.colors;
+}
+
+const StyledToggle = styled.div<StyledToggleProps>`
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -47,7 +60,11 @@ const Option = styled.div`
   }
 `;
 
-const Stone = styled.div`
+interface StoneProps {
+  select: 0 | 1;
+}
+
+const Stone = styled.div<StoneProps>`
   position: absolute;
   top: 0;
   left: ${({ select }) => (1 - select) * 50}%;
@@ -59,38 +76,5 @@ const Stone = styled.div`
   cursor: pointer;
   transition: left 0.3s ease-in;
 `;
-
-Toggle.defaultProps = {
-  color: 'gray',
-};
-
-Toggle.propTypes = {
-  data: PropTypes.array.isRequired,
-  select: PropTypes.number.isRequired,
-  handleToggleClick: PropTypes.func.isRequired,
-  color: PropTypes.oneOf([
-    'gray',
-    'grayDark',
-    'grayDarker',
-    'grayLight',
-    'grayLighter',
-    'red',
-    'redDark',
-    'redDarker',
-    'redLight',
-    'redLighter',
-    'yellow',
-    'yellowDark',
-    'yellowDarker',
-    'yellowLight',
-    'yellowLighter',
-    'green',
-    'greenDark',
-    'greenDarker',
-    'greenLight',
-    'greenLighter',
-  ]),
-  className: PropTypes.string,
-};
 
 export default Toggle;
