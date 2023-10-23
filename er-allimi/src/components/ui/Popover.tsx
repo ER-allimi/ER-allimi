@@ -109,7 +109,6 @@ function Popover({
         ReactDom.createPortal(
           <ContentBox
             className="popover-content-box"
-            direction={direction}
             color={color}
             ref={contentBox}
           >
@@ -157,7 +156,7 @@ const StyledPopover = styled.div`
   cursor: pointer;
 `;
 
-interface ContentBoxProps extends PointyPositionProps {
+interface ContentBoxProps {
   color: keyof typeof theme.colors;
 }
 
