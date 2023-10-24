@@ -1,49 +1,92 @@
-import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { HiMiniArrowSmallLeft, HiMiniArrowSmallRight } from '@components';
 import { getFractionNumber } from '@utils';
 
+type dataType = { label: string; [key: string]: any };
+type databaseType = Array<dataType>;
+type paginationType = { paginationDot: boolean; paginationFraction: boolean };
+
+interface SliderProps {
+  className?: string;
+  data: databaseType;
+  renderSlide: (data: dataType) => React.ReactNode;
+  control?: boolean; // controllers 유무
+  leftController?: React.ReactNode;
+  rightController?: React.ReactNode;
+  controllersPosition?: 'top' | 'center' | 'bottom';
+  paginationDot?: boolean; // dots 유무
+  activeDot?: React.ReactNode;
+  inactiveDot?: React.ReactNode;
+  paginationFraction?: boolean; // fraction 유무
+  paginationPosition?: 'top' | 'bottom';
+  sliding?: boolean; // 슬라이딩 여부
+  transitionTime?: number; // 단위: s
+  infinite?: boolean; // 무한 슬라이딩 여부
+  currentSlide: number; // 0부터 시작
+  setCurrentSlide: (slide: number) => void;
+}
+
+Slider.propTypes = {
+  // paginationDot와 paginationFraction 중 하나만 선택해야 함
+  onlyOnePagination: function ({
+    paginationDot,
+    paginationFraction,
+  }: paginationType) {
+    const count = Number(paginationDot) + Number(paginationFraction);
+
+    if (count === 2) {
+      return new Error(
+        `You must choose only one of 'paginationDot' and 'paginationFraction`,
+      );
+    }
+  },
+};
+
 function Slider({
   className,
   data,
   renderSlide,
-  control,
-  leftController,
-  rightController,
-  controllersPosition,
-  paginationDot,
-  activeDot,
-  inactiveDot,
-  paginationFraction,
-  paginationPosition,
-  sliding,
-  transitionTime,
-  infinite,
+  control = true,
+  leftController = <DefaultLeftController />,
+  rightController = <DefaultRightController />,
+  controllersPosition = 'center',
+  paginationDot = false,
+  activeDot = <DefaultActiveDot />,
+  inactiveDot = <DefaultInactiveDot />,
+  paginationFraction = false,
+  paginationPosition = 'bottom',
+  sliding = true,
+  transitionTime = 0.5,
+  infinite = false,
   currentSlide,
   setCurrentSlide,
-}) {
-  const slideList = useRef();
+}: SliderProps) {
+  const slideList = useRef<HTMLDivElement>(null);
 
-  let newData = data;
-  if (infinite) newData = [data.at(-1), ...data, data.at(0)]; // 무한 슬라이드인 경우
+  let newData: databaseType = data;
+  if (infinite) newData = [data[data.length - 1], ...data, data[0]]; // 무한 슬라이드인 경우
 
   useEffect(() => {
+    if (!slideList.current) return;
+
     slideList.current.style.transform = `translateX(${-currentSlide * 100}%)`;
   }, [currentSlide]);
 
-  const handleCurrentSlideChange = (nextSlide) => {
+  const handleCurrentSlideChange = (nextSlide: number) => {
+    const slideListEl = slideList.current as HTMLDivElement;
+
     // 무한 슬라이드인 경우
     if (infinite) {
       if (nextSlide === newData.length - 1) {
         setCurrentSlide(nextSlide);
         return setTimeout(() => {
-          slideList.current.style.transition = `none`;
+          slideListEl.style.transition = `none`;
           setCurrentSlide(1);
           return setTimeout(() => {
             if (sliding)
-              slideList.current.style.transition = `transform ${transitionTime}s`;
+              slideListEl.style.transition = `transform ${transitionTime}s`;
           }, transitionTime * 1000);
         }, transitionTime * 1000);
       }
@@ -51,11 +94,11 @@ function Slider({
       if (nextSlide === 0) {
         setCurrentSlide(nextSlide);
         return setTimeout(() => {
-          slideList.current.style.transition = `none`;
+          slideListEl.style.transition = `none`;
           setCurrentSlide(newData.length - 2);
           return setTimeout(() => {
             if (sliding)
-              slideList.current.style.transition = `transform ${transitionTime}s`;
+              slideListEl.style.transition = `transform ${transitionTime}s`;
           }, transitionTime * 1000);
         }, transitionTime * 1000);
       }
@@ -129,7 +172,7 @@ function Slider({
         <SlideList
           className="slide-list"
           ref={slideList}
-          dataLength={newData.length}
+          // dataLength={newData.length}
           sliding={sliding}
           transitionTime={transitionTime}
           paginationPosition={paginationPosition}
@@ -141,14 +184,14 @@ function Slider({
         <Controllers controllersPosition={controllersPosition}>
           <LeftController
             infinite={infinite}
-            firstSlide={currentSlide === 0}
+            isFirstSlide={currentSlide === 0}
             onClick={() => handleCurrentSlideChange(currentSlide - 1)}
           >
             {leftController}
           </LeftController>
           <RightController
             infinite={infinite}
-            lastSlide={currentSlide === data.length - 1}
+            isLastSlide={currentSlide === data.length - 1}
             onClick={() => handleCurrentSlideChange(currentSlide + 1)}
           >
             {rightController}
@@ -177,7 +220,12 @@ const SliderWrap = styled.div`
   overflow: hidden;
 `;
 
-const sliding = ({ sliding, transitionTime }) => {
+interface SlidingProps {
+  sliding: boolean;
+  transitionTime: number;
+}
+
+const sliding = ({ sliding, transitionTime }: SlidingProps) => {
   if (!sliding) return;
 
   return css`
@@ -185,7 +233,12 @@ const sliding = ({ sliding, transitionTime }) => {
   `;
 };
 
-const slideListAlign = ({ paginationPosition }) => {
+interface PaginationPositionType {
+  paginationPosition: 'top' | 'bottom';
+}
+interface SlideListAlignProps extends PaginationPositionType {}
+
+const slideListAlign = ({ paginationPosition }: SlideListAlignProps) => {
   switch (paginationPosition) {
     case 'top':
       return css`
@@ -202,7 +255,7 @@ const slideListAlign = ({ paginationPosition }) => {
   }
 };
 
-const SlideList = styled.div`
+const SlideList = styled.div<SlidingProps & SlideListAlignProps>`
   display: flex;
   ${slideListAlign}
   ${sliding}
@@ -212,7 +265,11 @@ const SlideItem = styled.div`
   flex: 1 0 100%;
 `;
 
-const contrPos = ({ controllersPosition }) => {
+interface ContrPosProps {
+  controllersPosition: 'top' | 'center' | 'bottom';
+}
+
+const contrPos = ({ controllersPosition }: ContrPosProps) => {
   switch (controllersPosition) {
     case 'top':
       return css`
@@ -245,12 +302,19 @@ const Controllers = styled.div`
   width: 100%;
 `;
 
-const LeftController = styled.span`
+interface InfiniteType {
+  infinite: boolean;
+}
+interface LeftControllerProps extends InfiniteType {
+  isFirstSlide: boolean;
+}
+
+const LeftController = styled.span<LeftControllerProps>`
   color: white;
   cursor: pointer;
 
-  ${({ infinite, firstSlide }) => {
-    if (!infinite && firstSlide)
+  ${({ infinite, isFirstSlide }) => {
+    if (!infinite && isFirstSlide)
       return css`
         color: #ffffff9d;
         cursor: default;
@@ -258,12 +322,16 @@ const LeftController = styled.span`
   }}
 `;
 
-const RightController = styled.span`
+interface RightControllerProps extends InfiniteType {
+  isLastSlide: boolean;
+}
+
+const RightController = styled.span<RightControllerProps>`
   color: white;
   cursor: pointer;
 
-  ${({ infinite, lastSlide }) => {
-    if (!infinite && lastSlide)
+  ${({ infinite, isLastSlide }) => {
+    if (!infinite && isLastSlide)
       return css`
         color: #ffffff9d;
         cursor: default;
@@ -283,7 +351,7 @@ const DefaultRightController = styled(HiMiniArrowSmallRight)`
   cursor: pointer;
 `;
 
-const dotsPos = ({ paginationPosition }) => {
+const dotsPos = ({ paginationPosition }: PaginationPositionType) => {
   switch (paginationPosition) {
     case 'top':
       return css`
@@ -309,7 +377,30 @@ const Dots = styled.div`
   transform: translateX(-50%);
 `;
 
-const fractionPos = ({ paginationPosition }) => {
+const Dot = styled.div`
+  display: inline-flex;
+  align-items: center;
+  margin: 0 3px;
+  cursor: pointer;
+`;
+
+const DefaultActiveDot = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+`;
+
+const DefaultInactiveDot = styled.span`
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff9d;
+  border-radius: 50%;
+`;
+
+const fractionPos = ({ paginationPosition }: PaginationPositionType) => {
   switch (paginationPosition) {
     case 'top':
       return css`
@@ -334,74 +425,5 @@ const Fraction = styled.div`
   color: white;
   font-size: 10px;
 `;
-
-const Dot = styled.div`
-  display: inline-flex;
-  align-items: center;
-  margin: 0 3px;
-  cursor: pointer;
-`;
-
-const DefaultActiveDot = styled.span`
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: white;
-  border-radius: 50%;
-`;
-
-const DefaultInactiveDot = styled.span`
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #ffffff9d;
-  border-radius: 50%;
-`;
-
-Slider.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.array.isRequired,
-  renderSlide: PropTypes.func.isRequired,
-  control: PropTypes.bool, // controllers 유뮤
-  leftController: PropTypes.node,
-  rightController: PropTypes.node,
-  controllersPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
-  paginationDot: PropTypes.bool, // dots 유뮤
-  activeDot: PropTypes.node,
-  inactiveDot: PropTypes.node,
-  paginationFraction: PropTypes.bool, // fraction 유뮤
-  paginationPosition: PropTypes.oneOf(['top', 'bottom']),
-  sliding: PropTypes.bool, // 슬라이딩 여부
-  transitionTime: PropTypes.number, // 단위: s
-  infinite: PropTypes.bool, // 무한 슬라이딩 여부
-  currentSlide: PropTypes.number.isRequired,
-  setCurrentSlide: PropTypes.func.isRequired,
-  onlyOnePagination: function ({ paginationDot, paginationFraction }) {
-    // paginationDot와 paginationFraction 중 하나만 선택해야 함
-    const count = Number(paginationDot) + Number(paginationFraction);
-
-    if (count === 2) {
-      return new Error(
-        `You must choose only one of 'paginationDot' and 'paginationFraction`,
-      );
-    }
-  },
-};
-
-Slider.defaultProps = {
-  control: true,
-  leftController: <DefaultLeftController />,
-  rightController: <DefaultRightController />,
-  controllersPosition: 'center',
-  paginationDot: false,
-  activeDot: <DefaultActiveDot />,
-  inactiveDot: <DefaultInactiveDot />,
-  paginationFraction: false,
-  paginationPosition: 'bottom',
-  sliding: true,
-  transitionTime: 0.5,
-  infinite: false,
-  currentSlide: 0,
-};
 
 export default Slider;
