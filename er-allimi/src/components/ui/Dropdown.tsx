@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { BiSolidDownArrow, BiSolidUpArrow } from '@components';
+import { TiArrowSortedDown, TiArrowSortedUp } from '@components';
 import { theme } from '@styles';
 
 interface DropdownProps {
@@ -54,7 +54,7 @@ function Dropdown({
     >
       <Head>
         {select >= 0 ? data[select].label : label}
-        {expanded ? <BiSolidUpArrow /> : <BiSolidDownArrow />}
+        {expanded ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
       </Head>
       <Body expanded={expanded}>{renderOptions}</Body>
     </StyledDropdown>

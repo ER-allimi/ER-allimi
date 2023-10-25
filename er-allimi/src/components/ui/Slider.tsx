@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { HiMiniArrowSmallLeft, HiMiniArrowSmallRight } from '@components';
+import { VscArrowSmallLeft, VscArrowSmallRight } from '@components';
 import { getFractionNumber } from '@utils';
 
 type dataType = { label: string; [key: string]: any };
@@ -339,13 +339,13 @@ const RightController = styled.span<RightControllerProps>`
   }}
 `;
 
-const DefaultLeftController = styled(HiMiniArrowSmallLeft)`
+const DefaultLeftController = styled(VscArrowSmallLeft)`
   font-size: 1.5rem;
   color: inherit;
   cursor: pointer;
 `;
 
-const DefaultRightController = styled(HiMiniArrowSmallRight)`
+const DefaultRightController = styled(VscArrowSmallRight)`
   font-size: 1.5rem;
   color: inherit;
   cursor: pointer;

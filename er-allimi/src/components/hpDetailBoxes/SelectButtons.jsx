@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
-import { Button, AiTwotoneAlert, FaBed, GiHealingShield } from '@components';
+import { Button, AiTwotoneAlert, FaBed, RiShieldCrossFill } from '@components';
 import { selectedHpDetailContentState } from '@stores';
 
 function SelectButtons({ className }) {
@@ -16,7 +16,7 @@ function SelectButtons({ className }) {
   const contents = [
     { text: '응급실 가용 병상', icon: <AiTwotoneAlert />, className: 'er-btn' },
     { text: '입원실 가용 병상', icon: <FaBed />, className: 'rt-btn' },
-    { text: '중증질환 수술', icon: <GiHealingShield />, className: 'sr-btn' },
+    { text: '중증질환 수술', icon: <RiShieldCrossFill />, className: 'sr-btn' },
   ];
 
   const renderButtonsAtLg = contents.map((content, idx) => {

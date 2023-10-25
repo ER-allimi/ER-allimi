@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { BsCheckCircleFill } from '@components';
+import { HiCheckCircle } from '@components';
 
 function SuccessMessage({ content, icon, iconColor }) {
   return (
@@ -63,7 +63,7 @@ SuccessMessage.propTypes = {
 
 SuccessMessage.defaultProps = {
   content: '성공 메시지를 입력해주세요.',
-  icon: <BsCheckCircleFill />,
+  icon: <HiCheckCircle />,
   iconColor: 'greenDark',
 };
 

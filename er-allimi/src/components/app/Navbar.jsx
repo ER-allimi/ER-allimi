@@ -6,8 +6,8 @@ import logo from '@assets/logo.png';
 import {
   FaMapMarkedAlt,
   AiOutlineInfoCircle,
-  RxHamburgerMenu,
-  PiArrowBendUpLeftBold,
+  GiHamburgerMenu,
+  IoReturnDownBackOutline,
   HpSearchInput,
 } from '@components';
 import { PATH_ROOT, PATH_HOSPITALDETAIL } from '@constants';
@@ -189,7 +189,7 @@ const InfoIcon = styled(AiOutlineInfoCircle)`
   `}
 `;
 
-const BackIcon = styled(PiArrowBendUpLeftBold)`
+const BackIcon = styled(IoReturnDownBackOutline)`
   display: inline-block;
   font-size: 1.7rem;
   color: white;
@@ -208,7 +208,7 @@ const BackIcon = styled(PiArrowBendUpLeftBold)`
   `}
 `;
 
-const BurgerIcon = styled(RxHamburgerMenu)`
+const BurgerIcon = styled(GiHamburgerMenu)`
   display: none;
   font-size: 1.7rem;
   color: white;

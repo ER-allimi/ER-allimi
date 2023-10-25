@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { IoLocationSharp, BiSolidPhone, SuccessMessage } from '@components';
+import { IoLocationSharp, CgPhone, SuccessMessage } from '@components';
 import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
 
 function ErItem({
@@ -47,7 +47,7 @@ function ErItem({
           </CopyToClipboard>
         </div>
         <div title={hpInfo.dutyTel3}>
-          <BiSolidPhone />
+          <CgPhone />
           <CopyToClipboard
             text={hpInfo.dutyTel3}
             onCopy={() =>
