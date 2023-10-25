@@ -1,7 +1,28 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { Slider } from '@components';
+
+type dataType = { label: string; [key: string]: any };
+type databaseType = Array<dataType>;
+
+interface AutoPlaySliderProps {
+  className?: string;
+  data: databaseType;
+  renderSlide: (data: dataType) => React.ReactNode;
+  control?: boolean; // controllers 유무
+  leftController?: React.ReactNode;
+  rightController?: React.ReactNode;
+  controllersPosition?: 'top' | 'center' | 'bottom';
+  paginationDot?: boolean; // dots 유무
+  activeDot?: React.ReactNode;
+  inactiveDot?: React.ReactNode;
+  paginationFraction?: boolean; // fraction 유무
+  paginationPosition?: 'top' | 'bottom';
+  sliding?: boolean; // 슬라이딩 여부
+  transitionTime?: number; // 단위: s
+  infinite?: boolean; // 무한 슬라이딩 여부
+  intervalTime?: number; // 단위: s
+}
 
 function AutoPlaySlider({
   className,
@@ -16,12 +37,12 @@ function AutoPlaySlider({
   inactiveDot,
   paginationFraction,
   paginationPosition,
-  sliding,
-  transitionTime,
-  infinite,
-  intervalTime,
-}) {
-  const autoSlider = useRef();
+  sliding = true,
+  transitionTime = 0.5,
+  infinite = true,
+  intervalTime = 5,
+}: AutoPlaySliderProps) {
+  const autoSlider = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(infinite ? 1 : 0);
 
   useEffect(() => {
@@ -30,7 +51,11 @@ function AutoPlaySlider({
       if (infinite && currentSlide === data.length) {
         setCurrentSlide(currentSlide + 1);
         return setTimeout(() => {
-          const slideList = autoSlider?.current.querySelector('.slide-list');
+          if (!autoSlider.current) return;
+          const slideList = autoSlider.current.querySelector(
+            '.slide-list',
+          ) as HTMLElement;
+
           slideList.style.transition = `none`;
           setCurrentSlide(1);
           return setTimeout(() => {
@@ -69,7 +94,7 @@ function AutoPlaySlider({
         infinite={infinite}
         currentSlide={currentSlide}
         setCurrentSlide={setCurrentSlide}
-      ></Slider>
+      />
     </AutoSlider>
   );
 }
@@ -77,31 +102,5 @@ function AutoPlaySlider({
 const AutoSlider = styled.div`
   width: 100%;
 `;
-
-AutoPlaySlider.propTypes = {
-  className: PropTypes.string,
-  data: PropTypes.array.isRequired,
-  renderSlide: PropTypes.func.isRequired,
-  control: PropTypes.bool, // controllers 유뮤
-  leftController: PropTypes.node,
-  rightController: PropTypes.node,
-  controllersPosition: PropTypes.oneOf(['top', 'center', 'bottom']),
-  paginationDot: PropTypes.bool, // dots 유뮤
-  activeDot: PropTypes.node,
-  inactiveDot: PropTypes.node,
-  paginationFraction: PropTypes.bool, // fraction 유뮤
-  paginationPosition: PropTypes.oneOf(['top', 'bottom']),
-  sliding: PropTypes.bool, // 슬라이딩 여부
-  transitionTime: PropTypes.number, // 단위: s
-  infinite: PropTypes.bool, // 무한 슬라이딩 여부
-  intervalTime: PropTypes.number, // 단위: s
-};
-
-AutoPlaySlider.defaultProps = {
-  sliding: true,
-  transitionTime: 0.5,
-  infinite: true,
-  intervalTime: 5,
-};
 
 export default AutoPlaySlider;
