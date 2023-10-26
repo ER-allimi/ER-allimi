@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useFetchHpSrIII } from '@hooks';
-import { EmptyBox, TbArticleOff, Models } from '@components';
+import { EmptyBox, BiNotificationOff, Models } from '@components';
 
 function HpSrIllData() {
   const { stage1, stage2, hospitalId: hpId } = useParams();
@@ -11,7 +11,7 @@ function HpSrIllData() {
 
   if (!hpData)
     return (
-      <EmptyBox height={200} icon={<TbArticleOff />}>
+      <EmptyBox height={200} icon={<BiNotificationOff />}>
         <Text>해당 병원에서는 중증질환 데이터를 제공해주지 않음</Text>
       </EmptyBox>
     );

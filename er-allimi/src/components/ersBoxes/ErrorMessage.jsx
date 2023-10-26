@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { BiSolidError, RefreshButton } from '@components';
+import { AiFillWarning, RefreshButton } from '@components';
 
 function ErrorMessage({ content, icon, iconColor, refreshButton }) {
   return (
@@ -64,7 +64,7 @@ ErrorMessage.propTypes = {
 
 ErrorMessage.defaultProps = {
   content: '에러 메시지를 입력해주세요.',
-  icon: <BiSolidError />,
+  icon: <AiFillWarning />,
   iconColor: 'redLight',
   refreshButton: false,
 };

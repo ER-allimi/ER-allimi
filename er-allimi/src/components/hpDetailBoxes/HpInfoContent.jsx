@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import {
   IoLocationSharp,
-  BiSolidPhone,
+  CgPhone,
   Skeleton,
   SuccessMessage,
 } from '@components';
@@ -39,7 +39,7 @@ function HpInfoContent() {
           </CopyToClipboard>
         </div>
         <div title={dutyTel3}>
-          <BiSolidPhone />
+          <CgPhone />
           <CopyToClipboard
             text={dutyTel3}
             onCopy={() =>

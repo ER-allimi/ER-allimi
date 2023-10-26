@@ -6,7 +6,7 @@ import {
   ErChart,
   EmptyBox,
   Spinner,
-  TbArticleOff,
+  BiNotificationOff,
   GuideBox,
 } from '@components';
 function HpRtErAvailableBedContent() {
@@ -22,7 +22,7 @@ function HpRtErAvailableBedContent() {
     return (
       <>
         <TitleText>실시간 응급실 가용병상 정보</TitleText>
-        <EmptyBox height={80} icon={<TbArticleOff />}>
+        <EmptyBox height={80} icon={<BiNotificationOff />}>
           <Text>해당 병원에서는 응급실 데이터를 제공해주지 않음</Text>
         </EmptyBox>
       </>

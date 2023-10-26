@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import styled from '@emotion/styled';
-import {
-  Button,
-  MdOutlineInsertChartOutlined,
-  FaMapMarkedAlt,
-} from '@components';
+import { Button, HiOutlineChartSquareBar, FaMapMarkedAlt } from '@components';
 
 function ViewButton({ className }) {
   const [isOutlined, setIsOutlined] = useState(true);
@@ -32,7 +28,7 @@ function ViewButton({ className }) {
       onMouseOut={() => setIsOutlined(true)}
       className={className}
     >
-      <MdOutlineInsertChartOutlined />
+      <HiOutlineChartSquareBar />
     </StyledButton>
   );
 }
