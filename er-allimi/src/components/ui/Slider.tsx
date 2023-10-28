@@ -164,7 +164,11 @@ function Slider({
       );
     });
 
-  const fractionNumber = getFractionNumber(infinite, data.length, currentSlide);
+  const fractionNumber = getFractionNumber({
+    infinite,
+    dataLength: data.length,
+    currentSlide,
+  });
 
   return (
     <SliderContainer className={className}>
