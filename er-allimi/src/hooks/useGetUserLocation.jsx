@@ -1,7 +1,7 @@
 import { useSetRecoilState } from 'recoil';
 import toast from 'react-hot-toast';
 import { userLocationState, mapCenterPointState } from '@stores';
-import { getAddressByCoor } from '@utils';
+import { getAddressByCoor } from '@services';
 import { ErrorMessage, MdLocationOff } from '@components';
 
 // 사용자의 위치 정보를 가져와 recoil에 저장

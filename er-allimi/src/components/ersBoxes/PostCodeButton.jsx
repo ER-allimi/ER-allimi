@@ -6,7 +6,7 @@ import {
   ersPaginationState,
 } from '@stores';
 import { Button } from '@components';
-import { getCoorByAddress } from '@utils';
+import { getCoorByAddress } from '@services';
 import { theme } from '@styles';
 
 const width =
