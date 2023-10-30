@@ -1,7 +1,12 @@
 import axios from 'axios';
 
 // 좌표(위도, 경도)로 주소 변환하기
-const getAddressByCoor = async ({ latitude, longitude }) => {
+interface GetAddressByCoor {
+  latitude: number;
+  longitude: number;
+}
+
+const getAddressByCoor = async ({ latitude, longitude }: GetAddressByCoor) => {
   const key = import.meta.env.VITE_REST_API_KEY;
 
   const res = await axios({
