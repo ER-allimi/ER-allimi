@@ -20,3 +20,9 @@ export {
   KID_STOMACH,
   ETC,
 } from './bodyParts';
+export { SYMPTOM_TYPE } from './symptomType';
+export {
+  HP_SURGERY_CLASSIFICATION,
+  Category,
+  BodyPart,
+} from './hpSurgeryClassification';
