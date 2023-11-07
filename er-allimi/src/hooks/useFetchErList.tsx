@@ -13,10 +13,7 @@ function useFetchErList() {
     queryKey: ['erList'],
     queryFn: getErList,
     retry: 3,
-    select:useCallback(
-      (data) => setErsListState(data),
-      []
-    ),
+    select: useCallback((data: erItemType[]) => setErsListState(data), []),
     meta: {
       errorMessage: (
         <ErrorMessage

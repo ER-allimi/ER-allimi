@@ -12,8 +12,8 @@ function useFetchHpSrIII(stage1, stage2, select) {
       ),
     },
     select,
-    staleTime: 29 * 60 * 1000, // ms
-    cacheTime: 29 * 60 * 1000, // ms
+    staleTime: 30 * 60 * 1000, // ms
+    cacheTime: 30 * 60 * 1000, // ms
     retry: 3,
     refetchInterval: 30 * 60 * 1000, // ms
     refetchIntervalInBackground: true,
