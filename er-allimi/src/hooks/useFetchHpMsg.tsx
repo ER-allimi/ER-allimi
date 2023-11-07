@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getErMsg } from '@services';
 import { ErrorMessage } from '@components';
 
-function useFetchHpMsg(hpId) {
+function useFetchHpMsg(hpId: string) {
   const query = useQuery({
     queryKey: ['erMsg', hpId],
     queryFn: () => getErMsg({ HPID: hpId }),
@@ -14,8 +14,8 @@ function useFetchHpMsg(hpId) {
         />
       ),
     },
-    staleTime: 29 * 60 * 1000, // ms
-    cacheTime: 29 * 60 * 1000, // ms
+    staleTime: 30 * 60 * 1000, // ms
+    cacheTime: 30 * 60 * 1000, // ms
     retry: 3,
     refetchInterval: 30 * 60 * 1000, // ms
     refetchIntervalInBackground: true,
