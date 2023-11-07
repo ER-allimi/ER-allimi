@@ -12,7 +12,10 @@ function useFetchErsRTavailableBed() {
     queryKey: ['ersRTavailableBed'],
     queryFn: () => getErRTavailableBed({ STAGE1: '', STAGE2: '' }),
     retry: 3,
-    select: useCallback((data) => setErsRTavailableBed(data), []),
+    select: useCallback(
+      (data: erRTavailableBedInfoType[]) => setErsRTavailableBed(data),
+      [],
+    ),
     meta: {
       errorMessage: (
         <ErrorMessage
