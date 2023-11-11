@@ -26,16 +26,18 @@ function Modal({
   }, []);
 
   return (
-    showModal &&
-    ReactDOM.createPortal(
-      <ModalContainer>
-        <ModalWrap className="modal">
-          <Close onClick={handleModalClose}>{closeIcon}</Close>
-          {children}
-        </ModalWrap>
-      </ModalContainer>,
-      document.querySelector('.modal-container') as Element,
-    )
+    <>
+      {showModal &&
+        ReactDOM.createPortal(
+          <ModalContainer>
+            <ModalWrap className="modal">
+              <Close onClick={handleModalClose}>{closeIcon}</Close>
+              {children}
+            </ModalWrap>
+          </ModalContainer>,
+          document.querySelector('.modal-container') as Element,
+        )}
+    </>
   );
 }
 
