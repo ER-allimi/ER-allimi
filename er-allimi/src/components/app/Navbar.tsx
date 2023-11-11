@@ -12,6 +12,14 @@ import {
 } from '@components';
 import { PATH_ROOT, PATH_HOSPITALDETAIL } from '@constants';
 
+interface BackButtonType {
+  backButton: boolean;
+}
+
+interface ShowType {
+  show: boolean;
+}
+
 function Navbar() {
   const match = useMatch(PATH_HOSPITALDETAIL);
   const navigate = useNavigate();
@@ -28,7 +36,7 @@ function Navbar() {
     setShowSubNavbar(!showSubNavbar);
   };
 
-  const StyledHpSearchInput = styled(HpSearchInput)`
+  const StyledHpSearchInput = styled(HpSearchInput)<BackButtonType>`
     display: none;
 
     ${({ theme, backButton }) => css`
@@ -124,7 +132,20 @@ const Logo = styled.div`
   `}
 `;
 
-const Utils = styled.div`
+const BurgerIcon = styled(GiHamburgerMenu)`
+  display: none;
+  font-size: 1.7rem;
+  color: white;
+
+  ${({ theme }) => css`
+    @media (max-width: ${theme.breakPoints.sm}) {
+      display: inline-block;
+      cursor: pointer;
+    }
+  `}
+`;
+
+const Utils = styled.div<BackButtonType & ShowType>`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -204,19 +225,6 @@ const BackIcon = styled(IoReturnDownBackOutline)`
   ${({ theme }) => css`
     @media (max-width: ${theme.breakPoints.sm}) {
       display: none;
-    }
-  `}
-`;
-
-const BurgerIcon = styled(GiHamburgerMenu)`
-  display: none;
-  font-size: 1.7rem;
-  color: white;
-
-  ${({ theme }) => css`
-    @media (max-width: ${theme.breakPoints.sm}) {
-      display: inline-block;
-      cursor: pointer;
     }
   `}
 `;
