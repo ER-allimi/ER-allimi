@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useMatch } from 'react-router-dom';
@@ -7,7 +6,11 @@ import { Input, IoLocationSharp, PostCodeButton } from '@components';
 import { userLocationState } from '@stores';
 import { PATH_HOSPITALDETAIL } from '@constants';
 
-function CurrentLocationInput({ className }) {
+interface CurrentLocationInputProps {
+  className?: string;
+}
+
+function CurrentLocationInput({ className }: CurrentLocationInputProps) {
   const match = useMatch(PATH_HOSPITALDETAIL);
   const showPostCodeButton = !match;
 
@@ -21,7 +24,7 @@ function CurrentLocationInput({ className }) {
     setValue(address.road_address || address.address || '');
   }, [address]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
@@ -50,7 +53,7 @@ function CurrentLocationInput({ className }) {
     }
   `;
 
-  const StyledButton = styled(PostCodeButton)`
+  const StyledPostCodeButton = styled(PostCodeButton)`
     padding: 0.1rem 0;
     width: 5rem;
   `;
@@ -74,13 +77,7 @@ function CurrentLocationInput({ className }) {
         name="currentLocation"
         placeholder="현재 위치"
         leftIcon={<IoLocationSharp />}
-        rightIcon={
-          showPostCodeButton ? (
-            <StyledButton color="gray" round="lg">
-              위치 찾기
-            </StyledButton>
-          ) : undefined
-        }
+        rightIcon={showPostCodeButton ? <StyledPostCodeButton /> : undefined}
         color="redLighter"
         round="lg"
         disabled
@@ -89,9 +86,5 @@ function CurrentLocationInput({ className }) {
     </>
   );
 }
-
-CurrentLocationInput.propTypes = {
-  className: PropTypes.string,
-};
 
 export default CurrentLocationInput;

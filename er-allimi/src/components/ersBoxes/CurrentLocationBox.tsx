@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types';
 import { useMatch } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Box, CurrentLocationInput, PostCodeButton } from '@components';
 import { PATH_HOSPITALDETAIL } from '@constants';
 
-function CurrentLocationBox({ className }) {
+interface CurrentLocationBoxProps {
+  className?: string;
+}
+
+function CurrentLocationBox({ className }: CurrentLocationBoxProps) {
   const match = useMatch(PATH_HOSPITALDETAIL);
   const showBody = !match;
 
@@ -42,9 +45,5 @@ const Text = styled.p`
   word-spacing: -1px;
   color: ${({ theme }) => theme.colors.gray};
 `;
-
-CurrentLocationBox.propTypes = {
-  className: PropTypes.string,
-};
 
 export default CurrentLocationBox;
