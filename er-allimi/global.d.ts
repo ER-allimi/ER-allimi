@@ -1,3 +1,7 @@
+declare interface Window {
+  daum: any;
+}
+
 // 한 응급실 데이터
 declare interface erItemType {
   hpid: string;

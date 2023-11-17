@@ -5,7 +5,6 @@ import {
   ErsList,
   RadiusDropdown,
   ErsPagination,
-  ScrollBar,
   GuideBox,
 } from '@components';
 import { sortedErsWithRadiusState } from '@stores';
@@ -20,6 +19,11 @@ function ErsContent() {
     @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
       height: calc(100% - 28px);
     }
+  `;
+
+  const HeadContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
   `;
 
   const Title = styled.h2`
@@ -81,10 +85,6 @@ function ErsContent() {
     }
   `;
 
-  const HeadContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-  `;
   return (
     <StyledErsContent>
       <HeadContainer>

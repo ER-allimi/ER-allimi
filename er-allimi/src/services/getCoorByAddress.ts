@@ -24,8 +24,9 @@ const getCoorByAddress = async ({ address }: GetCoorByAddressProps) => {
     const { x: longitude, y: latitude } = res.data?.documents[0] || {};
 
     return { longitude: +longitude, latitude: +latitude };
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
+    throw new Error(e);
   }
 };
 

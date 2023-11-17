@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { MovingBox, ErsContent } from '@components';
 
-function ErsMovingBox({ className }) {
+interface ErsMovingBoxProps {
+  className: string;
+}
+
+function ErsMovingBox({ className }: ErsMovingBoxProps) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const handleExpand = () => {
@@ -24,9 +27,5 @@ function ErsMovingBox({ className }) {
     </StyledMovingErsBox>
   );
 }
-
-ErsMovingBox.propTypes = {
-  className: PropTypes.string,
-};
 
 export default ErsMovingBox;
