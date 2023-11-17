@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useSetRecoilState } from 'recoil';
 import {
   userLocationState,
@@ -8,6 +7,15 @@ import {
 import { Button } from '@components';
 import { getCoorByAddress } from '@services';
 import { theme } from '@styles';
+
+interface PostCodeButtonProps {
+  className?: string;
+}
+
+interface PostCodeCompleteDataTypes {
+  roadAddress: string;
+  jibunAddress: string;
+}
 
 const width =
   document.body.offsetWidth > 768
@@ -30,19 +38,25 @@ const themeObj = {
   postcodeTextColor: theme.colors.red, //우편번호 글자색
 };
 
-function PostCodeButton({ className }) {
+function PostCodeButton({ className }: PostCodeButtonProps) {
   const setUserLocation = useSetRecoilState(userLocationState);
   const setMapCenterPoint = useSetRecoilState(mapCenterPointState);
   const setErsPagination = useSetRecoilState(ersPaginationState);
 
   const handleButtonClick = () => {
     new window.daum.Postcode({
-      oncomplete: async function (data) {
+      oncomplete: async function (data: PostCodeCompleteDataTypes) {
         const { roadAddress, jibunAddress } = data;
 
-        const { longitude, latitude } = await getCoorByAddress({
-          address: jibunAddress || roadAddress,
-        });
+        let longitude, latitude;
+        try {
+          ({ longitude, latitude } = await getCoorByAddress({
+            address: jibunAddress || roadAddress,
+          }));
+        } catch (e) {
+          console.error(e);
+          return;
+        }
 
         setUserLocation({
           latitude,
@@ -82,9 +96,5 @@ function PostCodeButton({ className }) {
     </Button>
   );
 }
-
-PostCodeButton.propTypes = {
-  className: PropTypes.string,
-};
 
 export default PostCodeButton;
