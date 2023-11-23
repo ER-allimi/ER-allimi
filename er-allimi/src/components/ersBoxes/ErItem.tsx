@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast from 'react-hot-toast';
@@ -7,11 +6,17 @@ import { css } from '@emotion/react';
 import { IoLocationSharp, CgPhone, SuccessMessage } from '@components';
 import { getPathHospitalDetail, getErRTavailableBedByColor } from '@utils';
 
+interface ErItemProps {
+  item: erItemWithRadiusStateType;
+  order: number;
+}
+
 function ErItem({
   item: { hpInfo, availableBedInfo, distanceFromLocation },
   order,
-}) {
+}: ErItemProps) {
   const roundedDistance = Math.round(distanceFromLocation * 100) / 100;
+
   return (
     <StyledErItem>
       <Link
@@ -143,7 +148,12 @@ const ErClassName = styled.p`
   ${shortening}
 `;
 
-const Body = styled.div`
+interface BodyProps {
+  availableBed: number;
+  totalBed: number;
+}
+
+const Body = styled.div<BodyProps>`
   margin-top: 0.5rem;
   width: 100%;
   line-height: 1.5rem;
@@ -228,10 +238,5 @@ const Body = styled.div`
     }
   }
 `;
-
-ErItem.propTypes = {
-  item: PropTypes.object,
-  order: PropTypes.number,
-};
 
 export default ErItem;
