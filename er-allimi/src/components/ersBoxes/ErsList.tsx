@@ -1,14 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
-import PropTypes from 'prop-types';
 import { ErItem, EmptyBox, AiFillWarning, Skeleton } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
 import { useOutletContext } from 'react-router-dom';
 
-function ErsList({ className }) {
+interface ErsListProps {
+  className?: string;
+}
+
+function ErsList({ className }: ErsListProps) {
   const isFetchingData = useOutletContext();
-  const ersList = useRef();
+  const ersList = useRef<HTMLDivElement>(null);
   const data = useRecoilValue(sortedErsWithRadiusState);
   const page = useRecoilValue(ersPaginationState);
 
@@ -21,7 +24,6 @@ function ErsList({ className }) {
   if (isFetchingData) {
     return (
       <>
-        <Skeleton isWithAvailableBed={true} />
         <Skeleton isWithAvailableBed={true} />
         <Skeleton isWithAvailableBed={true} />
       </>
@@ -51,9 +53,5 @@ function ErsList({ className }) {
     </div>
   );
 }
-
-ErsList.propTypes = {
-  className: PropTypes.string,
-};
 
 export default ErsList;
