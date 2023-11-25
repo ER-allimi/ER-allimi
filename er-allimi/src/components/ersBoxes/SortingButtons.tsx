@@ -4,11 +4,13 @@ import { Button } from '@components';
 import { sortingState } from '@stores';
 import { SORTING_DISTANCE, SORTING_AVAILABLE_BED } from '@constants';
 
-function SortingButtons() {
-  const [sorting, serSorting] = useRecoilState(sortingState);
+type sortByType = typeof SORTING_DISTANCE | typeof SORTING_AVAILABLE_BED;
 
-  const handleButtonClick = (sortBy) => {
-    serSorting(sortBy);
+function SortingButtons() {
+  const [sorting, setSorting] = useRecoilState(sortingState);
+
+  const handleButtonClick = (sortBy: sortByType) => {
+    setSorting(sortBy);
   };
 
   const StyledSortingButtons = styled.div`
