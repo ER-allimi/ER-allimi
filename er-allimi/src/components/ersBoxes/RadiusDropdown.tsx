@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import { Dropdown } from '@components';
 import { radiusState, ersPaginationState } from '@stores';
 
-function RadiusDropdown({ className }) {
+interface RadiusDropdownProps {
+  className?: string;
+}
+
+function RadiusDropdown({ className }: RadiusDropdownProps) {
   const [radius, setRadius] = useRecoilState(radiusState);
   const setErsPagination = useSetRecoilState(ersPaginationState);
 
@@ -14,7 +17,7 @@ function RadiusDropdown({ className }) {
     { label: '10km', value: 10 },
   ];
 
-  const handleOptionClick = (idx) => {
+  const handleOptionClick = (idx: number) => {
     setRadius(data[idx].value);
     setErsPagination(1);
   };
@@ -33,9 +36,5 @@ function RadiusDropdown({ className }) {
     />
   );
 }
-
-RadiusDropdown.propTypes = {
-  className: PropTypes.string,
-};
 
 export default RadiusDropdown;

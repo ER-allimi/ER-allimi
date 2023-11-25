@@ -1,14 +1,17 @@
-import PropTypes from 'prop-types';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { Pagination } from '@components';
 import { sortedErsWithRadiusState, ersPaginationState } from '@stores';
 import { ERS_CNT_PER_PAGE } from '@constants';
 
-function ErsPagination({ className }) {
+interface ErsPaginationProps {
+  className?: string;
+}
+
+function ErsPagination({ className }: ErsPaginationProps) {
   const sortedErsWithRadius = useRecoilValue(sortedErsWithRadiusState);
   const [currentPage, setCurrentPage] = useRecoilState(ersPaginationState);
 
-  const handlePageClick = (page) => {
+  const handlePageClick = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -22,9 +25,5 @@ function ErsPagination({ className }) {
     />
   );
 }
-
-ErsPagination.propTypes = {
-  className: PropTypes.string,
-};
 
 export default ErsPagination;
