@@ -11,6 +11,18 @@ const KID_STOMACH = 'kid-stomach';
 
 const ETC = 'etc';
 
+export type BodyPartType =
+  | typeof ADULT_HEAD
+  | typeof ADULT_CHEST
+  | typeof ADULT_STOMACH
+  | typeof ADULT_ARM1
+  | typeof ADULT_ARM2
+  | typeof ADULT_LEG1
+  | typeof ADULT_LEG2
+  | typeof KID_CHEST
+  | typeof KID_STOMACH
+  | typeof ETC;
+
 export {
   ADULT_HEAD,
   ADULT_CHEST,
