@@ -20,7 +20,7 @@ interface BodyProps {
 }
 
 interface BodyPartProps {
-  data?: Array<any>;
+  data?: Array<string>;
   showContent: boolean;
   handlePopoverClick: () => void;
   handleContentRemove: () => void;
@@ -29,10 +29,10 @@ interface BodyPartProps {
 
 interface AdultModelProps {
   data: {
-    [BodyPart.HEAD]: [];
-    [BodyPart.CHEST]: [];
-    [BodyPart.STOMACH]: [];
-    [BodyPart.LIMBS]: [];
+    [BodyPart.HEAD]: Array<string>;
+    [BodyPart.CHEST]: Array<string>;
+    [BodyPart.STOMACH]: Array<string>;
+    [BodyPart.LIMBS]: Array<string>;
   };
   displayedPopover: Array<{
     bodyPart: BodyPartType;
