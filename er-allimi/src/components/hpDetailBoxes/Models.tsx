@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import { AdultModel, KidModel, EtcSrIll } from '@components';
 import { classifySurgery } from '@utils';
+import type { HpSurgeryDataType } from '@utils';
 import {
   ADULT_HEAD,
   ADULT_CHEST,
@@ -15,22 +15,33 @@ import {
   KID_STOMACH,
   ETC,
 } from '@constants';
+import type { BodyPartType } from '@constants';
 
-function Models({ hpData }) {
-  const [displayedPopover, setDisplayedPopover] = useState([
-    { bodyPart: ADULT_HEAD, showContent: false },
-    { bodyPart: ADULT_CHEST, showContent: false },
-    { bodyPart: ADULT_STOMACH, showContent: false },
-    { bodyPart: ADULT_ARM1, showContent: false },
-    { bodyPart: ADULT_ARM2, showContent: false },
-    { bodyPart: ADULT_LEG1, showContent: false },
-    { bodyPart: ADULT_LEG2, showContent: false },
-    { bodyPart: KID_CHEST, showContent: false },
-    { bodyPart: KID_STOMACH, showContent: false },
-    { bodyPart: ETC, showContent: false },
-  ]);
+interface ModelsProps {
+  hpData: HpSurgeryDataType;
+}
 
-  const handlePopoverClick = (bodyPart) => {
+type DisplayedPopoverProps = Array<{
+  bodyPart: BodyPartType;
+  showContent: boolean;
+}>;
+
+function Models({ hpData }: ModelsProps) {
+  const [displayedPopover, setDisplayedPopover] =
+    useState<DisplayedPopoverProps>([
+      { bodyPart: ADULT_HEAD, showContent: false },
+      { bodyPart: ADULT_CHEST, showContent: false },
+      { bodyPart: ADULT_STOMACH, showContent: false },
+      { bodyPart: ADULT_ARM1, showContent: false },
+      { bodyPart: ADULT_ARM2, showContent: false },
+      { bodyPart: ADULT_LEG1, showContent: false },
+      { bodyPart: ADULT_LEG2, showContent: false },
+      { bodyPart: KID_CHEST, showContent: false },
+      { bodyPart: KID_STOMACH, showContent: false },
+      { bodyPart: ETC, showContent: false },
+    ]);
+
+  const handlePopoverClick = (bodyPart: BodyPartType) => {
     const newDisplayedPopover = displayedPopover.map((part) => {
       if (part.bodyPart === bodyPart)
         return { ...part, showContent: !part.showContent };
@@ -92,9 +103,5 @@ function Models({ hpData }) {
     </StyledModels>
   );
 }
-
-Models.propTypes = {
-  hpData: PropTypes.object,
-};
 
 export default Models;
