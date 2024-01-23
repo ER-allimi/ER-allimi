@@ -20,7 +20,7 @@ interface BodyProps {
 }
 
 interface BodyPartProps {
-  data?: Array<any>;
+  data?: Array<string>;
   showContent: boolean;
   handlePopoverClick: () => void;
   handleContentRemove: () => void;
@@ -29,15 +29,12 @@ interface BodyPartProps {
 
 interface AdultModelProps {
   data: {
-    [BodyPart.HEAD]: [];
-    [BodyPart.CHEST]: [];
-    [BodyPart.STOMACH]: [];
-    [BodyPart.LIMBS]: [];
+    [BodyPart.HEAD]: Array<string>;
+    [BodyPart.CHEST]: Array<string>;
+    [BodyPart.STOMACH]: Array<string>;
+    [BodyPart.LIMBS]: Array<string>;
   };
-  displayedPopover: Array<{
-    bodyPart: BodyPartType;
-    showContent: boolean;
-  }>;
+  displayedPopover?: BodyPartType;
   handlePopoverClick: (bodyPart: BodyPartType) => void;
   handleContentRemove: () => void;
 }
@@ -354,10 +351,7 @@ function AdultModel({
       {data.head.length !== 0 && (
         <StyledHead
           data={data.head}
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === ADULT_HEAD)
-              ?.showContent
-          }
+          showContent={displayedPopover === ADULT_HEAD}
           handlePopoverClick={() => handlePopoverClick(ADULT_HEAD)}
           handleContentRemove={handleContentRemove}
         />
@@ -365,10 +359,7 @@ function AdultModel({
       {data.chest.length !== 0 && (
         <StyledChest
           data={data.chest}
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === ADULT_CHEST)
-              ?.showContent
-          }
+          showContent={displayedPopover === ADULT_CHEST}
           handlePopoverClick={() => handlePopoverClick(ADULT_CHEST)}
           handleContentRemove={handleContentRemove}
         />
@@ -376,59 +367,41 @@ function AdultModel({
       {data.stomach.length !== 0 && (
         <StyledStomach
           data={data.stomach}
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === ADULT_STOMACH)
-              ?.showContent
-          }
+          showContent={displayedPopover === ADULT_STOMACH}
           handlePopoverClick={() => handlePopoverClick(ADULT_STOMACH)}
           handleContentRemove={handleContentRemove}
         />
       )}
       {data.limbs.length !== 0 && (
         <Limbs
-          showContent={displayedPopover.some((part) => {
-            if (
-              [ADULT_ARM1, ADULT_ARM2, ADULT_LEG1, ADULT_LEG2].includes(
-                part.bodyPart,
-              )
-            ) {
-              return part.showContent;
-            }
-          })}
+          showContent={
+            !!displayedPopover &&
+            [ADULT_ARM1, ADULT_ARM2, ADULT_LEG1, ADULT_LEG2].includes(
+              displayedPopover,
+            )
+          }
         >
           <StyledArm1
             data={data.limbs}
-            showContent={
-              !!displayedPopover.find((part) => part.bodyPart === ADULT_ARM1)
-                ?.showContent
-            }
+            showContent={displayedPopover === ADULT_ARM1}
             handlePopoverClick={() => handlePopoverClick(ADULT_ARM1)}
             handleContentRemove={handleContentRemove}
           />
           <StyledArm2
             data={data.limbs}
-            showContent={
-              !!displayedPopover.find((part) => part.bodyPart === ADULT_ARM2)
-                ?.showContent
-            }
+            showContent={displayedPopover === ADULT_ARM2}
             handlePopoverClick={() => handlePopoverClick(ADULT_ARM2)}
             handleContentRemove={handleContentRemove}
           />
           <StyledLeg1
             data={data.limbs}
-            showContent={
-              !!displayedPopover.find((part) => part.bodyPart === ADULT_LEG1)
-                ?.showContent
-            }
+            showContent={displayedPopover === ADULT_LEG1}
             handlePopoverClick={() => handlePopoverClick(ADULT_LEG1)}
             handleContentRemove={handleContentRemove}
           />
           <StyledLeg2
             data={data.limbs}
-            showContent={
-              !!displayedPopover.find((part) => part.bodyPart === ADULT_LEG2)
-                ?.showContent
-            }
+            showContent={displayedPopover === ADULT_LEG2}
             handlePopoverClick={() => handlePopoverClick(ADULT_LEG2)}
             handleContentRemove={handleContentRemove}
           />

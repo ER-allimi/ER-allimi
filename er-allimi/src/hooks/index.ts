@@ -4,3 +4,5 @@ export { default as useFetchErsRTavailableBed } from './useFetchErsRTavailableBe
 export { default as useFetchHpMsg } from './useFetchHpMsg';
 export { default as useFetchHpSrIII } from './useFetchHpSrIII';
 export { default as useMarker } from './useMarker';
+
+export type { UseFetchHpSrIllReturnType } from './useFetchHpSrIII';

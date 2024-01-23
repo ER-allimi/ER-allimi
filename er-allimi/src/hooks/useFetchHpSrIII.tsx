@@ -1,8 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { getSrIllAccept } from '@services';
 import { ErrorMessage } from '@components';
+import type { HpSurgeryDataType } from '@utils';
 
-function useFetchHpSrIII(stage1, stage2, select) {
+export type UseFetchHpSrIllReturnType =
+  | Array<HpSurgeryDataType>
+  | HpSurgeryDataType;
+
+function useFetchHpSrIII(
+  stage1: string,
+  stage2: string,
+  select: (data: UseFetchHpSrIllReturnType) => void,
+) {
   const query = useQuery({
     queryKey: ['HpSrIII', stage1, stage2],
     queryFn: () => getSrIllAccept({ STAGE1: stage1, STAGE2: stage2 }),

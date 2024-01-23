@@ -1,18 +1,24 @@
 import { HP_SURGERY_CLASSIFICATION, Category, BodyPart } from '@constants';
 
-type DataType = { [K in keyof typeof HP_SURGERY_CLASSIFICATION]: string };
+export type HpSurgeryDataType = {
+  [K in keyof typeof HP_SURGERY_CLASSIFICATION]: string;
+};
 
 interface RstType {
   [Category.ADULT]: {
-    [bodyPart: string]: Array<string>;
+    [BodyPart.HEAD]: Array<string>;
+    [BodyPart.CHEST]: Array<string>;
+    [BodyPart.STOMACH]: Array<string>;
+    [BodyPart.LIMBS]: Array<string>;
   };
   [Category.KID]: {
-    [bodyPart: string]: Array<string>;
+    [BodyPart.CHEST]: Array<string>;
+    [BodyPart.STOMACH]: Array<string>;
   };
   [Category.ETC]: Array<string>;
 }
 
-const classifySurgery = (data: DataType) => {
+const classifySurgery = (data: HpSurgeryDataType) => {
   const rst: RstType = {
     [Category.ADULT]: {
       [BodyPart.HEAD]: [],
