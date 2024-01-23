@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Tooltip, Popover } from '@components';
@@ -20,10 +19,7 @@ interface KidModelProps {
     [BodyPart.CHEST]: Array<string>;
     [BodyPart.STOMACH]: Array<string>;
   };
-  displayedPopover: Array<{
-    bodyPart: BodyPartType;
-    showContent: boolean;
-  }>;
+  displayedPopover?: BodyPartType;
   handlePopoverClick: (bodyPart: BodyPartType) => void;
   handleContentRemove: () => void;
 }
@@ -168,10 +164,7 @@ function KidModel({
       {data.chest.length !== 0 && (
         <StyledChest
           data={data.chest}
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === KID_CHEST)
-              ?.showContent
-          }
+          showContent={displayedPopover === KID_CHEST}
           handlePopoverClick={() => handlePopoverClick(KID_CHEST)}
           handleContentRemove={handleContentRemove}
         />
@@ -179,10 +172,7 @@ function KidModel({
       {data.stomach.length !== 0 && (
         <StyledStomach
           data={data.stomach}
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === KID_STOMACH)
-              ?.showContent
-          }
+          showContent={displayedPopover === KID_STOMACH}
           handlePopoverClick={() => handlePopoverClick(KID_STOMACH)}
           handleContentRemove={handleContentRemove}
         />
