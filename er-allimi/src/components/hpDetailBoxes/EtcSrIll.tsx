@@ -7,10 +7,7 @@ import { theme } from '@styles';
 
 interface EtcSrIllProps {
   data: Array<string>;
-  displayedPopover: Array<{
-    bodyPart: BodyPartType;
-    showContent: boolean;
-  }>;
+  displayedPopover?: BodyPartType;
   handlePopoverClick: (bodyPart: BodyPartType) => void;
   handleContentRemove: () => void;
   className?: string;
@@ -37,19 +34,11 @@ function EtcSrIll({
           content={data}
           distanceAway={5}
           color="blue"
-          showContent={
-            !!displayedPopover.find((part) => part.bodyPart === ETC)
-              ?.showContent
-          }
+          showContent={displayedPopover === ETC}
           handlePopoverClick={() => handlePopoverClick(ETC)}
           handleContentRemove={handleContentRemove}
         >
-          <StyledEtcSrIll
-            showContent={
-              !!displayedPopover.find((part) => part.bodyPart === ETC)
-                ?.showContent
-            }
-          >
+          <StyledEtcSrIll showContent={displayedPopover === ETC}>
             기타
           </StyledEtcSrIll>
         </Popover>
