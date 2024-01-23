@@ -1,8 +1,20 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Tooltip, Popover } from '@components';
 import { ETC } from '@constants';
+import type { BodyPartType } from '@constants';
+import { theme } from '@styles';
+
+interface EtcSrIllProps {
+  data: Array<string>;
+  displayedPopover: Array<{
+    bodyPart: BodyPartType;
+    showContent: boolean;
+  }>;
+  handlePopoverClick: (bodyPart: BodyPartType) => void;
+  handleContentRemove: () => void;
+  className?: string;
+}
 
 function EtcSrIll({
   data,
@@ -10,7 +22,7 @@ function EtcSrIll({
   handlePopoverClick,
   handleContentRemove,
   className,
-}) {
+}: EtcSrIllProps) {
   return (
     <>
       <BodyPartAtLg className={className}>
@@ -26,14 +38,16 @@ function EtcSrIll({
           distanceAway={5}
           color="blue"
           showContent={
-            displayedPopover.find((part) => part.bodyPart === ETC).showContent
+            !!displayedPopover.find((part) => part.bodyPart === ETC)
+              ?.showContent
           }
           handlePopoverClick={() => handlePopoverClick(ETC)}
           handleContentRemove={handleContentRemove}
         >
           <StyledEtcSrIll
             showContent={
-              displayedPopover.find((part) => part.bodyPart === ETC).showContent
+              !!displayedPopover.find((part) => part.bodyPart === ETC)
+                ?.showContent
             }
           >
             기타
@@ -44,14 +58,23 @@ function EtcSrIll({
   );
 }
 
-const showContentTrue = ({ theme, showContent }) => {
+interface showContentTrueProps {
+  theme: typeof theme;
+  showContent?: boolean;
+}
+
+const showContentTrue = ({ theme, showContent }: showContentTrueProps) => {
   if (showContent)
     return css`
       border: 2px solid ${theme.colors.yellowDarker};
     `;
 };
 
-const StyledEtcSrIll = styled.div`
+interface StyledEtcSrIllProps {
+  showContent?: boolean;
+}
+
+const StyledEtcSrIll = styled.div<StyledEtcSrIllProps>`
   display: inline-block;
   padding: 0.4rem 0.3rem;
   border: 2px solid ${({ theme }) => theme.colors.yellowLighter};
@@ -79,13 +102,5 @@ const BodyPartAtMd = styled.div`
     display: inline-block;
   }
 `;
-
-EtcSrIll.propTypes = {
-  data: PropTypes.array.isRequired,
-  displayedPopover: PropTypes.array.isRequired,
-  handlePopoverClick: PropTypes.func.isRequired,
-  handleContentRemove: PropTypes.func.isRequired,
-  className: PropTypes.string,
-};
 
 export default EtcSrIll;
