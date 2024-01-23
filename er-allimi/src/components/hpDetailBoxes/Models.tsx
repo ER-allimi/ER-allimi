@@ -3,60 +3,22 @@ import styled from '@emotion/styled';
 import { AdultModel, KidModel, EtcSrIll } from '@components';
 import { classifySurgery } from '@utils';
 import type { HpSurgeryDataType } from '@utils';
-import {
-  ADULT_HEAD,
-  ADULT_CHEST,
-  ADULT_STOMACH,
-  ADULT_ARM1,
-  ADULT_ARM2,
-  ADULT_LEG1,
-  ADULT_LEG2,
-  KID_CHEST,
-  KID_STOMACH,
-  ETC,
-} from '@constants';
 import type { BodyPartType } from '@constants';
 
 interface ModelsProps {
   hpData: HpSurgeryDataType;
 }
 
-type DisplayedPopoverProps = Array<{
-  bodyPart: BodyPartType;
-  showContent: boolean;
-}>;
-
 function Models({ hpData }: ModelsProps) {
-  const [displayedPopover, setDisplayedPopover] =
-    useState<DisplayedPopoverProps>([
-      { bodyPart: ADULT_HEAD, showContent: false },
-      { bodyPart: ADULT_CHEST, showContent: false },
-      { bodyPart: ADULT_STOMACH, showContent: false },
-      { bodyPart: ADULT_ARM1, showContent: false },
-      { bodyPart: ADULT_ARM2, showContent: false },
-      { bodyPart: ADULT_LEG1, showContent: false },
-      { bodyPart: ADULT_LEG2, showContent: false },
-      { bodyPart: KID_CHEST, showContent: false },
-      { bodyPart: KID_STOMACH, showContent: false },
-      { bodyPart: ETC, showContent: false },
-    ]);
+  const [displayedPopover, setDisplayedPopover] = useState<BodyPartType>();
 
   const handlePopoverClick = (bodyPart: BodyPartType) => {
-    const newDisplayedPopover = displayedPopover.map((part) => {
-      if (part.bodyPart === bodyPart)
-        return { ...part, showContent: !part.showContent };
-      return { ...part, showContent: false };
-    });
-
-    setDisplayedPopover(newDisplayedPopover);
+    if (displayedPopover === bodyPart) setDisplayedPopover(undefined);
+    else setDisplayedPopover(bodyPart);
   };
 
   const handleContentRemove = () => {
-    const newDisplayedPopover = displayedPopover.map((part) => {
-      return { ...part, showContent: false };
-    });
-
-    setDisplayedPopover(newDisplayedPopover);
+    setDisplayedPopover(undefined);
   };
 
   const {
