@@ -7,3 +7,5 @@ export { classifySurgery } from './classifySurgery';
 export { getHpRtHrAvailableBedData } from './getHpRtHrAvailableBedData';
 export { classifyMsgSymTyp } from './classifyMsgSymTyp';
 export { getFractionNumber } from './getFractionNumber';
+
+export type { HpSurgeryDataType } from './classifySurgery';
