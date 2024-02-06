@@ -31,7 +31,7 @@ function ErChart({ availableBed, totalBed, hpid, title }) {
       },
       size: {
         width: responsiveWidth,
-        height: 100,
+        height: 90,
       },
       legend: {
         item: {
@@ -97,9 +97,6 @@ const Chart = styled.div`
   }
   .bb svg {
     height: 60px;
-    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-      height: 70px;
-    }
   }
   .bb-legend-item text {
     font-size: 7px;
@@ -140,11 +137,7 @@ const Chart = styled.div`
     top: 50px;
   }
   .bb-legend {
-    transform: translate(10px, 25px);
-    background-color: red;
-    @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
-      transform: translate(10px, 60px);
-    }
+    display: none;
   }
 `;
 const TitleText = styled.div`

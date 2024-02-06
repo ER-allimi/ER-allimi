@@ -136,6 +136,7 @@ const RateGuideText = styled(CommonText)`
 const ChartContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  row-gap: 1rem;
 
   @media (max-width: ${({ theme }) => theme.breakPoints.md}) {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
