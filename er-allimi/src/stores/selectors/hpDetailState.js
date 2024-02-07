@@ -8,15 +8,15 @@ const hpDetailState = selector({
     const ersRTavailableBedList = get(ersRTavailableBedState);
     const targetHpId = get(targetHpIdState);
 
-    if (ersList.length === 0) return [];
-    if (ersRTavailableBedList.length === 0) return [];
-    if (!targetHpId) return [];
+    if (ersList.length === 0) return null;
+    if (ersRTavailableBedList.length === 0) return null;
+    if (!targetHpId) return null;
 
     const targetHpInfoData = ersList.find(
       (hpData) => hpData.hpid === targetHpId,
     );
 
-    if (!targetHpInfoData) return [];
+    if (!targetHpInfoData) return null;
 
     const targetHpRTavailableBedData = ersRTavailableBedList.find(
       (hpData) => hpData.hpid === targetHpId,

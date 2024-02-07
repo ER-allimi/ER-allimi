@@ -14,10 +14,9 @@ import { useState } from 'react';
 
 function HpRtHrAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
-  const { HpRTavailableBed } = hpRTavailableBedData;
   const [selectedName, setSelectedName] = useState('입원실');
 
-  if (hpRTavailableBedData.length === 0)
+  if (!hpRTavailableBedData)
     return (
       <EmptyBox height={150}>
         <Spinner />
@@ -34,7 +33,7 @@ function HpRtHrAvailableBedContent() {
     );
 
   const { hrData, icuData, onlyEmergencyData, etcData } =
-    getHpRtHrAvailableBedData(HpRTavailableBed);
+    getHpRtHrAvailableBedData(hpRTavailableBedData.HpRTavailableBed);
   const tableData = [
     {
       name: '입원실',

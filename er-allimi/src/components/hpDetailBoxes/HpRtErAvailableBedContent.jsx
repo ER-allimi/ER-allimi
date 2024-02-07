@@ -12,7 +12,7 @@ import {
 function HpRtErAvailableBedContent() {
   const hpRTavailableBedData = useRecoilValue(hpDetailState);
 
-  if (hpRTavailableBedData.length === 0)
+  if (!hpRTavailableBedData)
     return (
       <EmptyBox height={150}>
         <Spinner />
