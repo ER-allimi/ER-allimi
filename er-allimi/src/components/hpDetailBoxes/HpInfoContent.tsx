@@ -14,7 +14,7 @@ import { hpDetailState } from '@stores';
 function HpInfoContent() {
   const hpDetail = useRecoilValue(hpDetailState);
 
-  if (hpDetail.length === 0) return <Skeleton />;
+  if (!hpDetail) return <Skeleton />;
 
   const {
     hpInfo: { dutyName, dutyEmclsName, dutyAddr, dutyTel3 },
