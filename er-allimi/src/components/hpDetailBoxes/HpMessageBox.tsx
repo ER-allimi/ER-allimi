@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
@@ -14,8 +13,12 @@ import { useFetchHpMsg } from '@hooks';
 import { showHpMessageState } from '@stores';
 import { useParams } from 'react-router-dom';
 
-function HpMessageBox({ className }) {
-  const targetHpId = useParams().hospitalId;
+interface HpMessageBoxProps {
+  className: string;
+}
+
+function HpMessageBox({ className }: HpMessageBoxProps) {
+  const targetHpId = useParams().hospitalId as string;
 
   const { data, isLoading, isError } = useFetchHpMsg(targetHpId);
   const [showHpMessage, setShowHpMessage] = useRecoilState(showHpMessageState);
@@ -138,9 +141,5 @@ const MsgCntBadge = styled(Badge)`
   z-index: 5;
   font-size: 11px;
 `;
-
-HpMessageBox.propTypes = {
-  className: PropTypes.string,
-};
 
 export default HpMessageBox;
