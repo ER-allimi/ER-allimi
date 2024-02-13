@@ -1,15 +1,35 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { HpMessageItem, AutoPlaySlider } from '@components';
 import { classifyMsgSymTyp } from '@utils';
+import { SYMPTOM_TYPE } from '@constants';
 
-function HpMessageList({ data }) {
+type SymTypCodType = keyof typeof SYMPTOM_TYPE;
+
+type LabelType = {
+  label: string;
+};
+
+type HpMessageItemType = {
+  hpid: string;
+  rnum: string;
+  symBlkMsgTyp: string;
+  symBlkSttDtm: number;
+  symBlkEndDtm: number;
+  symTypCod: SymTypCodType;
+  symBlkMsg: string;
+};
+
+interface HpMessageListProps {
+  data: Array<HpMessageItemType>;
+}
+
+function HpMessageList({ data }: HpMessageListProps) {
   const SlidesData = data.map((item) => {
     return { ...item, label: `${item.hpid}+${item.rnum}` };
   });
 
-  const renderSlide = (data) => {
+  const renderSlide = (data: HpMessageItemType & LabelType) => {
     const { symBlkMsgTyp, symBlkSttDtm, symBlkEndDtm, symTypCod, symBlkMsg } =
       data;
 
@@ -63,9 +83,5 @@ const AutoPlaySliderAtMd = styled(AutoPlaySlider)`
     }
   `}
 `;
-
-HpMessageList.propTypes = {
-  data: PropTypes.array,
-};
 
 export default HpMessageList;
