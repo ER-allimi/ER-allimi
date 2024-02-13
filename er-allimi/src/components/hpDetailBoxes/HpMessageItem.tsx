@@ -1,8 +1,15 @@
-import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { AiTwotoneAlert } from '@components';
 import { getDateStrByHvidate } from '@utils';
+
+interface HpMessageItemProps {
+  msgType: string;
+  msgStartDate: number;
+  msgEndDate: number;
+  msgSymType: string;
+  msgContent: string;
+}
 
 function HpMessageItem({
   msgType,
@@ -10,7 +17,7 @@ function HpMessageItem({
   msgEndDate,
   msgSymType,
   msgContent,
-}) {
+}: HpMessageItemProps) {
   let messageType;
   switch (msgType) {
     case '응급' || 'A':
@@ -119,13 +126,5 @@ const ContentText = styled.div`
     }
   `}
 `;
-
-HpMessageItem.propTypes = {
-  msgType: PropTypes.string,
-  msgStartDate: PropTypes.number,
-  msgEndDate: PropTypes.number,
-  msgSymType: PropTypes.string,
-  msgContent: PropTypes.string,
-};
 
 export default HpMessageItem;
