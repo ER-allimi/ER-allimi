@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Modal, Button, GrAnnounce } from '@components';
+import { VISITED } from '@constants';
 
 function NoticeModal() {
-  const [showModal, setShowModal] = useState(true);
+  const notVisited = !sessionStorage.getItem(VISITED);
+  const [showModal, setShowModal] = useState(notVisited); // 새로운 탭에 첫 방문 시에만 모달창 띄우기
+
+  useEffect(() => {
+    // 클라이언트 브라우저에 방문 기록 남기기
+    sessionStorage.setItem(VISITED, 'true');
+  }, []);
 
   const handleModalClose = () => {
     setShowModal(false);
