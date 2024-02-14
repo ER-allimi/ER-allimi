@@ -26,5 +26,6 @@ export {
   Category,
   BodyPart,
 } from './hpSurgeryClassification';
+export { VISITED } from './sessionStorage';
 
 export type { BodyPartType } from './bodyParts';
