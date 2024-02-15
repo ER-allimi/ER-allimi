@@ -22,12 +22,7 @@ function ErsList({ className }: ErsListProps) {
   }, [page]);
 
   if (isFetchingData) {
-    return (
-      <>
-        <Skeleton isWithAvailableBed={true} />
-        <Skeleton isWithAvailableBed={true} />
-      </>
-    );
+    return <Skeleton isWithAvailableBed={true} />;
   }
 
   const start = (page - 1) * ERS_CNT_PER_PAGE;
