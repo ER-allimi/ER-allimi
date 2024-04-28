@@ -21,7 +21,7 @@
 
 > 💻 Laptop size
 
-<img src="./gif/emergency-main.gif" width="600px">
+<img src="./gif/emergency-main.gif" width="800px">
 
 > 📱 Mobile size
 
@@ -31,7 +31,7 @@
 
 > 💻 Laptop size
 
-<img src="./gif/emergency-detail.gif" width="600px">
+<img src="./gif/emergency-detail.gif" width="800px">
 
 > 📱 Mobile size
 
